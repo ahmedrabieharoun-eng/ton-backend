@@ -1,10 +1,14 @@
 {
   "name": "ton-backend",
   "version": "1.0.0",
-  "description": "Simple backend for TON Rewards",
+  "description": "Backend for TON Rewards Telegram Mini App",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "build": "echo \"No build step required\""
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -12,5 +16,22 @@
     "express": "^4.19.2",
     "node-fetch": "^2.7.0",
     "pg": "^8.11.5"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "telegram",
+    "ton",
+    "backend",
+    "express",
+    "postgresql",
+    "railway"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
 }
