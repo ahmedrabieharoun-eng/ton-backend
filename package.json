@@ -1,7 +1,7 @@
 {
   "name": "ton-backend",
   "version": "1.0.0",
-  "description": "Backend for TON Rewards",
+  "description": "Advanced TON Rewards Backend with PostgreSQL",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "pg": "^8.11.5"
   },
   "engines": {
     "node": ">=18.0.0"
