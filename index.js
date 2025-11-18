@@ -3,9 +3,9 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-app.use(express.json());
+app.use(express.json()); // مهم لقراءة JSON body
 
-// قائمة الأصول المسموح بها
+// whitelist للأورجنات المطلوبة
 const allowedOrigins = [
   'https://ahmedrabieharoun-eng.github.io',
   'https://t.me',
@@ -15,34 +15,37 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin) return callback(null, true); // السماح بالخدمات بدون origin
+    if (!origin) return callback(null, true); // بعض WebViews يرسلون no origin
     if (allowedOrigins.includes(origin)) return callback(null, true);
     return callback(null, false);
   },
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization','X-Requested-With'],
   credentials: false
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // التعامل مع preflight
+app.options('*', cors(corsOptions)); // handle preflight
 
-// مسار تجريبي للـ /api/ad/watch
-app.post('/api/ad/watch', (req, res) => {
+// Health / config route
+app.get('/api/config', (req, res) => {
+  res.json({ ok: true, time: new Date() });
+});
+
+// Implement POST /api/user/init
+app.post('/api/user/init', (req, res) => {
   try {
-    const { adId, userId } = req.body;
-    // هنا يمكن إضافة منطق لمعالجة الإعلان (مثلاً تسجيل عرض إعلان)
-    console.log(`User ${userId} watched ad ${adId}`);
-
-    // يمكن إرجاع JSON بناءً على ما يتم من عمل
-    return res.json({ ok: true, message: 'Ad watched successfully' });
+    const body = req.body || {};
+    // هنا يمكنك عمل أي لوجيك: تسجيل مستخدم في DB، إنشاء صفوف، إلخ.
+    // للآن نعيد تأكيد الاستلام مع نسخة من الجسم
+    return res.json({ ok: true, message: 'user init received', body });
   } catch (err) {
-    console.error('Error in /api/ad/watch', err);
+    console.error('Error in /api/user/init', err);
     return res.status(500).json({ ok: false, error: 'server error' });
   }
 });
 
-// بقية المسارات الأخرى مثل /api/config أو /api/user/init...
+// أي routes إضافية اكتبها هنا...
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server running on port', PORT));
