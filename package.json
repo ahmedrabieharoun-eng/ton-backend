@@ -1,21 +1,15 @@
 {
   "name": "ton-backend",
   "version": "1.0.0",
-  "description": "Backend for TON Rewards with PostgreSQL",
+  "description": "Backend for TON Rewards",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "init-db": "node init-db.js",
-    "test": "echo \"No tests specified\" && exit 0"
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "express": "^4.19.2",
-    "cors": "^2.8.5",
-    "pg": "^8.11.5"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.0"
+    "cors": "^2.8.5"
   },
   "engines": {
     "node": ">=18.0.0"
