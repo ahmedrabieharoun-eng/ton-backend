@@ -3,51 +3,49 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-app.use(express.json());
+app.use(express.json()); // مهم لقراءة JSON body
 
-// قائمة الأصول المسموح بها
+// whitelist للأورجنات المطلوبة
 const allowedOrigins = [
-  'https://ahmedrabieharoun-eng.github.io', // صفحتك (GitHub Pages)
-  'https://t.me',                          // تلغرام (mobile/web)
-  'https://telegram.org',                  // احتمالي
-  'https://web.telegram.org'               // web.telegram.org (أحيانًا)
+  'https://ahmedrabieharoun-eng.github.io',
+  'https://t.me',
+  'https://telegram.org',
+  'https://web.telegram.org'
 ];
 
-// دالة اختيار الـ origin آمن
 const corsOptions = {
   origin: (origin, callback) => {
-    // إذا origin غير موجود (مثلاً بعض حالات WebView أو server-to-server), نسمح بها
-    if (!origin) return callback(null, true);
-
-    // تحقق من وجود الـ origin في القائمة
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    // رفض أي origin غير مدرج
-    return callback(new Error('Not allowed by CORS'), false);
+    if (!origin) return callback(null, true); // بعض WebViews يرسلون no origin
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(null, false);
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization','X-Requested-With'],
   credentials: false
 };
 
-// استخدم CORS بالخيارات دي
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // handle preflight
 
-// تأكد إننا نرد على OPTIONS بشكل عام (cors() غالبًا يتعامل معاه، لكن هذا تأكيد)
-app.options('*', cors(corsOptions));
-
-// Routes تجريبية
-app.get('/', (req, res) => res.send('ok from backend'));
+// Health / config route
 app.get('/api/config', (req, res) => {
-  res.json({
-    ok: true,
-    api: true,
-    at: new Date()
-  });
+  res.json({ ok: true, time: new Date() });
 });
 
-// تأكد إن نستخدم PORT من Railway
+// Implement POST /api/user/init
+app.post('/api/user/init', (req, res) => {
+  try {
+    const body = req.body || {};
+    // هنا يمكنك عمل أي لوجيك: تسجيل مستخدم في DB، إنشاء صفوف، إلخ.
+    // للآن نعيد تأكيد الاستلام مع نسخة من الجسم
+    return res.json({ ok: true, message: 'user init received', body });
+  } catch (err) {
+    console.error('Error in /api/user/init', err);
+    return res.status(500).json({ ok: false, error: 'server error' });
+  }
+});
+
+// أي routes إضافية اكتبها هنا...
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server running on port', PORT));
