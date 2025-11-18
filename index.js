@@ -6,7 +6,34 @@ const fetch = require("node-fetch");
 
 // ====== إعداد السيرفر ======
 const app = express();
-app.use(cors());
+
+// ====== CORS: سماح للمصادر الموثوقة فقط ======
+// عدّل origins إذا لزم الأمر (مثلاً لو استضفت الـ HTML في دومين آخر ضيفه هنا)
+const allowedOrigins = [
+  "https://ahmedrabieharoun-eng.github.io",
+  "https://ahmedrabieharoun-eng.github.io", // أضفتها مرتين لو فيه مسارات مختلفة
+  "https://ton-backend-production-83d3.up.railway.app"
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, or same-origin)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('CORS policy: This origin is not allowed - ' + origin), false);
+    }
+  },
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200
+}));
+
+// اي رد على preflight (اختياري ولكن مفيد)
+app.options("*", cors());
+
+// Body parser
 app.use(express.json());
 
 // ====== اتصال PostgreSQL (Railway) ======
