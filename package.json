@@ -1,18 +1,20 @@
 {
-  "name": "ton-backend",
+  "name": "taskerton-backend",
   "version": "1.0.0",
-  "description": "Advanced TON Rewards Backend with PostgreSQL",
-  "main": "index.js",
+  "description": "Backend for Tasker TON app",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
     "cors": "^2.8.5",
-    "pg": "^8.11.5"
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
   },
-  "engines": {
-    "node": ">=18.0.0"
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
