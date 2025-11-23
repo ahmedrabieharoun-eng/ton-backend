@@ -1,0 +1,3625 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta name='admaven-placement' content='Bqja6qdC7'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>TON Rewards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    
+    <!-- SDK الإعلانات -->
+    <script src="//libtl.com/sdk.js" data-zone="10058786" data-sdk="show_10058786" async></script>
+    
+    <style>
+        :root {
+            --font-family: 'Poppins', sans-serif;
+            --primary-color: #0088cc;
+            --secondary-color: #00bcd4;
+            --accent-color: #ff9800;
+            --background-light: #f0f8ff;
+            --surface-light: #ffffff;
+            --text-primary-light: #1a237e;
+            --text-secondary-light: #546e7a;
+            --border-light: #bbdefb;
+            --background-dark: #0a1a2a;
+            --surface-dark: #1a2b3c;
+            --text-primary-dark: #e3f2fd;
+            --text-secondary-dark: #90a4ae;
+            --border-dark: #37474f;
+            --success: #4caf50;
+            --danger: #f44336;
+            --pending: #ff9800;
+            --ship-gold: #ffd700;
+            --ship-silver: #c0c0c0;
+            --ocean-blue: #006994;
+            --deck-wood: #8b4513;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: var(--font-family); 
+            transition: background-color 0.3s, color 0.3s; 
+            -webkit-font-smoothing: antialiased;
+            background: linear-gradient(135deg, var(--background-dark) 0%, #0a2a3a 100%);
+            color: var(--text-primary-dark);
+            overflow-x: hidden;
+        }
+
+        .ship-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #0a1a2a 0%, #0a2a3a 50%, #0a3a4a 100%);
+            box-shadow: 0 0 30px rgba(0, 100, 200, 0.3);
+            overflow: hidden;
+        }
+
+        .ship-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--deck-wood) 0%, #6b3300 100%);
+            z-index: 1;
+            border-bottom: 3px solid var(--ship-gold);
+        }
+
+        .ship-container::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, var(--deck-wood) 0%, #6b3300 100%);
+            z-index: 1;
+            border-top: 3px solid var(--ship-gold);
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 80px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="%23006994"><path d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,74.7C1120,75,1280,53,1360,42.7L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path></svg>');
+            background-size: cover;
+            opacity: 0.6;
+            z-index: 0;
+        }
+
+        .wave-2 {
+            bottom: 70px;
+            height: 15px;
+            opacity: 0.4;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="%230088cc"><path d="M0,96L80,90.7C160,85,320,75,480,80C640,85,800,107,960,106.7C1120,107,1280,85,1360,74.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path></svg>');
+            background-size: cover;
+        }
+
+        .ship-bridge {
+            position: relative;
+            padding: 15px;
+            background: linear-gradient(to bottom, rgba(10, 26, 42, 0.9) 0%, rgba(10, 42, 58, 0.7) 100%);
+            border-bottom: 2px solid var(--ship-gold);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ship-compass {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, var(--ship-silver) 0%, #888 100%);
+            border: 2px solid var(--ship-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary-dark);
+            font-size: 18px;
+        }
+
+        #user-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--ship-gold);
+            object-fit: cover;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            flex-shrink: 0;
+        }
+
+        .user-info-compact {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        #user-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ship-gold);
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .balance-display-compact {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+        }
+
+        .balance-item-compact {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 10px;
+            border-radius: 15px;
+            border: 1px solid var(--ship-silver);
+            white-space: nowrap;
+        }
+
+        .balance-item-compact span {
+            font-weight: 700;
+            color: var(--ship-gold);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .stat-card {
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            background: rgba(26, 43, 60, 0.8);
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-card h3 {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            color: var(--text-secondary-dark);
+        }
+
+        .stat-card p {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--ship-gold);
+        }
+
+        .contest-status-box {
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px;
+            background: rgba(26, 43, 60, 0.8);
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            text-align: center;
+        }
+
+        .contest-status-active {
+            border-color: var(--success);
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .contest-status-ended {
+            border-color: var(--danger);
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .contest-status-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--ship-gold);
+        }
+
+        .contest-status-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--ship-gold);
+        }
+
+        .contest-status-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary-dark);
+            margin-top: 8px;
+        }
+
+        .converter-container, .contest-container, .withdraw-container {
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 15px;
+            background: rgba(26, 43, 60, 0.8);
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            z-index: 2;
+            position: relative;
+        }
+
+        .converter-header, .withdraw-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .converter-header i, .withdraw-header i {
+            font-size: 1.5rem;
+            color: var(--ship-gold);
+        }
+
+        .converter-header h3, .withdraw-header h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--ship-gold);
+            margin: 0;
+        }
+
+        .converter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .converter-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .converter-input-group input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-dark);
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary-dark);
+        }
+
+        .converter-currency {
+            font-weight: 700;
+            min-width: 60px;
+            text-align: center;
+            color: var(--ship-gold);
+        }
+
+        .converter-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--ship-gold);
+        }
+
+        .converter-rate {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary-dark);
+            margin-top: 10px;
+        }
+
+        .ship-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            background: linear-gradient(to top, var(--deck-wood) 0%, #6b3300 100%);
+            border-top: 3px solid var(--ship-gold);
+            z-index: 1000;
+        }
+
+        .control-wheel {
+            background: radial-gradient(circle, var(--ship-silver) 0%, #888 100%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--ship-gold);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            color: var(--text-primary-dark);
+            font-size: 0.75rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-wheel::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: 
+                radial-gradient(circle, transparent 55%, var(--ship-gold) 55%, var(--ship-gold) 60%, transparent 60%),
+                radial-gradient(circle, transparent 65%, var(--ship-gold) 65%, var(--ship-gold) 70%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotateGear 10s linear infinite;
+        }
+
+        @keyframes rotateGear {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .control-wheel i {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .control-wheel span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .control-wheel.active {
+            background: radial-gradient(circle, var(--ship-gold) 0%, #daa520 100%);
+            color: #000;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+
+        .control-wheel:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+        }
+
+        #app-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--background-dark) 0%, #0a2a3a 100%);
+        }
+
+        .ship-anchor {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: anchorSwing 2s infinite ease-in-out;
+        }
+
+        .ship-anchor::before {
+            content: "⚓";
+            font-size: 80px;
+            color: var(--ship-silver);
+        }
+
+        @keyframes anchorSwing {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        .ship-wheel-loader {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .ship-wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--ship-silver) 0%, #888 100%);
+            border: 5px solid var(--ship-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: wheelRotate 3s linear infinite;
+            position: relative;
+        }
+
+        .ship-wheel::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--ship-gold);
+            border-radius: 50%;
+        }
+
+        .ship-wheel::after {
+            content: "";
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border: 2px dashed var(--ship-gold);
+            border-radius: 50%;
+            animation: wheelRotateReverse 2s linear infinite;
+        }
+
+        @keyframes wheelRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes wheelRotateReverse {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+
+        .ship-floating {
+            animation: shipFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes shipFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #loading-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--ship-gold);
+        }
+
+        .page {
+            display: none;
+            padding: 15px;
+            padding-bottom: 100px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .action-btn, .convert-btn, .withdraw-btn, .claim-daily-btn, .claim-referral-btn, .redeem-code-btn, .subscribe-ad-btn, .check-subscription-btn {
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #000;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: linear-gradient(45deg, var(--ship-gold), #ffa500);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .action-btn:disabled, .convert-btn:disabled, .withdraw-btn:disabled, .claim-daily-btn:disabled, .claim-referral-btn:disabled, .redeem-code-btn:disabled, .subscribe-ad-btn:disabled {
+            background: #808B96;
+            cursor: not-allowed;
+        }
+
+        .action-btn:hover:not(:disabled), .convert-btn:hover:not(:disabled), .withdraw-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .task-container {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(26, 43, 60, 0.8);
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .task-icon-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary-dark);
+            margin-bottom: 4px;
+        }
+
+        .task-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary-dark);
+            margin-bottom: 3px;
+        }
+
+        .ad-progress-inline {
+            font-size: 0.75rem;
+            color: var(--ship-gold);
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .add-task-btn {
+            background: linear-gradient(45deg, var(--ship-gold), #ffa500);
+            color: #000;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 300px;
+            animation: pulse 2s infinite;
+            font-size: 1rem;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
+        .add-task-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.8);
+            animation: none;
+        }
+
+        .add-task-btn i {
+            font-size: 1.1rem;
+        }
+
+        .progress-container-inline {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .progress-info-inline {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .progress-bar-bg-inline {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .progress-bar-fg-inline {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--ship-gold), #ffa500);
+            transition: width 0.3s ease;
+        }
+
+        .banned-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .banned-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .banned-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .banned-message {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            max-width: 400px;
+        }
+
+        .banned-contact {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 10000; }
+        .popup-content { padding: 30px; border-radius: 15px; text-align: center; max-width: 80%; background: rgba(26, 43, 60, 0.95); border: 2px solid var(--ship-gold); position: relative; }
+        .popup-content h2 { margin-bottom: 15px; color: var(--ship-gold); }
+        .popup-content p { margin-bottom: 20px; color: var(--text-primary-dark); }
+        .popup-close-btn { padding: 10px 25px; border: none; border-radius: 8px; color: #fff; background: linear-gradient(45deg, var(--ship-gold), #ffa500); cursor: pointer; }
+        .popup-loader .spinner { width: 40px; height: 40px; border-radius: 50%; border: 4px solid var(--ship-gold); border-top-color: transparent; animation: spin 1s linear infinite; margin: 0 auto 15px;}
+
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-radius: 10px; margin-bottom: 10px; background: rgba(26, 43, 60, 0.8); border: 1px solid var(--border-dark); }
+        .history-details p { margin: 0; } .history-details p:first-child { font-weight: 600; }
+        .history-status { padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: white; text-transform: capitalize; }
+        .status-completed { background-color: var(--success); } .status-pending { background-color: var(--pending); } .status-rejected { background-color: var(--danger); }
+
+        .subscription-container { padding: 20px; border-radius: 12px; margin: 20px 0; text-align: center; background: rgba(26, 43, 60, 0.8); border: 1px solid var(--border-dark); }
+        .channel-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; margin: 10px 0; border-radius: 8px; background: rgba(26, 43, 60, 0.8); border: 1px solid var(--border-dark); }
+        .channel-info { display: flex; align-items: center; gap: 10px; }
+        .channel-icon { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
+        .channel-status { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; }
+        .status-subscribed { background-color: var(--success); color: white; }
+        .status-not-subscribed { background-color: var(--danger); color: white; }
+
+        .countdown-display { font-size: 1.2rem; font-weight: 700; color: var(--ship-gold); margin: 10px 0; padding: 10px; border-radius: 8px; background: rgba(255, 215, 0, 0.1); text-align: center; }
+
+        .form-group { margin-bottom: 15px; position: relative; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-primary-dark); }
+        .input-with-icon { position: relative; display: flex; align-items: center; }
+        .input-with-icon i { position: absolute; left: 12px; color: var(--text-secondary-dark); z-index: 1; }
+        .input-with-icon input { width: 100%; padding: 12px 12px 12px 40px; border-radius: 8px; border: 1px solid var(--border-dark); background: rgba(255, 255, 255, 0.1); color: var(--text-primary-dark); font-family: monospace; font-size: 0.9rem; }
+        .input-with-icon input:focus { outline: none; border-color: var(--ship-gold) !important; box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2); }
+
+        .validation-message { font-size: 0.8rem; margin-top: 5px; display: flex; align-items: center; gap: 5px; }
+        .validation-success { color: var(--success); }
+        .validation-error { color: var(--danger); }
+        .validation-info { color: var(--text-secondary-dark); }
+
+        .referral-notice { font-size: 0.85rem; text-align: center; margin-bottom: 15px; padding: 10px; border-radius: 8px; background: rgba(255, 215, 0, 0.1); }
+
+        .daily-login-task { background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1)); border: 2px solid var(--ship-gold); flex-direction: column; align-items: stretch; }
+
+        .contest-timer { background: linear-gradient(45deg, var(--ship-gold), #ffa500); color: #000; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; font-weight: 700; font-size: 1.1rem; }
+
+        .contest-info-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .contest-info-card { padding: 15px; border-radius: 10px; text-align: center; background: rgba(26, 43, 60, 0.8); border: 1px solid var(--border-dark); }
+        .contest-info-value { font-size: 1.8rem; font-weight: 700; color: var(--ship-gold); margin: 5px 0; }
+        .contest-info-label { font-size: 0.9rem; color: var(--text-secondary-dark); }
+
+        .contest-guide-popup { 
+            background: rgba(255, 215, 0, 0.1); 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            border-left: 4px solid var(--ship-gold);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .contest-guide-popup:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateX(5px);
+        }
+
+        .contest-guide-popup h4 { 
+            margin-bottom: 10px; 
+            color: var(--ship-gold); 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contest-guide-content {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .contest-prizes-compact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .prize-compact-item { padding: 12px; border-radius: 8px; text-align: center; background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.2); }
+        .prize-rank-compact { font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; }
+        .prize-amount-compact { font-weight: 700; color: var(--ship-gold); font-size: 1rem; }
+
+        .contest-leaderboard-item-compact { display: flex; align-items: center; padding: 10px; margin: 6px 0; border-radius: 8px; transition: all 0.3s; background: rgba(26, 43, 60, 0.8); border: 1px solid var(--border-dark); }
+        .contest-leaderboard-item-compact.current-user { background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2)); border: 2px solid var(--ship-gold); }
+        .contest-rank-compact { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(45deg, var(--ship-gold), #ffa500); display: flex; align-items: center; justify-content: center; color: #000; font-weight: 700; margin-right: 12px; font-size: 0.85rem; }
+        .contest-user-name-compact { font-weight: 600; margin-bottom: 2px; font-size: 0.9rem; }
+        .contest-user-points-compact { font-size: 0.8rem; color: var(--text-secondary-dark); }
+        .contest-user-score-compact { font-weight: 700; color: var(--ship-gold); font-size: 1rem; margin-right: 10px; }
+        .contest-user-prize { font-size: 0.8rem; color: var(--success); font-weight: 600; background: rgba(39, 174, 96, 0.1); padding: 4px 8px; border-radius: 12px; white-space: nowrap; }
+
+        .view-full-btn { background: transparent; border: 1px solid var(--ship-gold); color: var(--ship-gold); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
+        .view-full-btn:hover { background: var(--ship-gold); color: #000; }
+
+        .referral-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .referral-stat-card { padding: 15px; border-radius: 10px; text-align: center; background: rgba(26, 43, 60, 0.8); border: 1px solid var(--border-dark); }
+        .referral-stat-value { font-size: 1.4rem; font-weight: 700; color: var(--ship-gold); margin-bottom: 5px; }
+        .referral-stat-label { font-size: 0.8rem; color: var(--text-secondary-dark); }
+
+        .referral-list { max-height: 200px; overflow-y: auto; margin: 15px 0; border-radius: 10px; background: rgba(26, 43, 60, 0.8); border: 1px solid var(--border-dark); }
+        .referral-list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border-dark); }
+        .referral-list-item:last-child { border-bottom: none; }
+        .referral-user-info { display: flex; align-items: center; gap: 10px; }
+        .referral-user-avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+        .referral-user-name { font-weight: 600; font-size: 0.9rem; }
+        .referral-earnings { font-weight: 700; color: var(--success); font-size: 0.9rem; }
+
+        .code-input-container { display: flex; gap: 10px; margin: 15px 0; }
+        .code-input { flex: 1; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-dark); background: rgba(255, 255, 255, 0.1); color: var(--text-primary-dark); font-family: monospace; font-weight: 600; text-transform: uppercase; }
+        .code-input:focus { outline: none; border-color: var(--ship-gold); box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2); }
+        .code-info { font-size: 0.8rem; color: var(--text-secondary-dark); margin-top: 10px; text-align: center; }
+
+        .ad-channel-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; margin: 10px 0; border-radius: 8px; background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1)); border: 1px solid var(--border-dark); }
+        .ad-channel-info { display: flex; align-items: center; gap: 10px; flex: 1; }
+        .ad-channel-icon { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
+        .ad-channel-name { font-weight: 600; margin-bottom: 3px; }
+        .ad-channel-description { font-size: 0.8rem; color: var(--text-secondary-dark); margin-bottom: 5px; }
+        .ad-channel-contact { font-size: 0.75rem; color: var(--ship-gold); font-weight: 600; }
+        .ad-channel-reward { text-align: right; margin-right: 15px; }
+        .ad-reward-amount { font-size: 1.1rem; font-weight: 700; color: var(--ship-gold); margin-bottom: 5px; }
+        .ad-reward-label { font-size: 0.75rem; color: var(--text-secondary-dark); }
+
+        .daily-calendar-popup { max-width: 450px !important; position: relative; }
+        .close-popup-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--ship-gold);
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-popup-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .streak-calendar-compact { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin: 15px 0; }
+        .calendar-day-compact { padding: 10px; border-radius: 8px; text-align: center; background: rgba(26, 43, 60, 0.8); border: 1px solid var(--border-dark); }
+        .calendar-day-compact.completed { background: rgba(76, 175, 80, 0.2); border-color: var(--success); }
+        .calendar-day-compact.current { background: rgba(255, 215, 0, 0.2); border: 2px solid var(--ship-gold); }
+        .calendar-day-compact.future { background: rgba(255, 255, 255, 0.05); opacity: 0.6; }
+        .day-number-compact { font-weight: 700; margin-bottom: 5px; }
+        .day-reward-compact { font-size: 0.8rem; color: var(--ship-gold); font-weight: 600; }
+        .day-status-compact { font-size: 0.7rem; margin-top: 3px; }
+
+        .daily-login-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 215, 0, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .referrals-container { padding: 20px; border-radius: 12px; margin: 20px 15px; background: rgba(26, 43, 60, 0.8); border: 1px solid var(--border-dark); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); }
+
+        .withdrawal-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .withdrawal-option {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid var(--border-dark);
+            background: rgba(26, 43, 60, 0.8);
+            transition: all 0.3s;
+        }
+
+        .withdrawal-option.active {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: var(--ship-gold);
+        }
+
+        .withdrawal-option i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--ship-gold);
+        }
+
+        .withdrawal-option h4 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary-dark);
+        }
+
+        .withdrawal-details {
+            display: none;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .withdrawal-details.active {
+            display: block;
+        }
+
+        .withdrawal-info {
+            font-size: 0.85rem;
+            color: var(--text-secondary-dark);
+            margin-bottom: 15px;
+        }
+
+        .withdrawal-info ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .withdrawal-info li {
+            margin-bottom: 5px;
+        }
+
+        .method-details {
+            display: none;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .method-details.active {
+            display: block;
+        }
+
+        .withdraw-amount-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            color: var(--text-secondary-dark);
+        }
+
+        .withdraw-btn-disabled {
+            background: #808B96 !important;
+            cursor: not-allowed !important;
+        }
+
+        .withdraw-btn-enabled {
+            background: linear-gradient(45deg, var(--ship-gold), #ffa500) !important;
+        }
+
+        .contest-info-compact {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .contest-info-item {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .contest-info-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--ship-gold);
+            margin-bottom: 5px;
+        }
+
+        .contest-info-item .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary-dark);
+        }
+
+        .user-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--ship-gold);
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <!-- شاشة الحظر -->
+    <div id="banned-page" class="banned-container">
+        <div class="banned-icon">🚫</div>
+        <div class="banned-title">Account Banned</div>
+        <div class="banned-message" id="banned-reason">Your account has been suspended for violating our terms of service.</div>
+        <div class="banned-contact">If you believe this is a mistake, please contact @aborabie777</div>
+    </div>
+
+    <!-- النجوم في الخلفية -->
+    <div class="stars" id="stars"></div>
+
+    <div id="app-loader">
+        <div class="ship-wheel-loader ship-floating">
+            <div class="ship-wheel"></div>
+        </div>
+        <p id="loading-text">Preparing Your Ship...</p>
+    </div>
+    
+    <!-- البوب أب -->
+    <div id="popup" class="popup-overlay">
+        <div class="popup-content">
+            <div id="popup-body"></div>
+        </div>
+    </div>
+
+    <!-- نافذة التقويم اليومي المعدلة -->
+    <div id="daily-calendar-popup" class="popup-overlay" style="display: none;">
+        <div class="popup-content daily-calendar-popup">
+            <button class="close-popup-btn" onclick="closeDailyCalendar()">×</button>
+            <h2>📅 Daily Login Calendar</h2>
+            <div id="streak-calendar-compact" class="streak-calendar-compact">
+                <!-- سيتم إضافة الأيام هنا -->
+            </div>
+            <div id="daily-login-status" class="daily-login-status">
+                <!-- حالة المكافأة اليومية -->
+            </div>
+            <div style="margin-top: 15px; padding: 10px; background: rgba(255, 215, 0, 0.1); border-radius: 8px;">
+                <p style="margin: 0; font-size: 0.9rem;">Current Streak: <strong id="current-streak-display">0 days</strong></p>
+            </div>
+            <button class="popup-close-btn" onclick="closeDailyCalendar()" style="margin-top: 15px;">Close</button>
+        </div>
+    </div>
+
+    <!-- نافذة شرح المسابقة -->
+    <div id="contest-guide-popup" class="popup-overlay" style="display: none;">
+        <div class="popup-content" style="max-width: 400px;">
+            <button class="close-popup-btn" onclick="closeContestGuide()">×</button>
+            <h2>🎯 How to Earn Points</h2>
+            <div style="text-align: left; margin: 20px 0;">
+                <p><strong>+1 Point</strong> for every ad watched</p>
+                <p><strong>+15 Points</strong> for every successful referral</p>
+                <p><strong>+10-50 Points</strong> for redeeming codes</p>
+                <p>Compete for <strong>2 TON</strong> in total prizes!</p>
+            </div>
+            
+            <h3>🏆 Prize Distribution</h3>
+            <div class="contest-prizes-compact" style="margin: 15px 0;">
+                <div class="prize-compact-item">
+                    <div class="prize-rank-compact">🥇 1st</div>
+                    <div class="prize-amount-compact">0.6 TON</div>
+                </div>
+                <div class="prize-compact-item">
+                    <div class="prize-rank-compact">🥈 2nd</div>
+                    <div class="prize-amount-compact">0.4 TON</div>
+                </div>
+                <div class="prize-compact-item">
+                    <div class="prize-rank-compact">🥉 3rd</div>
+                    <div class="prize-amount-compact">0.3 TON</div>
+                </div>
+                <div class="prize-compact-item">
+                    <div class="prize-rank-compact">4th-5th</div>
+                    <div class="prize-amount-compact">0.15 TON</div>
+                </div>
+                <div class="prize-compact-item">
+                    <div class="prize-rank-compact">6th-8th</div>
+                    <div class="prize-amount-compact">0.1 TON</div>
+                </div>
+                <div class="prize-compact-item">
+                    <div class="prize-rank-compact">9th-10th</div>
+                    <div class="prize-amount-compact">0.05 TON</div>
+                </div>
+            </div>
+            <button class="popup-close-btn" onclick="closeContestGuide()">Close</button>
+        </div>
+    </div>
+    
+    <!-- تصميم السفينة -->
+    <div class="ship-container">
+        <!-- الأمواج -->
+        <div class="wave"></div>
+        <div class="wave wave-2"></div>
+
+        <!-- الجسر (الرأس) المعدل -->
+        <header class="ship-bridge">
+            <img id="user-photo" src="https://ui-avatars.com/api/?name=User&background=random&size=80" alt="User">
+            <div class="user-info-compact">
+                <h1 id="user-name">Loading...</h1>
+                <div class="balance-display-compact">
+                    <div class="balance-item-compact">Main: <span id="user-balance">0.0000</span> TON</div>
+                    <div class="balance-item-compact">RR: <span id="user-rr-balance">0</span></div>
+                </div>
+            </div>
+            <div class="ship-compass">
+                <i class="fas fa-compass"></i>
+            </div>
+        </header>
+
+        <!-- المحتوى الرئيسي -->
+        <main id="main-content">
+            <div id="home-page" class="page active">
+                <!-- إضافة مربع حالة المسابقة -->
+                <div class="contest-status-box contest-status-active" id="contest-status-box">
+                    <div class="contest-status-title">Contest Status</div>
+                    <div class="contest-status-value" id="contest-status-value">Active</div>
+                    <div class="contest-status-message" id="contest-status-message">You are currently ranked #7 in the contest</div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>Today's Ads</h3><p id="daily-ads-watched">0 / 0</p></div>
+                    <div class="stat-card"><h3>Total Ads Watched</h3><p id="total-ads-watched">0</p></div>
+                </div>
+                <div id="converter-container" class="converter-container">
+                    <div class="converter-header">
+                        <i class="fas fa-exchange-alt"></i>
+                        <h3>RR to TON Converter</h3>
+                    </div>
+                    <div class="converter-form">
+                        <div class="converter-input-group">
+                            <input type="number" id="rr-amount" placeholder="0" min="0" step="100">
+                            <div class="converter-currency">RR</div>
+                        </div>
+                        <div class="converter-arrow">⇅</div>
+                        <div class="converter-input-group">
+                            <input type="number" id="ton-amount" placeholder="0.0000" min="0" step="0.0001" readonly>
+                            <div class="converter-currency">TON</div>
+                        </div>
+                        <div class="converter-rate">
+                            💱 Exchange Rate: 10,000,000 RR = 0.1 TON
+                        </div>
+                        <button id="convert-rr-btn" class="convert-btn" disabled>Convert to TON</button>
+                    </div>
+                </div>
+                <div id="dynamic-links-container" style="margin-top: 20px;"></div>
+            </div>
+
+            <div id="tasks-page" class="page">
+                <!-- تم إزالة Earning Wallet -->
+                
+                <div id="ad-progress-container" class="progress-container-inline"></div>
+                <div id="ad-task-container"></div>
+                
+                <!-- خانة إدخال الأكواد المصغرة -->
+                <div id="redeem-code-container">
+                    <div class="task-container" style="flex-direction: row; align-items: center; padding: 12px;">
+                        <i class="fas fa-ticket-alt" style="font-size: 1.2rem; color: var(--ship-gold); margin-right: 10px;"></i>
+                        <div class="task-info" style="flex: 1;">
+                            <h3 style="font-size: 1rem;">Redeem Code</h3>
+                            <p style="font-size: 0.8rem;">Enter code for rewards</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" id="redeem-code-input" class="code-input" 
+                                   placeholder="CODE" maxlength="20" style="width: 100px; padding: 8px;">
+                            <button id="redeem-code-btn" class="redeem-code-btn" style="padding: 8px 12px;">
+                                Redeem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- زر إضافة مهمة جديد - تم التعديل -->
+                <button class="add-task-btn" id="add-task-main-btn">
+                    <i class="fas fa-plus-circle"></i> Add Task
+                </button>
+                
+                <h2>Bonus Tasks</h2>
+                <!-- ❌ تم إزالة المهام الإضافية المؤقتة -->
+                <div id="dynamic-tasks-container">
+                    <div style="text-align: center; padding: 20px; color: var(--text-secondary-dark);">
+                        <i class="fas fa-tasks" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>No additional tasks available at the moment.</p>
+                        <p style="font-size: 0.9rem;">Check back later for new tasks!</p>
+                    </div>
+                </div>
+                
+                <!-- قسم المهام اليومية الجديد -->
+                <div id="daily-tasks-container" style="margin-top: 20px;">
+                    <h2>📅 Daily Tasks</h2>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary-dark); margin-bottom: 15px;">
+                        Complete daily tasks to earn extra RR rewards! Resets daily at midnight.
+                    </p>
+                    
+                    <div id="daily-tasks-list">
+                        <!-- سيتم إضافة المهام اليومية هنا ديناميكياً -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="contest-page" class="page">
+                <div class="contest-container">
+                    <div class="contest-header">
+                        <h2>🏆 Weekly Contest</h2>
+                        <p>Compete with other users and win amazing prizes!</p>
+                    </div>
+                    
+                    <div class="contest-timer">
+                        <div id="contest-countdown">Loading...</div>
+                    </div>
+                    
+                    <!-- قسم النقاط والترتيب المدمج -->
+                    <div class="contest-info-compact">
+                        <div class="contest-info-item">
+                            <div class="value" id="user-contest-points">0</div>
+                            <div class="label">Your Points</div>
+                        </div>
+                        <div class="contest-info-item">
+                            <div class="value" id="user-contest-rank">-</div>
+                            <div class="label">Your Rank</div>
+                        </div>
+                    </div>
+                    
+                    <!-- زر شرح المسابقة المعدل -->
+                    <div class="contest-guide-popup" id="contest-guide-trigger">
+                        <h4>
+                            <i class="fas fa-question-circle" style="font-size: 1.5rem;"></i>
+                            How to Earn Points & Prize Distribution
+                        </h4>
+                        <div class="contest-guide-content" id="contest-guide-content">
+                            <p><strong>+1 Point</strong> for every ad watched</p>
+                            <p><strong>+15 Points</strong> for every successful referral</p>
+                            <p><strong>+10-50 Points</strong> for redeeming codes</p>
+                            <p>Compete for <strong>2 TON</strong> in total prizes!</p>
+                            
+                            <div class="contest-prizes-compact" style="margin-top: 15px;">
+                                <div class="prize-compact-item">
+                                    <div class="prize-rank-compact">🥇 1st</div>
+                                    <div class="prize-amount-compact">0.6 TON</div>
+                                </div>
+                                <div class="prize-compact-item">
+                                    <div class="prize-rank-compact">🥈 2nd</div>
+                                    <div class="prize-amount-compact">0.4 TON</div>
+                                </div>
+                                <div class="prize-compact-item">
+                                    <div class="prize-rank-compact">🥉 3rd</div>
+                                    <div class="prize-amount-compact">0.3 TON</div>
+                                </div>
+                                <div class="prize-compact-item">
+                                    <div class="prize-rank-compact">4th-5th</div>
+                                    <div class="prize-amount-compact">0.15 TON</div>
+                                </div>
+                                <div class="prize-compact-item">
+                                    <div class="prize-rank-compact">6th-8th</div>
+                                    <div class="prize-amount-compact">0.1 TON</div>
+                                </div>
+                                <div class="prize-compact-item">
+                                    <div class="prize-rank-compact">9th-10th</div>
+                                    <div class="prize-amount-compact">0.05 TON</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contest-leaderboard-compact">
+                        <h3>🏅 Top 10 Leaders</h3>
+                        <div id="contest-leaderboard-compact-list">
+                            <!-- سيتم إضافة قائمة المتصدرين المختصرة هنا -->
+                        </div>
+                        <div class="view-full-leaderboard">
+                            <button class="view-full-btn" onclick="showFullLeaderboard()">
+                                View Full Leaderboard (Top 50)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- صفحة الإحالات الجديدة -->
+            <div id="referrals-page" class="page">
+                <div class="referrals-container">
+                    <h2>👥 Refer & Earn</h2>
+                    <p>Invite friends and earn <strong>15% of their earnings</strong></p>
+                    
+                    <div class="referral-stats">
+                        <div class="referral-stat-card">
+                            <div class="referral-stat-value" id="total-referrals-display">0</div>
+                            <div class="referral-stat-label">Total Referrals</div>
+                        </div>
+                        <div class="referral-stat-card">
+                            <div class="referral-stat-value" id="total-earnings-display">0.0000</div>
+                            <div class="referral-stat-label">Total Earnings</div>
+                        </div>
+                        <div class="referral-stat-card">
+                            <div class="referral-stat-value" id="pending-earnings-display">0.0000</div>
+                            <div class="referral-stat-label">Pending Earnings</div>
+                        </div>
+                        <div class="referral-stat-card">
+                            <div class="referral-stat-value">15%</div>
+                            <div class="referral-stat-label">Commission Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <h4>📋 Your Referral Link</h4>
+                        <input type="text" id="referral-link" readonly style="width: 100%; padding: 12px; border-radius: 8px; border: 1px dashed var(--ship-gold); background: transparent; color: inherit; text-align: center; margin: 10px 0;">
+                        <button id="copy-ref-link-btn" class="action-btn" style="width: 100%;">
+                            📋 Copy Referral Link
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h4>👤 Your Referrals</h4>
+                        <div class="referral-list" id="referrals-list-container">
+                            <!-- سيتم إضافة قائمة الإحالات هنا -->
+                        </div>
+                    </div>
+                    
+                    <button class="claim-referral-btn" id="claim-referral-earnings-btn" style="width: 100%; margin-top: 15px;" disabled>
+                        🎁 Claim Referral Earnings
+                    </button>
+                </div>
+            </div>
+
+            <div id="profile-page" class="page">
+                <!-- تم إزالة قسم الإحالات من هنا -->
+                <div id="withdraw-section"></div>
+                <div id="withdrawal-history-section" style="margin-top: 20px;">
+                    <h2>Withdrawal History</h2>
+                    <div id="withdrawal-history-list"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- عجلة التحكم (القائمة السفلية) -->
+        <nav class="ship-controls">
+            <div class="control-wheel active" data-page="home-page">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="control-wheel" data-page="tasks-page">
+                <i class="fas fa-tasks"></i>
+                <span>Tasks</span>
+            </div>
+            <div class="control-wheel" data-page="contest-page">
+                <i class="fas fa-trophy"></i>
+                <span>Contest</span>
+            </div>
+            <div class="control-wheel" data-page="referrals-page">
+                <i class="fas fa-users"></i>
+                <span>Referrals</span>
+            </div>
+            <div class="control-wheel" data-page="profile-page">
+                <i class="fas fa-user-alt"></i>
+                <span>Profile</span>
+            </div>
+        </nav>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tg = window.Telegram?.WebApp || {};
+        const NOTIFICATION_USERNAME = "aborabie777";
+
+        // 🔗 إعدادات الاتصال بالسيرفر
+        const API_BASE_URL = 'https://ton-rewards-backend-production-5e56.up.railway.app';
+        let currentDynamicToken = '';
+        let lastTokenUpdate = 0;
+
+        // 🔄 دالة محسنة للحصول على التوكن الحالي من السيرفر
+        async function getCurrentToken() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/token/current`);
+                const data = await response.json();
+                if (data.success) {
+                    currentDynamicToken = data.token;
+                    lastTokenUpdate = Date.now();
+                    console.log('🔐 تم تحديث التوكن:', currentDynamicToken.substring(0, 15) + '...');
+                }
+            } catch (error) {
+                console.error('❌ خطأ في جلب التوكن:', error);
+            }
+        }
+
+        // 🔄 تحديث التوكن تلقائياً قبل كل طلب API
+        async function updateTokenBeforeRequest() {
+            const now = Date.now();
+            // إذا مر أكثر من 5 ثواني منذ آخر تحديث، جدد التوكن
+            if (now - lastTokenUpdate > 5000 || !currentDynamicToken) {
+                await getCurrentToken();
+            }
+            return currentDynamicToken;
+        }
+
+        // 🛠️ دوال API للاتصال بالسيرفر - الإصدار المحسن
+        const api = {
+            // جلب بيانات المستخدم
+            getUser: async (initData) => {
+                const token = await updateTokenBeforeRequest();
+                const response = await fetch(`${API_BASE_URL}/api/user/${tgUser.id}?initData=${encodeURIComponent(initData)}`, {
+                    headers: {
+                        'X-Dynamic-Token': token
+                    }
+                });
+                return await response.json();
+            },
+
+            // تسجيل مستخدم جديد
+            register: async (initData) => {
+                const token = await updateTokenBeforeRequest();
+                const response = await fetch(`${API_BASE_URL}/api/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Dynamic-Token': token
+                    },
+                    body: JSON.stringify({ initData })
+                });
+                return await response.json();
+            },
+
+            // مشاهدة إعلان
+            watchAd: async (initData) => {
+                const token = await updateTokenBeforeRequest();
+                const response = await fetch(`${API_BASE_URL}/api/watch-ad`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Dynamic-Token': token
+                    },
+                    body: JSON.stringify({ initData })
+                });
+                return await response.json();
+            },
+
+            // تحويل الرصيد
+            moveToBalance: async (initData) => {
+                const token = await updateTokenBeforeRequest();
+                const response = await fetch(`${API_BASE_URL}/api/move-to-balance`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Dynamic-Token': token
+                    },
+                    body: JSON.stringify({ initData })
+                });
+                return await response.json();
+            },
+
+            // طلب سحب
+            withdraw: async (initData, amount, walletAddress) => {
+                const token = await updateTokenBeforeRequest();
+                const response = await fetch(`${API_BASE_URL}/api/withdraw`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Dynamic-Token': token
+                    },
+                    body: JSON.stringify({ initData, amount, walletAddress })
+                });
+                return await response.json();
+            },
+
+            // جلب تاريخ السحوبات
+            getWithdrawals: async (userId, initData) => {
+                const token = await updateTokenBeforeRequest();
+                const response = await fetch(`${API_BASE_URL}/api/withdrawals/${userId}?initData=${encodeURIComponent(initData)}`, {
+                    headers: {
+                        'X-Dynamic-Token': token
+                    }
+                });
+                return await response.json();
+            },
+
+            // جلب الإعدادات
+            getConfig: async () => {
+                const response = await fetch(`${API_BASE_URL}/api/config`);
+                return await response.json();
+            }
+        };
+
+        // ✅ متغيرات جديدة
+        let dailyLoginRewards = [0.0001, 0.0002, 0.0004, 0.0008, 0.0016, 0.0032, 0.0064];
+        
+        // ✅ التعديل: تغيير وقت الإعلان من 15 إلى 5 ثواني
+        let minAdDuration = 5000; // 5 ثواني فقط
+
+        // 🚫 قائمة الدول المحظورة فقط - تم تحديثها
+        const bannedCountries = [
+            'IN', // India
+            'RU', // Russian Federation
+            'LY', // Libyan Arab Jamahiriya
+            'AF', // Afghanistan
+            'NL', // Netherlands
+            'MN', // Mongolia
+            'US', // United States
+            'LK', // Sri Lanka
+            'UA'  // Ukraine
+        ];
+
+        let isUserBanned = false;
+        let banReason = "";
+
+        // باقي المتغيرات تبقى كما هي
+        let lastAdWatchTime = 0;
+        let adStartTime = 0;
+        let isAdInProgress = false;
+        let adWatchTimer = null;
+
+        let appConfig = {}; 
+        let userState = {}; 
+        let tgUser = {}; 
+        let earningWalletBalance = 0;
+        let userTransactions = [];
+        let isSubscribedToAllChannels = true; // تم تغييرها لتفعيل التطبيق مباشرة
+
+        // ✅ بيانات المسابقة
+        let contestData = {
+            userPoints: 0,
+            userRank: 0,
+            leaderboard: [],
+            endTime: null,
+            durationDays: 7,
+            isActive: true // إضافة حالة المسابقة
+        };
+
+        // ✅ بيانات التسجيل اليومي
+        let dailyLoginData = {
+            currentStreak: 0,
+            lastLoginDate: null,
+            claimedDays: []
+        };
+
+        // ✅ بيانات نظام الإحالات الجديد
+        let referralData = {
+            totalEarnings: 0,
+            pendingEarnings: 0,
+            referredUsers: []
+        };
+
+        // ✅ بيانات الأكواد
+        let redeemedCodes = [];
+
+        // ✅ متغيرات العملة الصفراء
+        let userRRBalance = 0;
+        const RR_TO_TON_RATE = 10000000;
+
+        // 🌍 متغيرات كشف الدولة
+        let userCountryData = null;
+        let isUserCountryAllowed = true; // افتراضي مسموح حتى يتم الكشف
+
+        const popup = document.getElementById('popup');
+        const popupBody = document.getElementById('popup-body');
+        const loadingText = document.getElementById('loading-text');
+
+        // ✅ إنشاء النجوم في الخلفية
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const size = Math.random() * 3;
+                const duration = 3 + Math.random() * 7;
+                const delay = Math.random() * 5;
+                
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        const showPopup = (content) => { popupBody.innerHTML = content; popup.style.display = 'flex'; };
+        const closePopup = () => { popup.style.display = 'none'; };
+
+        // ✅ دالة فتح محادثة Telegram - تم التعديل لاستخدام الرابط الخاص بك
+        const openTelegramContact = () => {
+            const telegramUrl = 'https://t.me/aborabie777';
+            try {
+                if (tg.openLink) {
+                    tg.openLink(telegramUrl);
+                } else {
+                    window.open(telegramUrl, '_blank');
+                }
+            } catch (error) {
+                window.open(telegramUrl, '_blank');
+            }
+        };
+
+        // ✅ دالة فتح نافذة شرح المسابقة - تم إصلاحها
+        window.openContestGuide = () => {
+            document.getElementById('contest-guide-popup').style.display = 'flex';
+        };
+
+        // ✅ دالة إغلاق نافذة شرح المسابقة
+        window.closeContestGuide = () => {
+            document.getElementById('contest-guide-popup').style.display = 'none';
+        };
+
+        // ✅ دالة للتحقق من حالة الحظر
+        const checkUserBanStatus = async () => {
+            // بدون Firebase، نستخدم localStorage للتحقق من الحظر
+            const bannedStatus = localStorage.getItem(`userBanned_${tgUser.id || 'guest'}`);
+            if (bannedStatus === 'true') {
+                isUserBanned = true;
+                banReason = localStorage.getItem(`banReason_${tgUser.id || 'guest'}`) || "Violation of terms of service";
+                showBannedPage();
+                return true;
+            }
+            return false;
+        };
+
+        // ✅ دالة لعرض صفحة الحظر
+        const showBannedPage = () => {
+            document.getElementById('banned-reason').textContent = banReason;
+            document.getElementById('banned-page').style.display = 'flex';
+            document.getElementById('app-loader').style.display = 'none';
+            document.querySelector('.ship-container').style.display = 'none';
+        };
+
+        // 📍 دالة لكشف الدولة
+        const detectUserCountry = async () => {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                return {
+                    countryCode: data.country_code,
+                    countryName: data.country_name,
+                    ip: data.ip
+                };
+            } catch (error) {
+                console.error('Error detecting country:', error);
+                return {
+                    countryCode: 'UNKNOWN',
+                    countryName: 'Unknown',
+                    ip: 'Unknown'
+                };
+            }
+        };
+
+        // ✅ دالة للتحقق من الدولة المسموحة (مبسطة)
+        const isCountryAllowed = (countryCode) => {
+            // إذا كانت الدولة في القائمة المحظورة
+            if (bannedCountries.includes(countryCode)) {
+                return false;
+            }
+            
+            // كل الدول الأخرى مسموحة
+            return true;
+        };
+
+        // 🎯 دالة الإعلان الإجباري قبل المكافأة - تم إصلاحها
+        const showMandatoryBonusAd = async () => {
+            return new Promise((resolve) => {
+                // عرض رسالة أن هناك إعلان إضافي مطلوب
+                showPopup(`
+                    <div style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">⚡</div>
+                        <h2 style="color: var(--ship-gold); margin-bottom: 10px;">Almost There!</h2>
+                        <p style="margin-bottom: 20px; color: var(--text-primary-dark);">
+                            Watch one quick ad to claim your <strong>1,000 RR</strong> reward!
+                        </p>
+                        <div style="background: rgba(255, 215, 0, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                            <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary-dark);">
+                                ⏱️ This ad is required to receive your reward
+                            </p>
+                        </div>
+                        <button class="popup-close-btn" id="start-mandatory-ad-btn" 
+                                style="background: linear-gradient(45deg, var(--ship-gold), #ffa500); color: #000; width: 100%;">
+                            Watch Ad to Claim Reward
+                        </button>
+                    </div>
+                `);
+
+                // إضافة مستمع الحدث للزر
+                setTimeout(() => {
+                    const button = document.getElementById('start-mandatory-ad-btn');
+                    if (button) {
+                        button.addEventListener('click', async () => {
+                            closePopup();
+                            try {
+                                await window.startMandatoryAd();
+                                resolve(true);
+                            } catch (error) {
+                                resolve(false);
+                            }
+                        });
+                    }
+                }, 100);
+            });
+        };
+
+        // ⚡ دالة تشغيل الإعلان الإجباري - تم إصلاحها
+        window.startMandatoryAd = async () => {
+            closePopup();
+            
+            showPopup(`
+                <div style="text-align: center;">
+                    <div class="spinner" style="width:40px;height:40px;border-radius:50%;border:4px solid var(--ship-gold);border-top-color:transparent;animation:spin 1s linear infinite;margin:0 auto 15px;"></div>
+                    <h2>Loading Reward Ad</h2>
+                    <p>Final step to claim your reward...</p>
+                </div>
+            `);
+
+            return new Promise((resolve, reject) => {
+                try {
+                    if (typeof show_10058786 === 'function') {
+                        show_10058786('pop').then(() => {
+                            closePopup();
+                            resolve(true);
+                        }).catch(error => {
+                            closePopup();
+                            reject(error);
+                        });
+                    } else {
+                        closePopup();
+                        reject(new Error('Ad function not available'));
+                    }
+                } catch (error) {
+                    closePopup();
+                    reject(error);
+                }
+            });
+        };
+
+        // ✅ دالة محسنة لمشاهدة الإعلان - مع الإعلان الإجباري
+        const handleWatchAd = async () => {
+            // 🌍 التحقق من الدولة المسموحة أولاً
+            if (!isUserCountryAllowed) {
+                const countryName = userCountryData.countryName || 'your country';
+                try{ 
+                    if (tg.showAlert) tg.showAlert(`🚫 Ads are not available in ${countryName}. Thank you for your understanding.`); 
+                }catch{} 
+                return; 
+            }
+
+            if (isUserBanned) {
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Your account is banned. Contact support."); 
+                }catch{} 
+                return; 
+            }
+
+            if (userState.dailyAdCount >= (appConfig.dailyAdLimit || 50)) { 
+                try{ 
+                    if (tg.showAlert) tg.showAlert("You have reached your daily ad watch limit."); 
+                }catch{} 
+                return; 
+            }
+            
+            const currentTime = Date.now();
+            if (userState.breakUntil && currentTime < userState.breakUntil) {
+                const remaining = Math.ceil((userState.breakUntil - currentTime) / 60000);
+                try{ 
+                    if (tg.showAlert) tg.showAlert(`Please wait for ${remaining} more minutes.`); 
+                }catch{} 
+                return;
+            }
+
+            const adFunction = window['show_10058786'];
+            if (typeof adFunction !== 'function') {
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Ad network is not ready yet. Please wait a few seconds and try again."); 
+                }catch{} 
+                return;
+            }
+
+            const watchBtn = document.getElementById('watch-ad-btn');
+            if (watchBtn) {
+                watchBtn.disabled = true;
+                watchBtn.textContent = 'Loading...';
+            }
+
+            showPopup(`
+                <div style="margin-bottom:10px;">
+                    <div class="spinner" style="width:40px;height:40px;border-radius:50%;border:4px solid var(--ship-gold);border-top-color:transparent;animation:spin 1s linear infinite;margin:0 auto;"></div>
+                </div>
+                <h2>Loading Ad</h2>
+                <p>Please wait a moment...</p>
+            `);
+
+            try {
+                adStartTime = Date.now();
+                isAdInProgress = true;
+
+                // 🎬 الخطوة 1: مشاهدة الإعلان العادي
+                await adFunction();
+                
+                // ✅ الخطوة 2: الإعلان الإجباري قبل المكافأة
+                const bonusWatched = await showMandatoryBonusAd();
+                
+                if (!bonusWatched) {
+                    // إذا لم يكمل الإعلان الإجباري، لا يعطي مكافأة
+                    try{ 
+                        if (tg.showAlert) tg.showAlert("You need to complete the bonus ad to receive your reward."); 
+                    }catch{}
+                    
+                    if (watchBtn) {
+                        watchBtn.disabled = false;
+                        watchBtn.textContent = 'Watch Ad';
+                    }
+                    
+                    isAdInProgress = false;
+                    return;
+                }
+
+                closePopup();
+                
+                const adEndTime = Date.now();
+                const adDuration = adEndTime - adStartTime;
+                
+                // ✅ التعديل: التحقق من 5 ثواني فقط
+                if (adDuration < minAdDuration) {
+                    try{ 
+                        if (tg.showAlert) tg.showAlert(`Ad watched too quickly! Please watch the ad for at least ${minAdDuration/1000} seconds to earn rewards.`); 
+                    }catch{}
+                    
+                    if (watchBtn) {
+                        watchBtn.disabled = false;
+                        watchBtn.textContent = 'Watch Ad';
+                    }
+                    
+                    isAdInProgress = false;
+                    return;
+                }
+                
+                lastAdWatchTime = Date.now();
+
+                // 🔄 إرسال طلب مشاهدة الإعلان للسيرفر
+                const initData = tg.initData || '';
+                const watchResponse = await api.watchAd(initData);
+                
+                if (watchResponse.success) {
+                    // تحديث البيانات من السيرفر
+                    earningWalletBalance = watchResponse.earningWallet;
+                    userState.dailyAdCount = (userState.dailyAdCount || 0) + 1;
+                    userState.lifetimeAdCount = (userState.lifetimeAdCount || 0) + 1;
+                    userState.totalEarned = watchResponse.totalEarned;
+
+                    // ✅ تحديث نقاط المسابقة إذا كانت نشطة
+                    if (contestData.isActive) {
+                        await updateContestPointsOnAdWatch();
+                    }
+
+                    // ✅ إضافة مكافأة RR
+                    const rewardAmountRR = 1000;
+                    userRRBalance += rewardAmountRR;
+                    localStorage.setItem(`userRRBalance_${tgUser.id || 'guest'}`, userRRBalance.toString());
+
+                    // ✅ رسالة النجاح
+                    let rewardMessage = `+${rewardAmountRR.toLocaleString()} RR added to your balance.`;
+                    if (contestData.isActive) {
+                        rewardMessage += ` +1 Contest Point!`;
+                    }
+                    
+                    try{ 
+                        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                        if (tg.showAlert) tg.showAlert(rewardMessage); 
+                    }catch{}
+                    
+                    renderUI();
+
+                } else {
+                    throw new Error(watchResponse.error);
+                }
+
+            } catch (error) {
+                console.error("Ad failed to load:", error);
+                closePopup();
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Ad could not be loaded. Please try again."); 
+                }catch{}
+                
+                if (watchBtn) {
+                    watchBtn.disabled = false;
+                    watchBtn.textContent = 'Watch Ad';
+                }
+                isAdInProgress = false;
+            }
+        };
+
+        // ✅ دالة لتحديث نقاط المسابقة عند مشاهدة الإعلان
+        const updateContestPointsOnAdWatch = async () => {
+            try {
+                contestData.userPoints = (contestData.userPoints || 0) + 1;
+                localStorage.setItem(`contestData_${tgUser.id || 'guest'}`, JSON.stringify(contestData));
+            } catch (error) {
+                console.error('Error updating contest points:', error);
+            }
+        };
+
+        // 🚫 دالة لعرض رسالة تقييد الدولة - تم تحديثها مع رسالة VPN
+        const showCountryRestrictionMessage = () => {
+            const homePage = document.getElementById('home-page');
+            if (homePage) {
+                const existingMessage = document.getElementById('country-restriction-message');
+                if (!existingMessage) {
+                    const restrictionMessage = document.createElement('div');
+                    restrictionMessage.id = 'country-restriction-message';
+                    restrictionMessage.style.cssText = `
+                        background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+                        color: white;
+                        padding: 15px;
+                        border-radius: 10px;
+                        margin: 15px;
+                        text-align: center;
+                        border: 2px solid #ffd700;
+                        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+                    `;
+                    restrictionMessage.innerHTML = `
+                        <h3 style="margin-bottom: 8px; color: white;">🚫 Regional Restriction</h3>
+                        <p style="margin: 0; font-size: 0.9rem;">
+                            Ads are not available in ${userCountryData.countryName}. 
+                        </p>
+                        <div style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px;">
+                            <p style="margin: 0; font-size: 0.8rem;">
+                                <strong>🚨 Banned Countries:</strong> India, Russia, Libya, Afghanistan, Netherlands, 
+                                Mongolia, United States, Sri Lanka, Ukraine
+                            </p>
+                            <p style="margin: 8px 0 0 0; font-size: 0.8rem; color: #ffd700;">
+                                💡 <strong>Solution:</strong> Try using VPN to access ads from allowed regions
+                            </p>
+                        </div>
+                    `;
+                    homePage.insertBefore(restrictionMessage, homePage.firstChild);
+                }
+            }
+        };
+
+        // ✅ دالة لحفظ حالة المستخدم في localStorage
+        const saveUserState = () => {
+            localStorage.setItem(`userState_${tgUser.id || 'guest'}`, JSON.stringify(userState));
+        };
+
+        // ✅ دالة لتحميل حالة المستخدم من localStorage
+        const loadUserState = () => {
+            const savedState = localStorage.getItem(`userState_${tgUser.id || 'guest'}`);
+            if (savedState) {
+                userState = JSON.parse(savedState);
+            } else {
+                // حالة افتراضية إذا لم توجد بيانات سابقة
+                userState = {
+                    id: tgUser.id || 'guest',
+                    firstName: tgUser.first_name || '',
+                    lastName: tgUser.last_name || '',
+                    username: tgUser.username || '',
+                    photoUrl: tgUser.photo_url || '',
+                    balance: 0,
+                    dailyAdCount: 0,
+                    lifetimeAdCount: 0,
+                    totalEarned: 0,
+                    lastAdWatchDate: new Date().toISOString().slice(0, 10),
+                    breakUntil: 0,
+                    completedTasks: {},
+                    referrals: 0,
+                    referredBy: null
+                };
+            }
+        };
+
+        // ✅ دالة محسنة لتهيئة التطبيق
+        const initApp = async () => {
+            try {
+                createStars();
+                
+                if (tg.ready) { tg.ready(); try { tg.expand(); } catch(e){} }
+                
+                tgUser = (tg.initDataUnsafe && tg.initDataUnsafe.user) || {};
+                if (!tgUser || !tgUser.id) { 
+                    console.warn("Telegram user not available in this environment."); 
+                    tgUser = { id: 'dev_user_' + Date.now(), first_name: 'Dev', last_name: 'User' };
+                }
+
+                console.log('📱 Telegram WebApp Data:', {
+                    user: tgUser,
+                    initData: tg.initData,
+                    initDataUnsafe: tg.initDataUnsafe
+                });
+
+                // 🔄 البدء في جلب التوكن أولاً
+                await getCurrentToken();
+
+                // ⚙️ جلب الإعدادات من السيرفر
+                const configResponse = await api.getConfig();
+                if (configResponse.success) {
+                    appConfig = configResponse.config;
+                    console.log('⚙️ الإعدادات من السيرفر:', appConfig);
+                } else {
+                    // إعدادات افتراضية إذا فشل الاتصال بالسيرفر
+                    appConfig = {
+                        dailyAdLimit: 50,
+                        adValue: 0.0001,
+                        botUsername: "Aborabie777_bot",
+                        referralBonus: 0.001,
+                        minimumWithdrawReferrals: 0
+                    };
+                }
+
+                // 🌍 كشف دولة المستخدم
+                console.log('🌍 Detecting user country...');
+                const userCountry = await detectUserCountry();
+                console.log('📍 User country detected:', userCountry);
+                
+                // التحقق من الدولة المسموحة
+                const isAllowed = isCountryAllowed(userCountry.countryCode);
+                console.log(`🎯 Country ${userCountry.countryCode} allowed:`, isAllowed);
+                
+                // حفظ بيانات الدولة
+                userCountryData = userCountry;
+                isUserCountryAllowed = isAllowed;
+
+                // 👤 جلب بيانات المستخدم من السيرفر
+                const initData = tg.initData || '';
+                const userResponse = await api.getUser(initData);
+                
+                if (userResponse.success) {
+                    userState = {
+                        id: userResponse.user.id,
+                        firstName: userResponse.user.firstName,
+                        lastName: '',
+                        username: userResponse.user.username,
+                        photoUrl: tgUser.photo_url || '',
+                        balance: userResponse.user.balance,
+                        dailyAdCount: userResponse.user.dailyAdCount,
+                        lifetimeAdCount: 0, // سيتم تحديثه لاحقاً
+                        totalEarned: userResponse.user.totalEarned,
+                        lastAdWatchDate: new Date().toISOString().slice(0, 10),
+                        breakUntil: 0,
+                        completedTasks: {},
+                        referrals: 0,
+                        referredBy: null
+                    };
+                    
+                    earningWalletBalance = userResponse.user.earningWallet;
+                    
+                    console.log('✅ بيانات المستخدم من السيرفر:', userResponse.user);
+                } else {
+                    // إذا فشل جلب البيانات، حاول التسجيل
+                    const registerResponse = await api.register(initData);
+                    if (registerResponse.success) {
+                        userState = {
+                            id: registerResponse.user.id,
+                            firstName: registerResponse.user.firstName,
+                            lastName: '',
+                            username: registerResponse.user.username,
+                            photoUrl: tgUser.photo_url || '',
+                            balance: registerResponse.user.balance,
+                            dailyAdCount: registerResponse.user.dailyAdCount,
+                            lifetimeAdCount: 0,
+                            totalEarned: registerResponse.user.totalEarned,
+                            lastAdWatchDate: new Date().toISOString().slice(0, 10),
+                            breakUntil: 0,
+                            completedTasks: {},
+                            referrals: 0,
+                            referredBy: null
+                        };
+                        
+                        earningWalletBalance = registerResponse.user.earningWallet;
+                        console.log('✅ تم تسجيل المستخدم جديد:', registerResponse.user);
+                    } else {
+                        throw new Error('فشل في جلب أو تسجيل المستخدم');
+                    }
+                }
+
+                // تحميل بيانات إضافية
+                await loadContestData();
+                await loadDailyLoginData();
+                await loadReferralData();
+                await loadRedeemedCodes();
+
+                userRRBalance = parseInt(localStorage.getItem(`userRRBalance_${tgUser.id || 'guest'}`) || '0');
+
+                // ✅ تم حذف نظام الاشتراك الإجباري - مباشرة إلى التطبيق الرئيسي
+                await continueAppInitialization();
+                
+            } catch (error) { 
+                console.error("Initialization failed:", error); 
+                try { 
+                    if (tg.showAlert) tg.showAlert("Failed to load app data. Please try again."); 
+                } catch(e){} 
+            }
+        };
+
+        // ✅ دالة لمتابعة تهيئة التطبيق بعد التحقق من الاشتراك
+        const continueAppInitialization = async () => {
+            try {
+                // إعادة تعيين المهام اليومية إذا لزم الأمر
+                await resetDailyTasks();
+
+                renderUI(); 
+                setupNavigation(); 
+                setupEventListeners();
+
+                // 🔄 تحديث التوكن كل 10 ثواني
+                setInterval(getCurrentToken, 9000); // كل 9 ثواني للتأكد من عدم انتهاء الصلاحية
+
+                setTimeout(() => {
+                    document.getElementById('app-loader').style.display = 'none';
+                    document.querySelector('.ship-container').style.display = 'block';
+                }, 300);
+            } catch (error) {
+                console.error("Error in continueAppInitialization:", error);
+            }
+        };
+
+        // ✅ دالة لتحميل بيانات المسابقة
+        const loadContestData = async () => {
+            try {
+                const savedContest = localStorage.getItem(`contestData_${tgUser.id || 'guest'}`);
+                if (savedContest) {
+                    contestData = JSON.parse(savedContest);
+                } else {
+                    // بيانات المسابقة الافتراضية
+                    contestData = {
+                        userPoints: 0,
+                        userRank: 0,
+                        leaderboard: [],
+                        endTime: new Date().getTime() + (7 * 24 * 60 * 60 * 1000), // 7 أيام من الآن
+                        durationDays: 7,
+                        isActive: true
+                    };
+                }
+            } catch (error) {
+                console.error('Error loading contest data:', error);
+            }
+        };
+
+        // ✅ دالة محسنة لتحميل بيانات التسجيل اليومي
+        const loadDailyLoginData = async () => {
+            try {
+                const savedData = localStorage.getItem(`dailyLoginData_${tgUser.id || 'guest'}`);
+                if (savedData) {
+                    dailyLoginData = JSON.parse(savedData);
+                await checkDailyLogin();
+                localStorage.setItem(`dailyLoginData_${tgUser.id || 'guest'}`, JSON.stringify(dailyLoginData));
+                return;
+                }
+                
+                // بيانات افتراضية
+                dailyLoginData = {
+                    currentStreak: 0,
+                    lastLoginDate: null,
+                    claimedDays: []
+                };
+                
+                await checkDailyLogin();
+                
+            } catch (error) {
+                console.error('Error loading daily login data:', error);
+            }
+        };
+
+        // ✅ دالة محسنة للتحقق من التسجيل اليومي
+        const checkDailyLogin = async () => {
+            const today = new Date().toDateString();
+            const lastLogin = dailyLoginData.lastLoginDate;
+            
+            if (lastLogin !== today) {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayStr = yesterday.toDateString();
+                
+                if (lastLogin === yesterdayStr) {
+                    dailyLoginData.currentStreak = (dailyLoginData.currentStreak || 0) + 1;
+                } else if (lastLogin !== today) {
+                    dailyLoginData.currentStreak = 1;
+                }
+                
+                dailyLoginData.lastLoginDate = today;
+            }
+        };
+
+        // ✅ دالة محسنة لتحميل بيانات نظام الإحالات الجديد
+        const loadReferralData = async () => {
+            try {
+                const savedData = localStorage.getItem(`referralData_${tgUser.id || 'guest'}`);
+                if (savedData) {
+                    referralData = JSON.parse(savedData);
+                } else {
+                    referralData = {
+                        totalEarnings: 0,
+                        pendingEarnings: 0,
+                        referredUsers: []
+                    };
+                }
+            } catch (error) {
+                console.error('Error loading referral data:', error);
+            }
+        };
+
+        // ✅ دالة لتحميل بيانات الأكواد
+        const loadRedeemedCodes = async () => {
+            try {
+                const savedCodes = localStorage.getItem(`redeemedCodes_${tgUser.id || 'guest'}`);
+                if (savedCodes) {
+                    redeemedCodes = JSON.parse(savedCodes);
+                } else {
+                    redeemedCodes = [];
+                }
+            } catch (error) {
+                console.error('Error loading redeemed codes:', error);
+            }
+        };
+
+        // ✅ دالة محسنة لـ renderUI
+        const renderUI = () => {
+            document.getElementById('user-photo').src = userState.photoUrl || 'https://ui-avatars.com/api/?name=User&background=random&size=80';
+            document.getElementById('user-name').textContent = `${userState.firstName || ''} ${userState.lastName || ''}`.trim() || 'User';
+            document.getElementById('user-balance').textContent = (userState.balance || 0).toFixed(4);
+            document.getElementById('user-rr-balance').textContent = userRRBalance.toLocaleString();
+            document.getElementById('daily-ads-watched').textContent = `${userState.dailyAdCount || 0} / ${appConfig.dailyAdLimit || 0}`;
+            document.getElementById('total-ads-watched').textContent = userState.lifetimeAdCount || 0;
+            
+            // تحديث حالة المسابقة
+            updateContestStatus();
+            
+            // 🌍 عرض معلومات الدولة إذا كانت محظورة
+            if (!isUserCountryAllowed && userCountryData) {
+                showCountryRestrictionMessage();
+            }
+            
+            renderAdTask(); 
+            renderAdProgress(); 
+            renderDynamicTasks(); 
+            renderReferralsPage();
+            renderWithdrawSection(); 
+            renderConverter(); 
+            renderDynamicLinks();
+            
+            // إعداد المستمعين الإضافيين
+            setupAdditionalEventListeners();
+            
+            // تحميل المهام اليومية
+            loadDailyTasks();
+        };
+
+        const renderAdProgress = () => {
+            const container = document.getElementById('ad-progress-container');
+            const dailyLimit = appConfig.dailyAdLimit || 1;
+            const watchedCount = userState.dailyAdCount || 0;
+            const percentage = Math.min(100, (watchedCount / dailyLimit) * 100);
+            container.innerHTML = `
+                <div class="progress-info-inline">
+                    <span>Daily Ad Progress</span>
+                    <span>${watchedCount} / ${dailyLimit}</span>
+                </div>
+                <div class="progress-bar-bg-inline">
+                    <div class="progress-bar-fg-inline" style="width: ${percentage}%;"></div>
+                </div>`;
+        };
+
+        // ✅ دالة لعرض محول العملة
+        const renderConverter = () => {
+            const rrInput = document.getElementById('rr-amount');
+            const tonInput = document.getElementById('ton-amount');
+            const convertBtn = document.getElementById('convert-rr-btn');
+            
+            if (rrInput && tonInput && convertBtn) {
+                rrInput.value = '';
+                tonInput.value = '';
+                convertBtn.disabled = true;
+                
+                rrInput.addEventListener('input', () => {
+                    const rrValue = parseFloat(rrInput.value) || 0;
+                    const tonValue = rrValue / RR_TO_TON_RATE;
+                    tonInput.value = tonValue.toFixed(4);
+                    convertBtn.disabled = rrValue <= 0 || rrValue > userRRBalance;
+                });
+                
+                convertBtn.addEventListener('click', convertRRToTON);
+            }
+        };
+
+        // ✅ دالة لتحويل RR إلى TON
+        const convertRRToTON = async () => {
+            const rrAmount = parseFloat(document.getElementById('rr-amount').value) || 0;
+            
+            if (rrAmount <= 0) {
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Please enter a valid amount of RR to convert."); 
+                }catch{} 
+                return;
+            }
+            
+            if (rrAmount > userRRBalance) {
+                try{ 
+                    if (tg.showAlert) tg.showAlert("You don't have enough RR to convert."); 
+                }catch{} 
+                return;
+            }
+            
+            const tonAmount = rrAmount / RR_TO_TON_RATE;
+            
+            try {
+                userRRBalance -= rrAmount;
+                localStorage.setItem(`userRRBalance_${tgUser.id || 'guest'}`, userRRBalance.toString());
+                
+                userState.balance = (userState.balance || 0) + tonAmount;
+                saveUserState();
+                
+                try{ 
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                    if (tg.showAlert) tg.showAlert(`Successfully converted ${rrAmount.toLocaleString()} RR to ${tonAmount.toFixed(4)} TON!`); 
+                }catch{}
+                
+                renderUI();
+                
+            } catch (error) {
+                console.error('Error converting RR to TON:', error);
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Failed to convert RR. Please try again."); 
+                }catch{} 
+            }
+        };
+
+        const renderWithdrawalHistory = () => {
+            const listEl = document.getElementById('withdrawal-history-list');
+            if (userTransactions.length === 0) { 
+                listEl.innerHTML = '<p>No withdrawal history found.</p>'; 
+                return; 
+            }
+            listEl.innerHTML = userTransactions.map(item => `
+                <div class="history-item">
+                    <div class="history-details">
+                        <p>${Number(item.amount).toFixed(4)} TON - ${item.method}</p>
+                        <small>${new Date(item.timestamp).toLocaleString()}</small>
+                    </div>
+                    <span class="history-status status-${item.status}">${item.status}</span>
+                </div>`).join('');
+        };
+
+        const setupNavigation = () => {
+            const controlWheels = document.querySelectorAll('.control-wheel'); 
+            const pages = document.querySelectorAll('.page');
+            controlWheels.forEach(wheel => {
+                wheel.addEventListener('click', () => {
+                    const pageId = wheel.dataset.page;
+                    pages.forEach(page => page.classList.remove('active'));
+                    document.getElementById(pageId).classList.add('active');
+                    controlWheels.forEach(w => w.classList.remove('active'));
+                    wheel.classList.add('active');
+                    if (pageId === 'profile-page') { 
+                        renderWithdrawalHistory(); 
+                    }
+                    if (pageId === 'contest-page') { 
+                        renderContestPage(); 
+                    }
+                    if (pageId === 'referrals-page') {
+                        renderReferralsPage();
+                    }
+                });
+            });
+        };
+
+        const setupEventListeners = () => {
+            popup.addEventListener('click', (e) => { 
+                if (e.target.classList.contains('popup-close-btn') || e.target.id === 'popup') closePopup(); 
+            });
+            document.getElementById('dynamic-tasks-container').addEventListener('click', (e) => handleClaimTask(e));
+            document.getElementById('profile-page').addEventListener('submit', (e) => handleWithdraw(e));
+            document.getElementById('redeem-code-btn').addEventListener('click', redeemCode);
+            document.getElementById('redeem-code-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    redeemCode();
+                }
+            });
+        };
+
+        // ✅ إعداد مستمعي الأحداث الإضافية
+        const setupAdditionalEventListeners = () => {
+            // زر إضافة مهمة - تم التعديل
+            document.getElementById('add-task-main-btn').addEventListener('click', openTelegramContact);
+            
+            // زر شرح المسابقة - تم إصلاحه
+            document.getElementById('contest-guide-trigger').addEventListener('click', function() {
+                const content = document.getElementById('contest-guide-content');
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            });
+        };
+
+        const renderAdTask = () => {
+            const container = document.getElementById('ad-task-container');
+            const now = Date.now();
+            const onBreak = userState.breakUntil && now < userState.breakUntil;
+            const limitReached = userState.dailyAdCount >= appConfig.dailyAdLimit;
+            
+            // 🌍 التحقق من الدولة أولاً
+            if (!isUserCountryAllowed) {
+                const countryName = userCountryData.countryName || 'your region';
+                container.innerHTML = `
+                    <div class="task-container">
+                        <img class="task-icon-img" src="https://img.icons8.com/ios-filled/100/globe.png" alt="icon">
+                        <div class="task-info">
+                            <h3>Regional Restriction</h3>
+                            <p>Ads are not available in ${countryName}.</p>
+                            <p style="color: var(--text-secondary-dark); font-size: 0.8rem;">
+                                Thank you for your understanding.
+                            </p>
+                        </div>
+                        <button class="action-btn" disabled>Not Available</button>
+                    </div>`;
+                return;
+            }
+            
+            let html = '';
+            if (onBreak) {
+                const remaining = Math.ceil((userState.breakUntil - now) / 60000);
+                html = `
+                    <div class="task-container">
+                        <img class="task-icon-img" src="https://img.icons8.com/ios-filled/100/hourglass.png" alt="icon">
+                        <div class="task-info">
+                            <h3>Break Time!</h3>
+                            <p>Please wait for ${remaining} more minutes.</p>
+                        </div>
+                        <button class="action-btn" disabled>Waiting</button>
+                    </div>`;
+            } else if (limitReached) {
+                html = `
+                    <div class="task-container">
+                        <img class="task-icon-img" src="https://img.icons8.com/ios-filled/100/stop-circled.png" alt="icon">
+                        <div class="task-info">
+                            <h3>Daily Limit Reached</h3>
+                            <p>Come back tomorrow for more ads.</p>
+                        </div>
+                        <button class="action-btn" disabled>Limit</button>
+                    </div>`;
+            } else {
+                const adValueRR = 1000;
+                html = `
+                    <div class="task-container">
+                        <img class="task-icon-img" src="https://img.icons8.com/ios-filled/100/play-button-circled.png" alt="icon">
+                        <div class="task-info">
+                            <h3>Watch Ad</h3>
+                            <p>Earn ${adValueRR.toLocaleString()} RR for every ad.</p>
+                            <p class="ad-progress-inline">
+                                ⏱️ Must watch for 5+ seconds to earn
+                            </p>
+                        </div>
+                        <button id="watch-ad-btn" class="action-btn">Watch Ad</button>
+                    </div>`;
+            }
+            container.innerHTML = html;
+            if (!onBreak && !limitReached) { 
+                const btn = document.getElementById('watch-ad-btn'); 
+                if (btn) btn.addEventListener('click', handleWatchAd); 
+            }
+        };
+
+        const copyReferralLink = () => {
+            const refLinkInput = document.getElementById('referral-link');
+            refLinkInput.select();
+            refLinkInput.setSelectionRange(0, 99999);
+            try {
+                navigator.clipboard.writeText(refLinkInput.value).then(() => {
+                    try{ 
+                        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                        if (tg.showAlert) tg.showAlert("Referral link copied!"); 
+                    }catch{}
+                });
+            } catch (err) {
+                document.execCommand('copy');
+                try{ 
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                    if (tg.showAlert) tg.showAlert("Referral link copied!"); 
+                }catch{}
+            }
+        };
+
+        // ✅ دالة محسنة لعرض المهام الإضافية - بدون مهام مؤقتة
+        const renderDynamicTasks = () => {
+            const container = document.getElementById('dynamic-tasks-container'); 
+            container.innerHTML = '';
+            
+            // ❌ إزالة جميع المهام الإضافية المؤقتة
+            const defaultTasks = [];
+            
+            if (defaultTasks.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: var(--text-secondary-dark);">
+                        <i class="fas fa-tasks" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>No additional tasks available at the moment.</p>
+                        <p style="font-size: 0.9rem;">Check back later for new tasks!</p>
+                    </div>
+                `;
+            }
+        };
+
+        // ✅ دالة محسنة لعرض صفحة الإحالات
+        const renderReferralsPage = () => {
+            const botUsername = appConfig.botUsername || "Aborabie777_bot";
+            const userId = tgUser.id || '';
+            
+            const refLink = `https://t.me/${botUsername}?startapp=${userId}`;
+            
+            document.getElementById('total-referrals-display').textContent = userState.referrals || 0;
+            document.getElementById('total-earnings-display').textContent = (referralData.totalEarnings || 0).toLocaleString() + ' RR';
+            document.getElementById('pending-earnings-display').textContent = (referralData.pendingEarnings || 0).toLocaleString() + ' RR';
+            document.getElementById('referral-link').value = refLink;
+            
+            let referredUsersHTML = '';
+            if (referralData.referredUsers.length > 0) {
+                referralData.referredUsers.forEach(user => {
+                    referredUsersHTML += `
+                        <div class="referral-list-item">
+                            <div class="referral-user-info">
+                                <img src="${user.photoUrl}" alt="${user.name}" class="referral-user-avatar">
+                                <div>
+                                    <div class="referral-user-name">${user.name}</div>
+                                    <small style="color: var(--text-secondary-dark);">Joined: ${new Date(user.joinDate).toLocaleDateString()}</small>
+                                </div>
+                            </div>
+                            <div class="referral-earnings">+${((user.totalEarned || 0) * 0.15 * RR_TO_TON_RATE).toLocaleString()} RR</div>
+                        </div>
+                    `;
+                });
+            } else {
+                referredUsersHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary-dark);">No referrals yet. Share your link to start earning!</div>';
+            }
+            
+            document.getElementById('referrals-list-container').innerHTML = referredUsersHTML;
+            
+            const claimBtn = document.getElementById('claim-referral-earnings-btn');
+            if (referralData.pendingEarnings > 0) {
+                claimBtn.disabled = false;
+                claimBtn.textContent = `🎁 Claim ${referralData.pendingEarnings.toLocaleString()} RR`;
+            } else {
+                claimBtn.disabled = true;
+                claimBtn.textContent = '🎁 Claim Referral Earnings';
+            }
+            
+            // إضافة event listener لزر النسخ
+            document.getElementById('copy-ref-link-btn').addEventListener('click', copyReferralLink);
+            document.getElementById('claim-referral-earnings-btn').addEventListener('click', claimReferralEarnings);
+        };
+
+        // ✅ دالة محسنة لمطالبة أرباح الإحالات
+        const claimReferralEarnings = async () => {
+            try {
+                if (referralData.pendingEarnings <= 0) {
+                    try{ 
+                        if (tg.showAlert) tg.showAlert("No pending referral earnings to claim!"); 
+                    }catch{} 
+                    return;
+                }
+                
+                // إضافة أرباح RR إلى رصيد المستخدم
+                userRRBalance += referralData.pendingEarnings;
+                localStorage.setItem(`userRRBalance_${tgUser.id || 'guest'}`, userRRBalance.toString());
+                
+                referralData.totalEarnings += referralData.pendingEarnings;
+                referralData.pendingEarnings = 0;
+                
+                // حفظ بيانات الإحالة
+                localStorage.setItem(`referralData_${tgUser.id || 'guest'}`, JSON.stringify(referralData));
+                
+                try{ 
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                    if (tg.showAlert) tg.showAlert(`🎉 Referral earnings claimed! +${referralData.totalEarnings.toLocaleString()} RR`); 
+                }catch{}
+                
+                renderUI();
+                
+            } catch (error) {
+                console.error('Error claiming referral earnings:', error);
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Failed to claim referral earnings. Please try again."); 
+                }catch{} 
+            }
+        };
+
+        // ✅ دالة محسنة لعرض قسم السحب
+        const renderWithdrawSection = () => {
+            const container = document.getElementById('withdraw-section'); 
+            
+            const withdrawMethods = [
+                { name: 'FaucetPay', min: 0.0001, icon: 'fas fa-envelope' },
+                { name: 'TON', min: 0.05, icon: 'fas fa-wallet' }
+            ];
+
+            const minRefs = appConfig.minimumWithdrawReferrals || 0;
+            let referralNotice = '';
+            if (minRefs > 0) {
+                referralNotice = `
+                    <div class="referral-notice">
+                        <i class="fas fa-info-circle"></i> You need at least <b>${minRefs} referrals</b> to be eligible for withdrawal.
+                        <br>You currently have <b>${userState.referrals || 0} referrals</b>.
+                    </div>`;
+            }
+
+            container.innerHTML = `
+                <div class="withdraw-container">
+                    <div class="withdraw-header">
+                        <i class="fas fa-wallet"></i>
+                        <h3>Withdraw Funds</h3>
+                    </div>
+                    
+                    ${referralNotice}
+                    
+                    <div class="withdrawal-options">
+                        <div class="withdrawal-option active" data-method="faucetpay">
+                            <i class="fas fa-envelope"></i>
+                            <h4>FaucetPay</h4>
+                        </div>
+                        <div class="withdrawal-option" data-method="ton">
+                            <i class="fas fa-wallet"></i>
+                            <h4>TON Wallet</h4>
+                        </div>
+                    </div>
+                    
+                    <!-- تفاصيل سحب FaucetPay -->
+                    <div class="withdrawal-details active" id="faucetpay-details">
+                        <div class="withdrawal-info">
+                            <p><strong>FaucetPay Withdrawal</strong></p>
+                            <p>Enter your Gmail address registered with FaucetPay</p>
+                            <ul>
+                                <li>Minimum withdrawal: 0.0001 TON</li>
+                                <li>✅ No fees - We cover all transaction costs</li>
+                                <li>⏳ Processing time: Up to 1 minute</li>
+                                <li>Withdrawals are processed automatically</li>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <label for="faucetpay-email">FaucetPay Email</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="faucetpay-email" placeholder="your-email@gmail.com">
+                            </div>
+                            <div class="validation-message validation-info" id="faucetpay-validation">
+                                <i class="fas fa-info-circle"></i> Enter your FaucetPay registered email
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="withdraw-amount-faucetpay">Amount (TON)</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-coins"></i>
+                                <input type="number" id="withdraw-amount-faucetpay" placeholder="0.0001" min="0.0001" step="0.0001">
+                            </div>
+                            <div class="validation-message validation-info" id="amount-validation-faucetpay">
+                                <i class="fas fa-info-circle"></i> Minimum: 0.0001 TON
+                            </div>
+                        </div>
+                        <button class="withdraw-btn" id="withdraw-faucetpay-btn">Withdraw via FaucetPay</button>
+                    </div>
+
+                    <!-- تفاصيل سحب TON -->
+                    <div class="withdrawal-details" id="ton-details">
+                        <div class="withdrawal-info">
+                            <p><strong>TON Withdrawal</strong></p>
+                            <p>Enter your TON wallet address (starts with UQ, EQ, or kQ)</p>
+                            <ul>
+                                <li>Minimum withdrawal: 0.05 TON</li>
+                                <li>✅ No fees - We cover all transaction costs</li>
+                                <li>⏳ Processing time: Up to 24 hours</li>
+                                <li>Optional: Add memo for exchange deposits</li>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <label for="ton-address">TON Wallet Address</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-wallet"></i>
+                                <input type="text" id="ton-address" placeholder="UQ...">
+                            </div>
+                            <div class="validation-message validation-info" id="ton-address-validation">
+                                <i class="fas fa-info-circle"></i> Enter your TON wallet address
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ton-memo">Memo (Optional)</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-sticky-note"></i>
+                                <input type="text" id="ton-memo" placeholder="For exchange deposits">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="withdraw-amount-ton">Amount (TON)</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-coins"></i>
+                                <input type="number" id="withdraw-amount-ton" placeholder="0.05" min="0.05" step="0.01">
+                            </div>
+                            <div class="validation-message validation-info" id="amount-validation-ton">
+                                <i class="fas fa-info-circle"></i> Minimum: 0.05 TON
+                            </div>
+                        </div>
+                        <button class="withdraw-btn" id="withdraw-ton-btn">Withdraw to TON Wallet</button>
+                    </div>
+                </div>`;
+
+            // إعداد مستمعي الأحداث لواجهة السحب الجديدة
+            setupWithdrawalEventListeners();
+        };
+
+        // ✅ دالة جديدة لإعداد مستمعي الأحداث للسحب
+        const setupWithdrawalEventListeners = () => {
+            // تبديل خيارات السحب
+            document.querySelectorAll('.withdrawal-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const method = this.getAttribute('data-method');
+                    switchWithdrawalMethod(method);
+                    
+                    document.querySelectorAll('.withdrawal-option').forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // التحقق من صحة البيانات
+            document.getElementById('ton-address').addEventListener('input', validateTONAddress);
+            document.getElementById('faucetpay-email').addEventListener('input', validateFaucetPayEmail);
+            
+            // أزرار السحب
+            document.getElementById('withdraw-faucetpay-btn').addEventListener('click', handleFaucetPayWithdrawal);
+            document.getElementById('withdraw-ton-btn').addEventListener('click', handleTONWithdrawal);
+        };
+
+        // ✅ دالة لتبديل طريقة السحب
+        const switchWithdrawalMethod = (method) => {
+            document.getElementById('faucetpay-details').classList.toggle('active', method === 'faucetpay');
+            document.getElementById('ton-details').classList.toggle('active', method === 'ton');
+        };
+
+        // ✅ دوال التحقق من الصحة
+        const validateTONAddress = () => {
+            const address = document.getElementById('ton-address').value.trim();
+            const validation = document.getElementById('ton-address-validation');
+            
+            if (address === '') {
+                validation.className = 'validation-message validation-info';
+                validation.innerHTML = '<i class="fas fa-info-circle"></i> Enter your TON wallet address';
+            } else if (/^(UQ|EQ|kQ)/.test(address)) {
+                validation.className = 'validation-message validation-success';
+                validation.innerHTML = '<i class="fas fa-check-circle"></i> Valid TON address';
+            } else {
+                validation.className = 'validation-message validation-error';
+                validation.innerHTML = '<i class="fas fa-exclamation-circle"></i> TON address should start with UQ, EQ, or kQ';
+            }
+        };
+
+        const validateFaucetPayEmail = () => {
+            const email = document.getElementById('faucetpay-email').value.trim();
+            const validation = document.getElementById('faucetpay-validation');
+            
+            if (email === '') {
+                validation.className = 'validation-message validation-info';
+                validation.innerHTML = '<i class="fas fa-info-circle"></i> Enter your FaucetPay registered email';
+            } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                validation.className = 'validation-message validation-success';
+                validation.innerHTML = '<i class="fas fa-check-circle"></i> Valid email format';
+            } else {
+                validation.className = 'validation-message validation-error';
+                validation.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter a valid email address';
+            }
+        };
+
+        // ✅ دوال معالجة السحب
+        const handleFaucetPayWithdrawal = async () => {
+            const email = document.getElementById('faucetpay-email').value;
+            const amount = parseFloat(document.getElementById('withdraw-amount-faucetpay').value);
+            
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Please enter a valid FaucetPay email');
+                return;
+            }
+            
+            if (!amount || amount < 0.0001) {
+                alert('Minimum withdrawal is 0.0001 TON');
+                return;
+            }
+            
+            if (amount > userState.balance) {
+                alert('Insufficient TON balance');
+                return;
+            }
+
+            const minRefsRequired = appConfig.minimumWithdrawReferrals || 0;
+            const userReferrals = userState.referrals || 0;
+
+            if (minRefsRequired > 0 && userReferrals < minRefsRequired) {
+                alert(`Withdrawal failed. You need at least ${minRefsRequired} referrals to make a withdrawal. You currently have ${userReferrals}.`);
+                return;
+            }
+
+            const btn = document.getElementById('withdraw-faucetpay-btn'); 
+            btn.disabled = true; 
+            btn.textContent = 'Submitting...';
+            
+            try {
+                const initData = tg.initData || '';
+                const withdrawResponse = await api.withdraw(initData, amount, email);
+                
+                if (withdrawResponse.success) {
+                    // تحديث الرصيد من السيرفر
+                    userState.balance = withdrawResponse.newBalance;
+                    
+                    try{ 
+                        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                        if (tg.showAlert) tg.showAlert("Withdrawal request submitted successfully!"); 
+                    }catch{}
+                    
+                    // إعادة تعيين الحقول
+                    document.getElementById('faucetpay-email').value = '';
+                    document.getElementById('withdraw-amount-faucetpay').value = '';
+                    
+                    renderUI();
+                    
+                } else {
+                    throw new Error(withdrawResponse.error);
+                }
+                
+            } catch (error) {
+                console.error('Withdrawal error:', error);
+                try{ 
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error'); 
+                    if (tg.showAlert) tg.showAlert("Failed to submit withdrawal request."); 
+                }catch{}
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Withdraw via FaucetPay';
+            }
+        };
+
+        const handleTONWithdrawal = async () => {
+            const address = document.getElementById('ton-address').value;
+            const memo = document.getElementById('ton-memo').value;
+            const amount = parseFloat(document.getElementById('withdraw-amount-ton').value);
+            
+            if (!address || !/^(UQ|EQ|kQ)/.test(address)) {
+                alert('Please enter a valid TON wallet address');
+                return;
+            }
+            
+            if (!amount || amount < 0.05) {
+                alert('Minimum withdrawal is 0.05 TON');
+                return;
+            }
+            
+            if (amount > userState.balance) {
+                alert('Insufficient TON balance');
+                return;
+            }
+
+            const minRefsRequired = appConfig.minimumWithdrawReferrals || 0;
+            const userReferrals = userState.referrals || 0;
+
+            if (minRefsRequired > 0 && userReferrals < minRefsRequired) {
+                alert(`Withdrawal failed. You need at least ${minRefsRequired} referrals to make a withdrawal. You currently have ${userReferrals}.`);
+                return;
+            }
+
+            const btn = document.getElementById('withdraw-ton-btn'); 
+            btn.disabled = true; 
+            btn.textContent = 'Submitting...';
+            
+            try {
+                const initData = tg.initData || '';
+                const withdrawResponse = await api.withdraw(initData, amount, address);
+                
+                if (withdrawResponse.success) {
+                    // تحديث الرصيد من السيرفر
+                    userState.balance = withdrawResponse.newBalance;
+                    
+                    try{ 
+                        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                    }catch{}
+                    
+                    // إعادة تعيين الحقول
+                    document.getElementById('ton-address').value = '';
+                    document.getElementById('ton-memo').value = '';
+                    document.getElementById('withdraw-amount-ton').value = '';
+                    
+                    renderUI();
+                    
+                } else {
+                    throw new Error(withdrawResponse.error);
+                }
+                
+            } catch (error) {
+                console.error('Withdrawal error:', error);
+                try{ 
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error'); 
+                }catch{}
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Withdraw to TON Wallet';
+            }
+        };
+
+        const renderDynamicLinks = () => {
+            const container = document.getElementById('dynamic-links-container'); 
+            container.innerHTML = '';
+            // روابط افتراضية بدون Firebase
+            const defaultLinks = [
+    {
+        key: 'backup',
+        name: 'Support 📞', 
+        icon: 'https://img.icons8.com/ios-filled/100/customer-support.png',
+        url: 'https://t.me/Elsayed_1_Elgohary'
+    },
+    {
+        key: 'support', 
+        name: 'Support 📞',
+        icon: 'https://img.icons8.com/ios-filled/100/customer-support.png',
+        url: 'https://t.me/aborabie777'
+    },
+    {
+        key: 'giveaway',
+        name: 'Payments Channel ',
+        icon: 'https://img.icons8.com/ios-filled/100/confetti.png',
+        url: 'https://t.me/earnmoney139482'
+    }
+];
+            
+            defaultLinks.forEach(link => {
+                const el = document.createElement('div'); 
+                el.className = 'task-container';
+                el.innerHTML = `
+                    <img class="task-icon-img" src="${link.icon}" alt="icon">
+                    <div class="task-info">
+                        <h3>${link.name}</h3>
+                    </div>
+                    <button class="action-btn" onclick="window.Telegram?.WebApp?.openLink ? window.Telegram.WebApp.openLink('${link.url}') : window.open('${link.url}','_blank')">
+                        Visit
+                    </button>`;
+                container.appendChild(el);
+            });
+        };
+
+        // ✅ دالة محسنة لاستبدال الكود
+        const redeemCode = async () => {
+            try {
+                const codeInput = document.getElementById('redeem-code-input');
+                const redeemBtn = document.getElementById('redeem-code-btn');
+                
+                const code = codeInput.value.trim().toUpperCase();
+                
+                if (!code) {
+                    try{ 
+                        if (tg.showAlert) tg.showAlert("Please enter a code!"); 
+                    }catch{} 
+                    return;
+                }
+                
+                if (redeemedCodes.includes(code)) {
+                    try{ 
+                        if (tg.showAlert) tg.showAlert("You have already used this code!"); 
+                    }catch{} 
+                    return;
+                }
+                
+                redeemBtn.disabled = true;
+                redeemBtn.textContent = 'Checking...';
+                
+                // بدون Firebase، نتحقق من أكواد محلية
+                const validCodes = {
+                    'WELCOME100': { rewardValue: 10000, rewardType: 'RR' },
+                    'BONUS500': { rewardValue: 50000, rewardType: 'RR' },
+                    'START1000': { rewardValue: 100000, rewardType: 'RR' }
+                };
+                
+                const codeData = validCodes[code];
+                
+                if (!codeData) {
+                    try{ 
+                        if (tg.showAlert) tg.showAlert("Invalid code!"); 
+                    }catch{} 
+                    redeemBtn.disabled = false;
+                    redeemBtn.textContent = 'Redeem';
+                    return;
+                }
+                
+                // ✅ معالجة أنواع المكافآت المختلفة
+                let successMessage = '';
+                
+                if (codeData.rewardType === 'TON') {
+                    // مكافأة TON مباشرة
+                    const tonAmount = codeData.rewardValue || 0;
+                    userState.balance = (userState.balance || 0) + tonAmount;
+                    successMessage = `🎉 Code redeemed! You earned ${tonAmount.toFixed(4)} TON!`;
+                    saveUserState();
+                    
+                } else if (codeData.rewardType === 'RR') {
+                    // مكافأة RR
+                    const rrAmount = codeData.rewardValue || 0;
+                    userRRBalance += rrAmount;
+                    localStorage.setItem(`userRRBalance_${tgUser.id || 'guest'}`, userRRBalance.toString());
+                    successMessage = `🎉 Code redeemed! You earned ${rrAmount.toLocaleString()} RR!`;
+                    
+                } else if (codeData.rewardType === 'points') {
+                    // مكافأة نقاط المسابقة
+                    const points = codeData.rewardValue || 0;
+                    if (contestData.isActive) {
+                        await awardContestPoints(points);
+                        successMessage = `🎉 Code redeemed! You earned ${points} contest points!`;
+                    } else {
+                        // إذا كانت المسابقة غير نشطة، إعطاء مكافأة بديلة من RR
+                        const rewardAmountRR = points * 100;
+                        userRRBalance += rewardAmountRR;
+                        localStorage.setItem(`userRRBalance_${tgUser.id || 'guest'}`, userRRBalance.toString());
+                        successMessage = `🎉 Code redeemed! You earned ${rewardAmountRR.toLocaleString()} RR!`;
+                    }
+                } else {
+                    // النوع الافتراضي (نقاط المسابقة)
+                    const points = codeData.rewardValue || 10;
+                    if (contestData.isActive) {
+                        await awardContestPoints(points);
+                        successMessage = `🎉 Code redeemed! You earned ${points} contest points!`;
+                    } else {
+                        const rewardAmountRR = points * 100;
+                        userRRBalance += rewardAmountRR;
+                        localStorage.setItem(`userRRBalance_${tgUser.id || 'guest'}`, userRRBalance.toString());
+                        successMessage = `🎉 Code redeemed! You earned ${rewardAmountRR.toLocaleString()} RR!`;
+                    }
+                }
+                
+                redeemedCodes.push(code);
+                localStorage.setItem(`redeemedCodes_${tgUser.id || 'guest'}`, JSON.stringify(redeemedCodes));
+                
+                try{ 
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                    if (tg.showAlert) tg.showAlert(successMessage); 
+                }catch{}
+                
+                codeInput.value = '';
+                redeemBtn.disabled = false;
+                redeemBtn.textContent = 'Redeem';
+                
+                // تحديث الواجهة
+                renderUI();
+                
+            } catch (error) {
+                console.error('Error redeeming code:', error);
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Failed to redeem code. Please try again."); 
+                }catch{}
+                
+                const redeemBtn = document.getElementById('redeem-code-btn');
+                redeemBtn.disabled = false;
+                redeemBtn.textContent = 'Redeem';
+            }
+        };
+
+        // ✅ دالة محسنة لمنح نقاط المسابقة
+        const awardContestPoints = async (points) => {
+            try {
+                if (!contestData.isActive) {
+                    console.log('ℹ️ Contest is not active, skipping points award');
+                    return;
+                }
+
+                contestData.userPoints = (contestData.userPoints || 0) + points;
+                localStorage.setItem(`contestData_${tgUser.id || 'guest'}`, JSON.stringify(contestData));
+                
+            } catch (error) {
+                console.error('Error awarding contest points:', error);
+            }
+        };
+
+        // ✅ دالة لتحديث مؤقت المسابقة
+        const updateContestTimer = () => {
+            const countdownEl = document.getElementById('contest-countdown');
+            if (!contestData.endTime) {
+                countdownEl.textContent = 'Contest not started';
+                return;
+            }
+            
+            const now = new Date().getTime();
+            const distance = contestData.endTime - now;
+            
+            if (distance < 0) {
+                countdownEl.textContent = 'Contest Ended!';
+                contestData.isActive = false;
+                updateContestStatus();
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        };
+
+        // ✅ دالة لتحديث حالة المسابقة في الصفحة الرئيسية
+        const updateContestStatus = () => {
+            const statusBox = document.getElementById('contest-status-box');
+            const statusValue = document.getElementById('contest-status-value');
+            const statusMessage = document.getElementById('contest-status-message');
+            
+            if (!contestData.isActive) {
+                statusBox.className = 'contest-status-box contest-status-ended';
+                statusValue.textContent = 'Ended';
+                statusMessage.textContent = 'The contest has ended. Check results soon!';
+            } else {
+                statusBox.className = 'contest-status-box contest-status-active';
+                statusValue.textContent = 'Active';
+                if (contestData.userRank > 0) {
+                    statusMessage.textContent = `You are currently ranked #${contestData.userRank} in the contest`;
+                } else {
+                    statusMessage.textContent = 'Join the contest to start earning points!';
+                }
+            }
+        };
+
+        // ✅ دالة لعرض صفحة المسابقة المحسنة
+        const renderContestPage = () => {
+            updateContestTimer();
+            document.getElementById('user-contest-points').textContent = contestData.userPoints;
+            document.getElementById('user-contest-rank').textContent = contestData.userRank > 0 ? `#${contestData.userRank}` : '-';
+            renderCompactLeaderboard();
+        };
+
+        // ✅ دالة محسنة لعرض لوحة المتصدرين المختصرة
+        const renderCompactLeaderboard = () => {
+            const leaderboardList = document.getElementById('contest-leaderboard-compact-list');
+            leaderboardList.innerHTML = '';
+            
+            if (contestData.leaderboard.length === 0) {
+                leaderboardList.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-secondary-dark);">No participants yet. Be the first to join!</p>';
+                return;
+            }
+            
+            const top10 = contestData.leaderboard.slice(0, 10);
+            
+            top10.forEach((participant, index) => {
+                const rank = index + 1;
+                const isCurrentUser = participant.userId === tgUser.id;
+                
+                let rankIcon = rank;
+                if (rank === 1) rankIcon = '🥇';
+                else if (rank === 2) rankIcon = '🥈';
+                else if (rank === 3) rankIcon = '🥉';
+                
+                let displayName = 'Unknown User';
+                if (participant.userName && participant.userName.trim() !== '') {
+                    displayName = participant.userName;
+                } else if (participant.username) {
+                    displayName = `@${participant.username}`;
+                } else if (participant.userId) {
+                    displayName = `User ${participant.userId}`;
+                }
+                
+                const prizeAmount = getPrizeForRank(rank);
+                const prizeText = prizeAmount > 0 ? `${prizeAmount} TON` : '';
+                
+                const item = document.createElement('div');
+                item.className = `contest-leaderboard-item-compact ${isCurrentUser ? 'current-user' : ''}`;
+                item.innerHTML = `
+                    <div class="contest-rank-compact ${rank <= 3 ? 'top-3' : ''}">
+                        ${rankIcon}
+                    </div>
+                    <div class="contest-user-info-compact" style="flex: 1; display: flex; justify-content: space-between; align-items: center;">
+                        <div class="contest-user-details">
+                            <div class="contest-user-name-compact">${displayName}</div>
+                            <div class="contest-user-points-compact">${participant.points || 0} points</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div class="contest-user-score-compact">${participant.points || 0}</div>
+                            ${prizeText ? `<div class="contest-user-prize">${prizeText}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+                leaderboardList.appendChild(item);
+            });
+        };
+
+        // ✅ دالة للحصول على قيمة الجائزة بناءً على المركز
+        const getPrizeForRank = (rank) => {
+            const prizes = {
+                1: 0.6,
+                2: 0.4,
+                3: 0.3,
+                4: 0.15,
+                5: 0.15,
+                6: 0.1,
+                7: 0.1,
+                8: 0.1,
+                9: 0.05,
+                10: 0.05
+            };
+            
+            return prizes[rank] || 0;
+        };
+
+        // ✅ دالة لعرض لوحة المتصدرين الكاملة
+        window.showFullLeaderboard = () => {
+            showPopup(`
+                <div style="text-align: left; max-height: 70vh; overflow-y: auto;">
+                    <h2 style="margin-bottom: 15px; color: var(--ship-gold);">🏆 Full Leaderboard</h2>
+                    <div style="margin-bottom: 15px; font-size: 0.9rem; color: var(--text-secondary-dark);">
+                        Showing top 50 participants
+                    </div>
+                    <div id="full-leaderboard-content">
+                        ${generateFullLeaderboardHTML()}
+                    </div>
+                    <button class="popup-close-btn" onclick="closePopup()" style="margin-top: 15px; width: 100%;">Close</button>
+                </div>
+            `);
+        };
+
+        // ✅ دالة لتوليد HTML للوحة المتصدرين الكاملة
+        const generateFullLeaderboardHTML = () => {
+            if (contestData.leaderboard.length === 0) {
+                return '<p style="text-align: center; padding: 20px;">No participants yet.</p>';
+            }
+            
+            let html = '';
+            const top50 = contestData.leaderboard.slice(0, 50);
+            
+            top50.forEach((participant, index) => {
+                const rank = index + 1;
+                const isCurrentUser = participant.userId === tgUser.id;
+                const prizeAmount = getPrizeForRank(rank);
+                const prizeText = prizeAmount > 0 ? `${prizeAmount} TON` : '';
+                
+                let displayName = 'Unknown User';
+                if (participant.userName && participant.userName.trim() !== '') {
+                    displayName = participant.userName;
+                } else if (participant.username) {
+                    displayName = `@${participant.username}`;
+                } else if (participant.userId) {
+                    displayName = `User ${participant.userId}`;
+                }
+                
+                let rankIcon = rank;
+                if (rank === 1) rankIcon = '🥇';
+                else if (rank === 2) rankIcon = '🥈';
+                else if (rank === 3) rankIcon = '🥉';
+                
+                html += `
+                    <div style="display: flex; align-items: center; padding: 10px; margin: 5px 0; border-radius: 8px; ${
+                        isCurrentUser ? 'background: rgba(255, 215, 0, 0.1); border: 2px solid var(--ship-gold);' : 'background: rgba(255,255,255,0.05);'
+                    }">
+                        <div style="width: 35px; height: 35px; border-radius: 50%; background: linear-gradient(45deg, var(--ship-gold), #ffa500); 
+                             display: flex; align-items: center; justify-content: center; color: #000; font-weight: 700; margin-right: 12px; font-size: 0.9rem;">
+                            ${rankIcon}
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <div style="font-weight: 600; ${isCurrentUser ? 'color: var(--ship-gold);' : ''}">${displayName}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary-dark);">${participant.points || 0} points • ${participant.adsWatched || 0} ads • ${participant.referrals || 0} referrals</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: 700; color: var(--ship-gold);">${participant.points || 0}</div>
+                            ${prizeText ? `<div style="font-size: 0.75rem; color: var(--success); margin-top: 2px;">${prizeText}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            return html;
+        };
+
+        // ✅ دالة محسنة للمطالبة بالمهام الإضافية
+        const handleClaimTask = async (e) => {
+            if (isUserBanned) {
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Your account is banned. Contact support."); 
+                }catch{} 
+                return; 
+            }
+
+            if (e.target.classList.contains('action-btn') && e.target.dataset.taskId) {
+                const taskId = e.target.dataset.taskId;
+                const taskUrl = e.target.dataset.taskUrl;
+                
+                if (!taskUrl) { 
+                    try{ 
+                        if (tg.showAlert) tg.showAlert('You have already claimed this bonus.'); 
+                    }catch{} 
+                    return; 
+                }
+
+                if (userState.completedTasks && userState.completedTasks[taskId]) { 
+                    try{ 
+                        if (tg.showAlert) tg.showAlert('You have already claimed this bonus.'); 
+                    }catch{} 
+                    return; 
+                }
+
+                e.target.disabled = true; 
+                e.target.textContent = 'Claiming...';
+                
+                try {
+                    // مكافأة افتراضية
+                    const rewardAmountRR = 5000;
+                    userRRBalance += rewardAmountRR;
+                    localStorage.setItem(`userRRBalance_${tgUser.id || 'guest'}`, userRRBalance.toString());
+                    
+                    if (!userState.completedTasks) userState.completedTasks = {};
+                    userState.completedTasks[taskId] = true;
+                    saveUserState();
+                    
+                    try{ 
+                        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                        if (tg.showAlert) tg.showAlert(`Thank you! You received ${rewardAmountRR.toLocaleString()} RR.`); 
+                    }catch{}
+                    renderUI();
+                } catch (error) { 
+                    try{ 
+                        if (tg.showAlert) tg.showAlert('Failed to claim bonus.'); 
+                    }catch{} 
+                    e.target.disabled = false; 
+                    e.target.textContent = 'Claim Bonus'; 
+                }
+            }
+        };
+
+        // ✅ دالة محسنة لمطالبة مكافأة التسجيل اليومي
+        window.claimDailyLoginBonus = async () => {
+            try {
+                const today = new Date().toDateString();
+                
+                // التحقق مما إذا تم المطالبة اليوم
+                if (dailyLoginData.claimedDays && dailyLoginData.claimedDays.includes(today)) {
+                    try{ 
+                        if (tg.showAlert) tg.showAlert("You have already claimed your daily bonus today!"); 
+                    }catch{} 
+                    return;
+                }
+                
+                // حساب المكافأة بناءً على streak
+                const currentStreak = dailyLoginData.currentStreak || 1;
+                const rewardIndex = Math.min(currentStreak - 1, dailyLoginRewards.length - 1);
+                const rewardAmount = dailyLoginRewards[rewardIndex] || dailyLoginRewards[dailyLoginRewards.length - 1] || 0.0001;
+                
+                const rewardAmountRR = Math.round(rewardAmount * RR_TO_TON_RATE);
+                userRRBalance += rewardAmountRR;
+                localStorage.setItem(`userRRBalance_${tgUser.id || 'guest'}`, userRRBalance.toString());
+                
+                // تحديث بيانات التسجيل اليومي
+                if (!dailyLoginData.claimedDays) {
+                    dailyLoginData.claimedDays = [];
+                }
+                dailyLoginData.claimedDays.push(today);
+                dailyLoginData.lastLoginDate = today;
+                
+                localStorage.setItem(`dailyLoginData_${tgUser.id || 'guest'}`, JSON.stringify(dailyLoginData));
+                
+                try{ 
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                    if (tg.showAlert) tg.showAlert(`🎉 Daily login bonus claimed! +${rewardAmountRR.toLocaleString()} RR (Day ${currentStreak})`); 
+                }catch{}
+                
+                // تحديث الواجهة
+                renderUI();
+                
+                // إغلاق النافذة تلقائياً بعد النجاح
+                setTimeout(() => {
+                    closeDailyCalendar();
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error claiming daily login bonus:', error);
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Failed to claim daily bonus. Please try again."); 
+                }catch{} 
+            }
+        };
+
+        // ✅ دالة لعرض التقويم اليومي المعدلة
+        window.openDailyCalendar = () => {
+            const today = new Date().toDateString();
+            const isClaimedToday = dailyLoginData.claimedDays && dailyLoginData.claimedDays.includes(today);
+            const currentStreak = dailyLoginData.currentStreak || 1;
+            
+            let calendarHTML = '';
+            for (let day = 1; day <= dailyLoginRewards.length; day++) {
+                const rewardAmount = dailyLoginRewards[day - 1];
+                const rewardAmountRR = Math.round(rewardAmount * RR_TO_TON_RATE);
+                let dayClass = 'calendar-day-compact future';
+                let statusText = 'Future';
+                
+                if (day < currentStreak) {
+                    dayClass = 'calendar-day-compact completed';
+                    statusText = 'Claimed';
+                } else if (day === currentStreak) {
+                    if (isClaimedToday) {
+                        dayClass = 'calendar-day-compact completed';
+                        statusText = 'Claimed';
+                    } else {
+                        dayClass = 'calendar-day-compact current';
+                        statusText = 'Claim Now';
+                    }
+                }
+                
+                calendarHTML += `
+                    <div class="${dayClass}">
+                        <div class="day-number-compact">Day ${day}</div>
+                        <div class="day-reward-compact">${rewardAmountRR.toLocaleString()} RR</div>
+                        <div class="day-status-compact">${statusText}</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('streak-calendar-compact').innerHTML = calendarHTML;
+            document.getElementById('current-streak-display').textContent = `${currentStreak} days`;
+            
+            // تحديث حالة المكافأة اليومية
+            const statusElement = document.getElementById('daily-login-status');
+            if (isClaimedToday) {
+                statusElement.innerHTML = `
+                    <div style="color: var(--success);">
+                        <i class="fas fa-check-circle"></i> Today's bonus already claimed!
+                    </div>
+                `;
+            } else {
+                statusElement.innerHTML = `
+                    <div style="color: var(--ship-gold);">
+                        <i class="fas fa-gift"></i> Today's bonus available! 
+                        <button onclick="claimDailyLoginBonus()" class="action-btn" style="padding: 5px 10px; font-size: 0.8rem; margin-left: 10px;">
+                            Claim Now
+                        </button>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('daily-calendar-popup').style.display = 'flex';
+        };
+
+        // ✅ دالة لإغلاق التقويم اليومي
+        window.closeDailyCalendar = () => {
+            document.getElementById('daily-calendar-popup').style.display = 'none';
+        };
+
+        // ✅ دالة محسنة لتحميل وعرض المهام اليومية
+        const loadDailyTasks = async () => {
+            const dailyTasksList = document.getElementById('daily-tasks-list');
+            if (!dailyTasksList) return;
+
+            try {
+                // تحميل بيانات المهام اليومية من localStorage
+                const claimedTasks = JSON.parse(localStorage.getItem(`dailyTasks_${tgUser.id || 'guest'}`) || '{}');
+
+                const watchedToday = userState.dailyAdCount || 0;
+                
+                // تعريف المهام اليومية
+                const dailyTasks = [
+                    { id: 'daily_login', name: 'Daily Login', required: 0, current: 1, reward: 5000, claimed: false },
+                    { id: 'watch_50_ads', name: 'Watch 50 Ads Today', required: 50, current: watchedToday, reward: 10000, claimed: false },
+                    { id: 'watch_100_ads', name: 'Watch 100 Ads Today', required: 100, current: watchedToday, reward: 20000, claimed: false },
+                    { id: 'watch_500_ads', name: 'Watch 500 Ads Today', required: 500, current: watchedToday, reward: 50000, claimed: false },
+                    { id: 'watch_1000_ads', name: 'Watch 1000 Ads Today', required: 1000, current: watchedToday, reward: 100000, claimed: false }
+                ];
+
+                let tasksHTML = '';
+                
+                dailyTasks.forEach(task => {
+                    const isCompleted = task.current >= task.required;
+                    const isClaimed = claimedTasks[task.id] || false;
+                    const progressPercentage = Math.min(100, (task.current / task.required) * 100);
+                    
+                    tasksHTML += `
+                        <div class="task-container" style="position: relative;">
+                            <div class="task-info" style="flex: 1;">
+                                <h3>${task.name}</h3>
+                                <p>Watch ${task.required.toLocaleString()} ads today - Reward: ${task.reward.toLocaleString()} RR</p>
+                                
+                                <!-- شريط التقدم -->
+                                <div class="progress-container-inline" style="margin: 8px 0;">
+                                    <div class="progress-info-inline">
+                                        <span>Today's Progress</span>
+                                        <span>${task.current.toLocaleString()} / ${task.required.toLocaleString()}</span>
+                                    </div>
+                                    <div class="progress-bar-bg-inline">
+                                        <div class="progress-bar-fg-inline" style="width: ${progressPercentage}%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="action-btn ${isCompleted && !isClaimed ? '' : 'disabled'}" 
+                                    data-task-id="${task.id}" 
+                                    data-task-reward="${task.reward}"
+                                    ${isCompleted && !isClaimed ? '' : 'disabled'}
+                                    style="min-width: 80px;">
+                                ${isClaimed ? '✅ Claimed' : (isCompleted ? '🎁 Claim' : 'In Progress')}
+                            </button>
+                            
+                            ${isClaimed ? '<div style="position: absolute; top: 5px; right: 5px; background: var(--success); color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem;">Claimed</div>' : ''}
+                        </div>
+                    `;
+                });
+                
+                dailyTasksList.innerHTML = tasksHTML;
+                
+                // إضافة event listeners لأزرار Claim
+                document.querySelectorAll('#daily-tasks-list .action-btn:not(.disabled)').forEach(btn => {
+                    btn.addEventListener('click', handleDailyTaskClaim);
+                });
+                
+            } catch (error) {
+                console.error('Error loading daily tasks:', error);
+                dailyTasksList.innerHTML = '<p style="color: var(--danger); text-align: center;">Error loading daily tasks</p>';
+            }
+        };
+
+        // ✅ دالة محسنة للمطالبة بمهمة يومية
+        const handleDailyTaskClaim = async (e) => {
+            const taskId = e.target.dataset.taskId;
+            const reward = parseInt(e.target.dataset.taskReward);
+            
+            if (!taskId || !reward) return;
+            
+            try {
+                // التحقق أولاً من أن المهمة لم تُطالب بها مسبقاً
+                const claimedTasks = JSON.parse(localStorage.getItem(`dailyTasks_${tgUser.id || 'guest'}`) || '{}');
+                
+                if (claimedTasks[taskId]) {
+                    try{ 
+                        if (tg.showAlert) tg.showAlert("You have already claimed this task!"); 
+                    }catch{} 
+                    return;
+                }
+                
+                // تحديث الرصيد
+                userRRBalance += reward;
+                localStorage.setItem(`userRRBalance_${tgUser.id || 'guest'}`, userRRBalance.toString());
+                
+                // حفظ حالة المهمة في localStorage
+                claimedTasks[taskId] = {
+                    claimedAt: Date.now(),
+                    reward: reward,
+                    taskId: taskId
+                };
+                
+                localStorage.setItem(`dailyTasks_${tgUser.id || 'guest'}`, JSON.stringify(claimedTasks));
+                
+                // تحديث الواجهة
+                loadDailyTasks();
+                renderUI();
+                
+                // إظهار رسالة النجاح
+                try{ 
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                    if (tg.showAlert) tg.showAlert(`🎉 Task completed! You earned ${reward.toLocaleString()} RR!`); 
+                }catch{}
+                
+            } catch (error) {
+                console.error('Error claiming daily task:', error);
+                try{ 
+                    if (tg.showAlert) tg.showAlert("Failed to claim task reward. Please try again."); 
+                }catch{}
+            }
+        };
+
+        // ✅ دالة محسنة لإعادة تعيين المهام اليومية
+        const resetDailyTasks = async () => {
+            try {
+                const today = new Date().toDateString();
+                
+                // التحقق من تاريخ إعادة التعيين الأخير
+                const lastReset = localStorage.getItem(`dailyTasks_lastReset_${tgUser.id || 'guest'}`);
+                
+                if (lastReset !== today) {
+                    console.log('🔄 Resetting daily tasks for new day:', today);
+                    
+                    // إعادة تعيين جميع المهام اليومية في localStorage
+                    localStorage.removeItem(`dailyTasks_${tgUser.id || 'guest'}`);
+                    
+                    // حفظ تاريخ إعادة التعيين الأخير
+                    localStorage.setItem(`dailyTasks_lastReset_${tgUser.id || 'guest'}`, today);
+                    
+                    console.log('✅ Daily tasks reset successfully for user:', tgUser.id);
+                } else {
+                    console.log('ℹ️ Daily tasks already reset for today:', today);
+                }
+            } catch (error) {
+                console.error('Error resetting daily tasks:', error);
+            }
+        };
+
+        // 💰 دالة تحويل الرصيد من المحفظة إلى الرصيد الرئيسي
+        const moveToBalance = async () => {
+            try {
+                const initData = tg.initData || '';
+                const moveResponse = await api.moveToBalance(initData);
+                
+                if (moveResponse.success) {
+                    userState.balance = moveResponse.newBalance;
+                    earningWalletBalance = moveResponse.earningWallet;
+                    
+                    try{ 
+                        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); 
+                        if (tg.showAlert) tg.showAlert("تم تحويل الرصيد بنجاح!"); 
+                    }catch{}
+                    
+                    renderUI();
+                } else {
+                    throw new Error(moveResponse.error);
+                }
+            } catch (error) {
+                console.error('Error moving to balance:', error);
+                try{ 
+                    if (tg.showAlert) tg.showAlert("فشل في تحويل الرصيد"); 
+                }catch{}
+            }
+        };
+
+        // بدء التطبيق
+        initApp();
+    });
+
+    // إضافة keyframes للـ spinner
+    (function addSpinKeyframes(){ 
+        const style = document.createElement('style'); 
+        style.innerHTML='@keyframes spin{to{transform:rotate(360deg)}}'; 
+        document.head.appendChild(style); 
+    })();
+    </script>
+</body>
+</html>
