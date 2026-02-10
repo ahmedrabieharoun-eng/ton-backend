@@ -1,95 +1,96 @@
-const { Pool } = require('pg');
-require('dotenv').config();
+import axios from "axios";
+import fs from "fs";
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-});
+// ====== إعدادات ======
+const TON_WALLET = "UQBAYBRdcdCxgCF1PFmK1FXBh5dDmohaq6-0YFF37qs8Ffxj";
+const TONAPI_KEY = "PUT_TONAPI_KEY_HERE";
 
-async function setupDatabase() {
-    try {
-        console.log('🔧 بدء إعداد قاعدة البيانات...');
+const TELEGRAM_BOT_TOKEN = "PUT_BOT_TOKEN_HERE";
+const ADMIN_CHAT_ID = "PUT_ADMIN_ID_HERE";
 
-        // 1. إنشاء جدول المستخدمين
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS bot_users (
-                id SERIAL PRIMARY KEY,
-                telegram_id BIGINT UNIQUE NOT NULL,
-                username VARCHAR(255),
-                first_name VARCHAR(255) NOT NULL DEFAULT 'مستخدم',
-                balance DECIMAL(15, 8) DEFAULT 0.00000000,
-                earning_wallet DECIMAL(15, 8) DEFAULT 0.00000000,
-                total_earned DECIMAL(15, 8) DEFAULT 0.00000000,
-                daily_ad_count INTEGER DEFAULT 0,
-                last_ad_date DATE DEFAULT CURRENT_DATE,
-                referrals INTEGER DEFAULT 0,
-                referred_by BIGINT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-        `);
-        console.log('✅ تم إنشاء جدول bot_users');
+const DB_FILE = "./db.json";
 
-        // 2. إنشاء جدول السحوبات
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS withdrawals (
-                id SERIAL PRIMARY KEY,
-                user_id BIGINT NOT NULL,
-                amount DECIMAL(15, 8) NOT NULL,
-                wallet_address TEXT NOT NULL,
-                status VARCHAR(50) DEFAULT 'pending',
-                method VARCHAR(100) DEFAULT 'TON Wallet',
-                memo TEXT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-        `);
-        console.log('✅ تم إنشاء جدول withdrawals');
-
-        // 3. إنشاء جدول المسابقة
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS contest_leaderboard (
-                id SERIAL PRIMARY KEY,
-                user_id BIGINT UNIQUE NOT NULL,
-                username VARCHAR(255),
-                first_name VARCHAR(255),
-                points INTEGER DEFAULT 0,
-                ads_watched INTEGER DEFAULT 0,
-                referrals_count INTEGER DEFAULT 0,
-                last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-        `);
-        console.log('✅ تم إنشاء جدول contest_leaderboard');
-
-        // 4. إنشاء جدول الإحالات
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS referrals (
-                id SERIAL PRIMARY KEY,
-                referrer_id BIGINT NOT NULL,
-                referred_id BIGINT UNIQUE NOT NULL,
-                referrer_earnings DECIMAL(15, 8) DEFAULT 0,
-                status VARCHAR(50) DEFAULT 'active',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-        `);
-        console.log('✅ تم إنشاء جدول referrals');
-
-        // 5. إضافة الفهارس للأداء
-        await pool.query(`
-            CREATE INDEX IF NOT EXISTS idx_bot_users_telegram_id ON bot_users(telegram_id);
-            CREATE INDEX IF NOT EXISTS idx_withdrawals_user_id ON withdrawals(user_id);
-            CREATE INDEX IF NOT EXISTS idx_withdrawals_status ON withdrawals(status);
-            CREATE INDEX IF NOT EXISTS idx_contest_leaderboard_points ON contest_leaderboard(points DESC);
-            CREATE INDEX IF NOT EXISTS idx_referrals_referrer_id ON referrals(referrer_id);
-        `);
-        console.log('✅ تم إضافة الفهارس');
-
-        console.log('🎉 تم إعداد قاعدة البيانات بنجاح!');
-        
-    } catch (error) {
-        console.error('❌ خطأ في إعداد قاعدة البيانات:', error);
-    } finally {
-        await pool.end();
-    }
+// ====== DB بسيط ======
+if (!fs.existsSync(DB_FILE)) {
+  fs.writeFileSync(DB_FILE, JSON.stringify({ users: {}, processedTx: [] }, null, 2));
 }
 
-setupDatabase();
+function loadDB() {
+  return JSON.parse(fs.readFileSync(DB_FILE));
+}
+
+function saveDB(db) {
+  fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
+}
+
+// ====== Telegram ======
+async function sendTelegram(chatId, text) {
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+  await axios.post(url, {
+    chat_id: chatId,
+    text,
+    parse_mode: "HTML"
+  });
+}
+
+// ====== Watcher ======
+async function watchDeposits() {
+  try {
+    const res = await axios.get(
+      `https://tonapi.io/v2/blockchain/accounts/${TON_WALLET}/transactions?limit=20`,
+      {
+        headers: {
+          Authorization: `Bearer ${TONAPI_KEY}`
+        }
+      }
+    );
+
+    const txs = res.data.transactions;
+    const db = loadDB();
+
+    for (const tx of txs) {
+      if (!tx.in_msg) continue;
+      if (!tx.in_msg.decoded_body?.text) continue;
+
+      const comment = tx.in_msg.decoded_body.text.trim();
+      if (!comment.startsWith("deposit_")) continue;
+
+      const txHash = tx.hash;
+      if (db.processedTx.includes(txHash)) continue;
+
+      const userId = comment.replace("deposit_", "");
+      const amountTON = tx.in_msg.value / 1e9;
+
+      // إنشاء المستخدم لو مش موجود
+      if (!db.users[userId]) {
+        db.users[userId] = { balance: 0 };
+      }
+
+      db.users[userId].balance += amountTON;
+      db.processedTx.push(txHash);
+      saveDB(db);
+
+      const txLink = `https://tonviewer.com/${txHash}`;
+
+      // رسالة للمستخدم
+      await sendTelegram(
+        userId,
+        `✅ <b>Deposit Successful</b>\n\n💰 Amount: <b>${amountTON} TON</b>\n🔗 <a href="${txLink}">View Transaction</a>`
+      );
+
+      // رسالة للأدمن
+      await sendTelegram(
+        ADMIN_CHAT_ID,
+        `➕ New Deposit\nUser: ${userId}\nAmount: ${amountTON} TON`
+      );
+
+      console.log("Deposit processed:", txHash);
+    }
+  } catch (err) {
+    console.error("Watcher error:", err.message);
+  }
+}
+
+// ====== تشغيل كل 30 ثانية ======
+console.log("🚀 Deposit watcher started...");
+setInterval(watchDeposits, 30_000);
