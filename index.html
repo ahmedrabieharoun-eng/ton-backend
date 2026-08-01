@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-    <title>GLX Galaxy</title>
+    <title>Taskora</title>
     
     <!-- ✅ مكتبات الإعلانات -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -23,10 +23,10 @@
     
     <style>
         /* أنماط الصفحة (نفس الكود السابق) */
-        :root{--primary-green:#a855f7;--deep-Galaxy:#202020;--gold:#d6bcfa;--gold-glow:rgba(168,85,247,0.4);--glass-bg:rgba(32,32,32,0.7);--glass-border:rgba(255,255,255,0.1);--text-color:#ffffff;--text-muted:#b0b0b0;--nav-bg:rgba(40,40,40,0.98);--success-color:#a855f7;}
+        :root{--primary-green:#a855f7;--deep-Taskora:#202020;--gold:#d6bcfa;--gold-glow:rgba(168,85,247,0.4);--glass-bg:rgba(32,32,32,0.7);--glass-border:rgba(255,255,255,0.1);--text-color:#ffffff;--text-muted:#b0b0b0;--nav-bg:rgba(40,40,40,0.98);--success-color:#a855f7;}
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-        body{font-family:'Outfit',sans-serif;color:var(--text-color);overflow-x:hidden;background-image:url('https://i.ibb.co/RGFp67kJ/121.jpg');background-size:cover;background-position:center;background-attachment:fixed;min-height:100vh;}
-        body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at center,rgba(50,50,50,0.3)0%,rgba(30,30,30,0.85)100%);z-index:-1;}
+        body{font-family:'Outfit',sans-serif;color:var(--text-color);overflow-x:hidden;background-image:url('https://i.ibb.co/gZS7HtYn/photo.jpg');background-size:cover;background-position:center;background-attachment:fixed;min-height:100vh;}
+        /* overlay removed per request */
         
         /* ✅ أنماط الكابتشا */
         .captcha-modal {
@@ -158,7 +158,7 @@
         .hud-avatar img{width:100%;height:100%;object-fit:cover;}
         .hud-balance{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
         .hud-balance-item{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;}
-        .hud-glx{color:var(--gold);}
+        .hud-tsk{color:var(--gold);}
         .hud-ton{color:#0088cc;}
         .main-coin-section{text-align:center;margin:10px 0 30px;position:relative;}
         .main-coin-img{width:160px;height:160px;border-radius:50%;box-shadow:0 0 50px rgba(168,85,247,0.3);animation:float 4s ease-in-out infinite;object-fit:cover;border:4px solid var(--primary-green);}
@@ -182,7 +182,7 @@
         .daily-box.active{opacity:1;border-color:var(--gold);background:rgba(255,215,0,0.1);}
         .daily-box.claimed{opacity:1;background:var(--primary-green);color:#000;}
         
-        /* ✅ إصلاح شكل لعبة Galaxy Slots */
+        /* ✅ إصلاح شكل لعبة Taskora Slots */
         .slots-machine {
             background: rgba(0, 0, 0, 0.6);
             border-radius: 20px;
@@ -364,8 +364,8 @@
         @keyframes trophyGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(255,215,0,0.7));}50%{filter:drop-shadow(0 0 20px rgba(255,215,0,0.9));}}
         .nav-item.competition-nav-item.active svg{animation:trophyGlow 2s infinite alternate;}
         .nav-item[data-target="withdrawal-history"] svg{filter:drop-shadow(0 0 8px rgba(168,85,247,0.4));animation:none;}
-        .galaxy-log-icon{width:40px;height:40px;background:rgba(168,85,247,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(168,85,247,0.4);transition:all 0.3s;}
-        .galaxy-log-icon:hover{transform:scale(1.05);background:rgba(168,85,247,0.3);border-color:#a855f7;}
+        .taskora-log-icon{width:40px;height:40px;background:rgba(168,85,247,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(168,85,247,0.4);transition:all 0.3s;}
+        .taskora-log-icon:hover{transform:scale(1.05);background:rgba(168,85,247,0.3);border-color:#a855f7;}
         .btn-filter{padding:8px 15px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--text-muted);font-size:12px;cursor:pointer;transition:all 0.3s;}
         .btn-filter.active{background:var(--primary-green);color:#000;font-weight:700;border-color:var(--primary-green);}
         .btn-filter.small{padding:5px 10px;font-size:10px;}
@@ -704,8 +704,8 @@
 <body>
 <!-- ✅ صفحة التحميل العالمية (10 ثوانٍ) -->
 <div id="global-loading-page">
-    <img src="https://i.ibb.co/tTkJX1Qy/logo.png" alt="GLX Galaxy" class="loading-logo">
-    <h1 class="loading-title">GLX GALAXY</h1>
+    <img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Taskora" class="loading-logo">
+    <h1 class="loading-title">TASKORA</h1>
     <p class="loading-subtitle">Loading your cosmic experience...</p>
     
     <div class="loading-progress-container">
@@ -755,7 +755,7 @@
 
 <!-- باقي الكود (نفس الكود السابق) -->
 <div id="security-verification" class="verification-container" style="display:none;">
-<div style="margin-bottom:25px;"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" alt="GLX Galaxy" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;border:3px solid var(--primary-green);"><h1 style="font-size:24px;margin-bottom:8px;color:#fff;">GLX Galaxy Security</h1><p style="color:var(--text-muted);font-size:13px;">Secure verification process in progress</p></div>
+<div style="margin-bottom:25px;"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Taskora" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;border:3px solid var(--primary-green);"><h1 style="font-size:24px;margin-bottom:8px;color:#fff;">Taskora Security</h1><p style="color:var(--text-muted);font-size:13px;">Secure verification process in progress</p></div>
 <div class="verification-progress"><div id="verification-progress-bar" class="progress-bar" style="width:0%"></div></div>
 <div id="verification-steps"></div>
 <div id="verification-result" style="display:none;margin-top:20px;"></div>
@@ -768,16 +768,15 @@
 </div>
 <div class="app-container" style="display:none;" id="app-container">
 <div class="hud-container">
-<div><div class="user-name" id="home-username">Explorer</div><div class="user-rank" id="home-user-level" style="display:none;"></div><div style="display:flex;align-items:center;gap:15px;margin-top:5px;"><div class="stats-pill" style="margin:0;padding:6px 12px;"><span style="color:var(--gold);">GLX:</span><span id="hud-glx-balance" style="color:#fff;font-weight:700;">0</span></div><div class="stats-pill" style="margin:0;padding:6px 12px;"><span style="color:var(--gold);">TON:</span><span id="hud-ton-balance" style="color:#fff;font-weight:700;">0.0000</span></div></div></div>
-<div style="display:flex;align-items:center;gap:10px;"><div class="galaxy-log-icon" id="galaxy-log-button"><span style="font-size:20px;">📜</span></div><div class="hud-avatar"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" alt="User"></div></div>
+<div><div class="user-name" id="home-username">Explorer</div><div class="user-rank" id="home-user-level" style="display:none;"></div><div style="display:flex;align-items:center;gap:15px;margin-top:5px;"><div class="stats-pill" style="margin:0;padding:6px 12px;"><span style="color:var(--gold);">TSK:</span><span id="hud-tsk-balance" style="color:#fff;font-weight:700;">0</span></div><div class="stats-pill" style="margin:0;padding:6px 12px;"><span style="color:var(--gold);">TON:</span><span id="hud-ton-balance" style="color:#fff;font-weight:700;">0.0000</span></div></div></div>
+<div style="display:flex;align-items:center;gap:10px;"><div class="taskora-log-icon" id="taskora-log-button"><span style="font-size:20px;">📜</span></div><div class="hud-avatar"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="User"></div></div>
 </div>
 
 <main id="home" class="content-section active">
-<div class="main-coin-section"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" class="main-coin-img" alt="GLX"><div class="balance-display"><div class="balance-amount" id="total-GLX-balance">0</div><div class="balance-unit">GLX</div></div><div class="stats-pill"><span class="ton-val"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:16px;border-radius:50%;"><span id="home-ton-balance">0.0000</span> TON</span><span style="opacity:0.3">|</span><span style="font-size:10px;opacity:0.8;">100K = 0.01 TON</span></div></div>
+<div class="main-coin-section"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" class="main-coin-img" alt="TSK"><div class="balance-display"><div class="balance-amount" id="total-TSK-balance">0</div><div class="balance-unit">TSK</div></div><div class="stats-pill"><span class="ton-val"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:16px;border-radius:50%;"><span id="home-ton-balance">0.0000</span> TON</span><span style="opacity:0.3">|</span><span style="font-size:10px;opacity:0.8;">100K = 0.01 TON</span></div></div>
 <div class="action-bar">
 <div class="btn btn-action nav-link" data-target="swap-page"><svg viewBox="0 0 24 24"><path d="M7 16V4m0 0L3 8m4-4 4 4m6 0v12m0 0 4-4m-4 4-4-4"/></svg><span>Swap</span></div>
 <div class="btn btn-action nav-link" data-target="withdraw"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0-6-6m6 6 6-6"/></svg><span>Withdraw</span></div>
-<div class="btn btn-action nav-link" data-target="user-withdrawals"><svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg><span>My Withdrawals</span></div>
 <div class="btn btn-action nav-link" data-target="deposit"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0-6-6m6 6 6-6" transform="rotate(180,12,12)"/></svg><span>Deposit</span></div>
 </div>
 
@@ -786,7 +785,7 @@
     <h2 style="display:flex;align-items:center;gap:8px;">
         <i class="fa-solid fa-bullhorn"></i>Updates & News
     </h2>
-    <div class="support-channel-card" onclick="window.open('https://t.me/earnmoney174688','_blank')" style="margin-bottom:10px;">
+    <div class="support-channel-card" onclick="window.open('https://t.me/mjsjsjjsjisj','_blank')" style="margin-bottom:10px;">
         <div style="display:flex;align-items:center;gap:12px;">
             <div style="width:50px;height:50px;background:linear-gradient(135deg,#9b59b6,#8e44ad);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;">
                 <i class="fa-solid fa-bell"></i>
@@ -795,7 +794,7 @@
                 <div style="font-size:14px;font-weight:700;color:white;margin-bottom:5px;">Bot Updates & News</div>
                 <div style="font-size:11px;color:var(--text-muted);">Latest updates, announcements, and news about the bot</div>
                 <div style="font-size:10px;color:#9b59b6;margin-top:5px;">
-                    <i class="fa-solid fa-users"></i> @earnmoney174688
+                    <i class="fa-solid fa-users"></i> @mjsjsjjsjisj
                 </div>
             </div>
             <div style="color:#9b59b6;font-size:18px;">
@@ -840,13 +839,13 @@
     </div>
 </div>
 </main>
-<main id="galaxy-log-page" class="content-section">
-<div class="page-header"><h1>Galaxy Log</h1><p>Complete transaction history</p></div>
+<main id="taskora-log-page" class="content-section">
+<div class="page-header"><h1>Taskora Log</h1><p>Complete transaction history</p></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px;">
-<div class="log-stat-card"><div style="font-size:12px;color:var(--text-muted);">Total Earned</div><div style="font-size:18px;font-weight:700;color:#27ae60;" id="total-earned">0 GLX</div></div>
-<div class="log-stat-card"><div style="font-size:12px;color:var(--text-muted);">Total Spent</div><div style="font-size:18px;font-weight:700;color:#e74c3c;" id="total-spent">0 GLX</div></div>
+<div class="log-stat-card"><div style="font-size:12px;color:var(--text-muted);">Total Earned</div><div style="font-size:18px;font-weight:700;color:#27ae60;" id="total-earned">0 TSK</div></div>
+<div class="log-stat-card"><div style="font-size:12px;color:var(--text-muted);">Total Spent</div><div style="font-size:18px;font-weight:700;color:#e74c3c;" id="total-spent">0 TSK</div></div>
 </div>
-<div id="galaxy-log-filtered-list" style="max-height:500px;overflow-y:auto;"></div>
+<div id="taskora-log-filtered-list" style="max-height:500px;overflow-y:auto;"></div>
 </main>
 <main id="deposit" class="content-section">
 <div class="page-header"><h1>Deposit TON</h1><p>Add funds to your account</p></div>
@@ -858,90 +857,14 @@
 <div id="deposit-status" style="display:none;text-align:center;margin-top:15px;"><div id="deposit-status-message" style="font-size:12px;color:var(--text-muted);"></div><button class="btn btn-check" id="check-deposit-btn" onclick="verifyDeposit()" style="margin-top:10px;">Check Payment</button></div>
 <div class="info-box" style="background:rgba(52,152,219,0.1);border-color:rgba(52,152,219,0.3);margin-top:15px;"><div style="display:flex;align-items:flex-start;gap:10px;"><div style="color:#3498db;font-size:14px;"><i class="fa-solid fa-circle-info"></i></div><div style="font-size:11px;line-height:1.5;"><strong>Deposit Instructions:</strong><br>1. Enter the TON amount you want to deposit<br>2. Click "Pay with Tonkeeper"<br>3. Confirm the payment in your Tonkeeper wallet<br>4. Click "Check Payment" to verify<br>5. Funds will be added to your account immediately</div></div></div>
 </div>
-<div class="card" style="margin-top:15px;"><div style="text-align:center;"><div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;"><i class="fa-solid fa-headset" style="color:#3498db;"></i>Need Help with Deposit?</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:15px;">If you're having issues with deposit, contact our support team</div><button class="btn btn-ton" onclick="window.open('https://t.me/Elsayed_1_Elgohary','_blank')" style="background:linear-gradient(90deg,#3498db,#2980b9);"><i class="fab fa-telegram"></i>Contact Support</button></div></div>
-</main>
-<main id="user-withdrawals" class="content-section">
-<div class="page-header"><h1>My Withdrawals</h1><p>Track your withdrawal requests</p></div>
-<div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;"><h3 style="color:var(--gold);font-size:14px;">Withdrawal History</h3><div style="display:flex;gap:5px;"><button class="btn-filter small active" onclick="filterUserWithdrawals('all')">All</button><button class="btn-filter small" onclick="filterUserWithdrawals('pending')">Pending</button><button class="btn-filter small" onclick="filterUserWithdrawals('completed')">Completed</button></div></div>
-<div id="user-withdrawals-list" style="max-height:400px;overflow-y:auto;display:flex;flex-direction:column-reverse;"></div>
-</div>
-</main>
-<main id="competition" class="content-section">
-<div class="page-header"><h1>Daily Competition</h1><p>Win Big with Tickets</p></div>
-<div class="competition-timer-card"><div class="countdown-display" id="countdown-timer">24:00:00</div><div class="timer-label">TIME UNTIL NEXT COMPETITION</div></div>
-<div class="status-grid">
-    <div class="status-card"><div class="status-icon">🏁</div><div class="status-value" id="competition-status">ACTIVE</div><div class="status-label">COMPETITION STATUS</div></div>
-    <div class="status-card"><div class="status-value" id="prize-pool">0.000 TON</div><div class="status-label">TOTAL PRIZE POOL</div></div>
-    <div class="status-card" style="grid-column: span 2;"><div class="status-value" id="total-tickets" style="font-size:32px;">0</div><div class="status-label">TOTAL TICKETS SOLD</div></div>
-</div>
-
-<!-- ✅ تعديل أسعار التذاكر الجديدة -->
-<div class="ticket-price-note">
-    <p>🎫 <strong>Each ticket = 10,000 GLX = 0.001 TON</strong></p>
-    <p style="font-size:11px;margin-top:5px;">Prize Pool = Total Tickets × 0.001 TON</p>
-</div>
-
-<div class="competition-rules-card">
-<div class="rules-header"><i class="fa-solid fa-circle-info"></i><span>Competition Rules</span></div>
-<ul class="rules-list">
-<li><span class="winner-highlight">🏆 ONLY THE FIRST PLACE WINS!</span> - The user with the most tickets wins the entire prize pool.</li>
-<li><span class="loser-note">❌ ALL OTHER PARTICIPANTS LOSE</span> - Only #1 gets the prize, others get nothing.</li>
-<li>🎫 Each ticket costs <strong>10,000 GLX (0.001 TON)</strong></li>
-<li>💰 Prize Pool = Total Tickets × 0.001 TON</li>
-<li>⏰ Competition runs for 24 hours, followed by 1 hour break</li>
-<li>📊 Winner is automatically selected after competition ends</li>
-</ul>
-<div class="important-note"><i class="fa-solid fa-exclamation-triangle"></i><strong>Important:</strong> Buy more tickets to increase your chance of winning! Only #1 position matters.</div>
-</div>
-<div class="card">
-<h3 style="color:var(--gold);margin-bottom:15px;">🎟️ Buy Competition Tickets</h3>
-<div class="ticket-controls"><input type="number" id="ticket-amount" class="ticket-input" placeholder="Enter tickets amount" min="1" value="1"><button class="max-btn" onclick="setMaxTickets()">MAX</button></div>
-<div class="price-info">
-<div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:12px;"><span style="color:var(--text-muted);">Tickets:</span><span id="tickets-count-display">1</span></div>
-<div style="display:flex;justify-content:space-between;margin-bottom:15px;font-size:12px;"><span style="color:var(--text-muted);">Cost:</span><span id="tickets-cost-display">10,000 GLX</span></div>
-</div>
-<button class="btn btn-primary" id="buy-tickets-btn" onclick="buyTickets()"><i class="fa-solid fa-ticket"></i>BUY TICKETS</button>
-<p id="buy-tickets-status" style="text-align:center;font-size:11px;margin-top:10px;color:var(--text-muted);"></p>
-</div>
-<div class="competition-leaderboard">
-<div class="leaderboard-header"><h3 style="font-size:16px;color:var(--gold);">🏆 Top 10 Leaders</h3><span style="font-size:10px;color:var(--text-muted);">Live Ranking</span></div>
-<div id="competition-leaderboard-list" style="max-height:300px;overflow-y:auto;padding-bottom:10px;"><p style="text-align:center;padding:20px;color:var(--text-muted);">Loading leaderboard...</p></div>
-</div>
-<div class="previous-winners-card"><h3 style="font-size:16px;color:var(--gold);margin-bottom:15px;">📅 Yesterday's Winners</h3><div id="previous-winners-list"><p style="text-align:center;padding:20px;color:var(--text-muted);">No previous winners yet</p></div></div>
+<div class="card" style="margin-top:15px;"><div style="text-align:center;"><div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;"><i class="fa-solid fa-headset" style="color:#3498db;"></i>Need Help with Deposit?</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:15px;">If you're having issues with deposit, contact our support team</div><button class="btn btn-ton" onclick="window.open('https://t.me/monssksk','_blank')" style="background:linear-gradient(90deg,#3498db,#2980b9);"><i class="fab fa-telegram"></i>Contact Support</button></div></div>
 </main>
 <main id="bonus" class="content-section">
-<div class="page-header"><h1>Galaxy Bonus</h1><p>Daily rewards & fun games</p></div>
+<div class="page-header"><h1>Taskora Bonus</h1><p>Daily rewards & fun games</p></div>
 <div class="bonus-grid">
-<div class="bonus-game-card" onclick="openGame('coin-flip')"><img src="https://i.ibb.co/gLT3myT3/Coin-Flip-Game.png" alt="Coin Flip Game" class="game-banner"><div class="game-content"><div class="game-icon">🪙</div><div class="game-title">Coin Flip Game</div><div class="game-description">Heads or Tails? Win 2x your bet!</div></div></div>
 <div class="bonus-game-card" onclick="openGame('promo-codes')"><img src="https://i.ibb.co/jnp9cTb/Promo-Codes-Rewards.png" alt="Promo Codes & Rewards" class="game-banner"><div class="game-content"><div class="game-icon">🎁</div><div class="game-title">Promo Codes</div><div class="game-description">Redeem codes for free rewards</div></div></div>
 <div class="bonus-game-card" onclick="openGame('daily-streak')"><img src="https://i.ibb.co/GQQ0BnsT/Daily-Streak.png" alt="Daily Streak" class="game-banner"><div class="game-content"><div class="game-icon">📅</div><div class="game-title">Daily Streak</div><div class="game-description">Claim daily rewards up to 7 days</div></div></div>
-<div class="bonus-game-card" onclick="openGame('galaxy-slots')"><img src="https://i.ibb.co/204QyBWX/Galaxy-Slots-Game.png" alt="Galaxy Slots Game" class="game-banner"><div class="game-content"><div class="game-icon">🎰</div><div class="game-title">Galaxy Slots</div><div class="game-description">Spin the reels & win big jackpots</div></div></div>
-</div>
-<div id="coin-flip-section" class="card" style="display:none;">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-coins" style="color:#a855f7;"></i>Coin Flip Game</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
-<div class="probability-display" style="display:none;"><div class="prob-item"><div class="prob-value win-prob">45%</div><div class="prob-label">Win Chance</div></div><div class="prob-item"><div class="prob-value loss-prob">55%</div><div class="prob-label">Loss Chance</div></div></div>
-<div class="coin-flip-game">
-<div class="coin-bet-controls"><input type="number" id="coin-bet-amount" class="bet-input" placeholder="Enter bet amount" min="1000" value="1000"><button class="max-btn" onclick="setMaxBet()" style="width:auto;padding:12px 15px;">MAX</button></div>
-<div class="bet-buttons"><button class="bet-btn k-style active" onclick="setBetAmount(1000)">1k</button><button class="bet-btn k-style" onclick="setBetAmount(5000)">5k</button><button class="bet-btn k-style" onclick="setBetAmount(10000)">10k</button><button class="bet-btn k-style" onclick="setBetAmount(25000)">25k</button></div>
-<div class="side-selection">
-<div class="side-btn active" id="choose-glx" onclick="chooseSide('glx')"><div class="side-icon"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" style="width:70px;height:70px;border-radius:50%;"></div><div class="side-name">GLX Side</div><div class="side-description">Win 2x if GLX appears</div></div>
-<div class="side-btn" id="choose-gold" onclick="chooseSide('gold')"><div class="side-icon"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" style="width:70px;height:70px;border-radius:50%;filter:sepia(1)saturate(2)hue-rotate(10deg)brightness(1.2);"></div><div class="side-name">Gold Side</div><div class="side-description">Win 2x if Gold appears</div></div>
-</div>
-<div class="coin-container"><div class="coin" id="coin"><div class="coin-face coin-front"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" alt="GLX Coin"></div><div class="coin-face coin-back"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" alt="Gold Coin" class="gold-side"></div></div></div>
-<button class="btn btn-primary" id="flip-coin-btn" onclick="flipCoin()"><i class="fa-solid fa-play"></i>FLIP COIN</button>
-<div class="game-result" id="coin-game-result" style="display:none;"><div class="result-text" id="coin-result-text"></div><div class="win-amount" id="coin-win-amount"></div><div class="loss-amount" id="coin-loss-amount"></div></div>
-<div class="coin-game-rules">
-<h4><i class="fa-solid fa-circle-info"></i>Game Rules</h4>
-<ul>
-<li><strong>Minimum bet:</strong> 1,000 GLX</li>
-<li><strong>Choose:</strong> GLX Side or Gold Side</li>
-<li><strong>If you win:</strong> Get 2x your bet (net profit: bet amount)</li>
-<li><strong>If you lose:</strong> Lose your bet amount</li>
-<li><strong>Note:</strong> Bet amount is deducted immediately when you flip</li>
-</ul>
-</div>
-</div>
+<div class="bonus-game-card" onclick="openGame('taskora-slots')"><img src="https://i.ibb.co/204QyBWX/Galaxy-Slots-Game.png" alt="Taskora Slots Game" class="game-banner"><div class="game-content"><div class="game-icon">🎰</div><div class="game-title">Taskora Slots</div><div class="game-description">Spin the reels & win big jackpots</div></div></div>
 </div>
 <div id="promo-codes-section" class="card" style="display:none;">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-gift" style="color:#a855f7;"></i>Promo Codes & Rewards</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
@@ -967,8 +890,8 @@
 <button class="btn btn-primary" id="claim-daily-btn">Claim Bonus</button>
 <p id="next-claim-timer" style="text-align:center;font-size:11px;margin-top:8px;opacity:0.7;"></p>
 </div>
-<div id="galaxy-slots-section" class="card" style="display:none;text-align:center;">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-slot-machine" style="color:#a855f7;"></i>Galaxy Slots Game</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
+<div id="taskora-slots-section" class="card" style="display:none;text-align:center;">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-slot-machine" style="color:#a855f7;"></i>Taskora Slots Game</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
 <div class="spins-display">
 <div><div style="font-size:12px;color:var(--text-muted);">Available Spins</div><div class="spins-count" id="available-spins">1</div></div>
 <button class="btn btn-ton" onclick="getExtraSpin()" style="width:auto;padding:8px 15px;">🎬 Watch Ad for Extra Spin</button>
@@ -981,36 +904,36 @@
 </div>
 <div class="slots-result">
 <div id="slots-result-text" style="font-size:14px;margin-bottom:10px;">Press SPIN to play!</div>
-<div id="slots-win-amount" style="font-size:24px;font-weight:800;color:var(--primary-green);">0 GLX</div>
+<div id="slots-win-amount" style="font-size:24px;font-weight:800;color:var(--primary-green);">0 TSK</div>
 </div>
 </div>
 <button class="btn btn-primary" id="slots-spin-btn" style="margin-bottom:15px;">🚀 SPIN NOW</button>
 <div class="payout-table">
-<div class="payout-item">3x 🌟 = <span class="jackpot">10000 GLX</span></div>
-<div class="payout-item">3x 🪐 = 5000 GLX</div>
-<div class="payout-item">3x 💫 = 2500 GLX</div>
-<div class="payout-item">3x ⭐ = 1200 GLX</div>
-<div class="payout-item">2x 🌟 = 700 GLX</div>
-<div class="payout-item">Any Match = 500 GLX</div>
+<div class="payout-item">3x 🌟 = <span class="jackpot">10000 TSK</span></div>
+<div class="payout-item">3x 🪐 = 5000 TSK</div>
+<div class="payout-item">3x 💫 = 2500 TSK</div>
+<div class="payout-item">3x ⭐ = 1200 TSK</div>
+<div class="payout-item">2x 🌟 = 700 TSK</div>
+<div class="payout-item">Any Match = 500 TSK</div>
 </div>
 </div>
 </main>
 <main id="tasks" class="content-section">
-<div class="page-header"><h1>Missions</h1><p>Complete tasks to earn GLX</p></div>
+<div class="page-header"><h1>Missions</h1><p>Complete tasks to earn TSK</p></div>
 <div class="card">
 <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:12px;font-weight:700;"><span>Daily Ad Limit</span><span style="color:var(--gold);">650 Total</span></div>
 <div id="monetag-ad-task" class="list-card" style="background:rgba(255,255,255,0.08);border-color:var(--primary-green);margin-bottom:10px;">
-<div class="lc-icon"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" alt="Ad"></div>
+<div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Ad"></div>
 <div class="lc-content"><div class="lc-title">Monetag Ad</div><div class="lc-sub"><span id="monetag-count">0</span>/<span id="monetag-limit">50</span></div></div>
 <div class="lc-end"><div class="lc-val">+500</div></div>
 </div>
 <div id="gigapub-ad-task" class="list-card" style="background:rgba(255,255,255,0.08);border-color:var(--primary-green);margin-bottom:10px;">
-<div class="lc-icon"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" alt="Ad"></div>
+<div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Ad"></div>
 <div class="lc-content"><div class="lc-title">GigaPub Ad</div><div class="lc-sub"><span id="giga-count">0</span>/<span id="giga-limit">300</span></div></div>
 <div class="lc-end"><div class="lc-val">+500</div></div>
 </div>
 <div id="adsgram-ad-task" class="list-card" style="background:rgba(255,255,255,0.08);border-color:var(--primary-green);">
-<div class="lc-icon"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" alt="Ad"></div>
+<div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Ad"></div>
 <div class="lc-content"><div class="lc-title">AdsGram Ad</div><div class="lc-sub"><span id="adsgram-count">0</span>/<span id="adsgram-limit">300</span></div></div>
 <div class="lc-end"><div class="lc-val">+500</div></div>
 </div>
@@ -1023,14 +946,14 @@
 <main id="create-task-page" class="content-section">
 <div class="page-header"><h1>Add Mission</h1><p>Promote your channel or bot</p></div>
 <div class="card">
-<div class="input-wrap"><span class="input-label">Task Name</span><input type="text" id="new-task-name" class="custom-input" placeholder="e.g. Join Galaxy Channel"></div>
+<div class="input-wrap"><span class="input-label">Task Name</span><input type="text" id="new-task-name" class="custom-input" placeholder="e.g. Join Taskora Channel"></div>
 <div class="input-wrap"><span class="input-label">Link</span><input type="text" id="new-task-link" class="custom-input" placeholder="https://t.me/..."></div>
 <div class="input-label" style="margin-bottom:10px;">Category</div>
 <div class="cat-select">
 <div class="cat-opt active" onclick="selectCat(this,'channel')">Channel / Group</div>
 <div class="cat-opt" onclick="selectCat(this,'bot')">Website / Bot</div>
 </div>
-<div id="admin-required-msg" style="background:rgba(255,179,0,0.15);border:1px solid #ffb300;border-radius:12px;padding:12px;margin-bottom:20px;font-size:12px;color:#ffb300;display:block;line-height:1.5;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:5px;"></i><strong>Action Required:</strong> You must add <u>@RealEarnBot_bot</u> as an <strong>Admin</strong> in your Channel/Group for tracking to work.</div>
+<div id="admin-required-msg" style="background:rgba(255,179,0,0.15);border:1px solid #ffb300;border-radius:12px;padding:12px;margin-bottom:20px;font-size:12px;color:#ffb300;display:block;line-height:1.5;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:5px;"></i><strong>Action Required:</strong> You must add <u>@sdefesdfwwwbot</u> as an <strong>Admin</strong> in your Channel/Group for tracking to work.</div>
 <div class="input-label" style="margin-bottom:10px;">Number of Completions</div>
 <div class="price-grid" id="price-options"></div>
 <div id="payment-step-1"><button class="btn btn-ton" id="pay-task-btn" onclick="initiatePayment()"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:20px;border-radius:50%;">Pay <span id="pay-amount-display">0</span> TON</button></div>
@@ -1053,27 +976,27 @@
 <div id="withdrawal-history-list" style="max-height:500px;overflow-y:auto;"></div>
 </main>
 <main id="swap-page" class="content-section">
-<div class="page-header"><h1>Swap Market</h1><p>100K GLX = 0.01 TON</p></div>
+<div class="page-header"><h1>Swap Market</h1><p>100K TSK = 0.01 TON</p></div>
 <div class="swap-direction-selector">
-<div class="swap-direction-btn active" onclick="selectSwapDirection('glx_to_ton')">GLX → TON</div>
-<div class="swap-direction-btn" onclick="selectSwapDirection('ton_to_glx')">TON → GLX</div>
+<div class="swap-direction-btn active" onclick="selectSwapDirection('tsk_to_ton')">TSK → TON</div>
+<div class="swap-direction-btn" onclick="selectSwapDirection('ton_to_tsk')">TON → TSK</div>
 </div>
 <div class="card">
-<div id="glx-to-ton-section">
-<div class="input-wrap"><span class="input-label">You Give (GLX)</span><input type="number" id="swap-input-amount" class="custom-input" placeholder="Min 1,000" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Max:<span id="swap-max-GLX">0</span><button onclick="setMaxSwap('glx')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">MAX</button></div></div>
+<div id="tsk-to-ton-section">
+<div class="input-wrap"><span class="input-label">You Give (TSK)</span><input type="number" id="swap-input-amount" class="custom-input" placeholder="Min 1,000" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Max:<span id="swap-max-TSK">0</span><button onclick="setMaxSwap('tsk')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">MAX</button></div></div>
 <div class="input-wrap"><span class="input-label">You Get (TON)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:24px;"><span id="swap-output-amount" class="custom-input">0.0000000</span></div></div>
-<div class="swap-mode-text">Rate: 100,000 GLX = 0.01 TON</div>
+<div class="swap-mode-text">Rate: 100,000 TSK = 0.01 TON</div>
 </div>
-<div id="ton-to-glx-section" style="display:none;">
+<div id="ton-to-tsk-section" style="display:none;">
 <div class="input-wrap"><span class="input-label">You Give (TON)</span><input type="number" id="ton-input-amount" class="custom-input" placeholder="Min 0.0001" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Max:<span id="swap-max-TON">0.0000</span><button onclick="setMaxSwap('ton')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">MAX</button></div></div>
-<div class="input-wrap"><span class="input-label">You Get (GLX)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/tTkJX1Qy/logo.png" style="width:24px;height:24px;border-radius:50%;"><span id="ton-output-amount" class="custom-input">0</span></div></div>
-<div class="swap-mode-text">Rate: 0.01 TON = 100,000 GLX</div>
+<div class="input-wrap"><span class="input-label">You Get (TSK)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" style="width:24px;height:24px;border-radius:50%;"><span id="ton-output-amount" class="custom-input">0</span></div></div>
+<div class="swap-mode-text">Rate: 0.01 TON = 100,000 TSK</div>
 </div>
 <button class="btn btn-primary" id="execute-swap-btn" onclick="executeSwap()">Confirm Swap</button>
 </div>
 </main>
 <main id="withdraw" class="content-section">
-<div class="page-header"><h1>Withdraw</h1><p>GLX out to TON Wallet</p></div>
+<div class="page-header"><h1>Withdraw</h1><p>TSK out to TON Wallet</p></div>
     
 <div id="tonwallet-form" class="card">
 <div class="input-wrap"><span class="input-label">TON Wallet Address</span><input type="text" id="ton-wallet-address" class="custom-input" placeholder="UQ... or EQ... or kQ..."><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Enter your TON wallet address (starts with UQ, EQ, or kQ)</div></div>
@@ -1084,7 +1007,7 @@
 </div>
 </main>
 <main id="leaderboard" class="content-section">
-<div class="page-header"><h1>Top Kings</h1><p>The richest in the Galaxy</p></div>
+<div class="page-header"><h1>Top Kings</h1><p>The richest in Taskora</p></div>
 <div class="leader-tabs"><div class="tab-btn active" data-target="invites-leaderboard-list">Invites</div><div class="tab-btn" data-target="earnings-leaderboard-list">Holders</div></div>
 <div class="podium-list" id="invites-leaderboard-list"></div>
 <div class="podium-list hidden" id="earnings-leaderboard-list"></div>
@@ -1094,11 +1017,11 @@
 <main id="referrals" class="content-section">
 <div class="page-header"><h1>Referrals</h1><p>Invite friends, earn together</p></div>
 <div class="card" style="text-align:center;">
-<img src="https://i.ibb.co/tTkJX1Qy/logo.png" style="width:80px;margin-bottom:15px;">
+<img src="https://i.ibb.co/RVhNgFc/photo.jpg" style="width:80px;margin-bottom:15px;">
 <div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:12px;margin-bottom:20px;"><div style="font-size:12px;color:var(--text-muted);">Total Referrals</div><div style="font-size:24px;font-weight:800;color:#fff;" id="referral-count-display">0</div></div>
 
 <!-- 🔄 التعديل: تغيير النص من 10000 إلى 100K -->
-<p>Earn <strong>+100K GLX</strong> for every friend.</p>
+<p>Earn <strong>+100K TSK</strong> for every friend.</p>
 
 <div id="referral-link-display" style="background:#000;padding:10px;border-radius:8px;font-family:monospace;font-size:10px;color:#aaa;margin:15px 0;word-break:break-all;">...</div>
 <button class="btn btn-primary" id="share-referral-btn">Invite Friends</button>
@@ -1118,10 +1041,6 @@
 <div class="nav-item active" data-target="home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span class="nav-text">Home</span></div>
 <div class="nav-item" data-target="tasks"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="nav-text">Tasks</span></div>
 <div class="nav-item" data-target="bonus"><svg viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg><span class="nav-text">Bonus</span></div>
-<div class="nav-item competition-nav-item" data-target="competition">
-<div class="competition-nav-icon"><svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="14" fill="rgba(255,215,0,0.15)" opacity="0.8"/><path d="M9 13 L16 8 L23 13 L21 21 L11 21 Z" fill="none" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 5 L17.5 10 L22 10 L18.5 13 L19.5 18 L16 15 L12.5 18 L13.5 13 L10 10 L14.5 10 Z" fill="#FFD700" stroke="#FFA500" stroke-width="1.5"/><circle cx="16" cy="16" r="6" fill="none" stroke="#FFD700" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="16" cy="16" r="8" fill="none" stroke="rgba(255,215,0,0.3)" stroke-width="3"/></svg></div>
-<span class="nav-text">Competition</span>
-</div>
 <div class="nav-item" data-target="referrals"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Referrals</span></div>
 <div class="nav-item" data-target="withdrawal-history"><svg viewBox="0 0 24 24" style="filter:drop-shadow(0 0 8px rgba(168,85,247,0.4));"><path d="M12 2v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 12l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-text">Withdrawals</span></div>
 </nav>
@@ -1428,7 +1347,7 @@ async function executeMonetagAd() {
                 captchaToken = null;
             }
             
-            showNotification(`✅ +${appSettings.adRewardMonetag || 500} GLX added!`, "success");
+            showNotification(`✅ +${appSettings.adRewardMonetag || 500} TSK added!`, "success");
             renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
         }
     } catch (e) {
@@ -1463,7 +1382,7 @@ async function executeGigaAd() {
                 captchaToken = null;
             }
             
-            showNotification(`✅ +${appSettings.adRewardGiga || 500} GLX added!`, "success");
+            showNotification(`✅ +${appSettings.adRewardGiga || 500} TSK added!`, "success");
             renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
         }
     } catch (e) {
@@ -1498,7 +1417,7 @@ async function executeAdsgramAd() {
                     captchaToken = null;
                 }
                 
-                showNotification(`✅ +${appSettings.adRewardAdsgram || 500} GLX added!`, "success");
+                showNotification(`✅ +${appSettings.adRewardAdsgram || 500} TSK added!`, "success");
                 renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
             }
         }
@@ -1620,8 +1539,8 @@ async function checkMandatorySubscriptions() {
 function showMandatorySubscriptionScreen() {
     const requiredChannels = [
         {
-            username: '@earnmoney174688',
-            link: 'https://t.me/earnmoney174688',
+            username: '@mjsjsjjsjisj',
+            link: 'https://t.me/mjsjsjjsjisj',
             name: 'News Channel',
             description: 'Latest updates & announcements'
         },
@@ -1669,10 +1588,10 @@ function showMandatorySubscriptionScreen() {
     const subscriptionHTML = `
     <div style="padding:20px;max-width:500px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;justify-content:center;">
         <div class="card" style="text-align:center;">
-            <img src="https://i.ibb.co/tTkJX1Qy/logo.png" alt="GLX Galaxy" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;border:3px solid var(--primary-green);">
+            <img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Taskora" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;border:3px solid var(--primary-green);">
             <h1 style="font-size:24px;margin-bottom:8px;color:#fff;">⚠️ Subscription Required</h1>
             <p style="color:var(--text-muted);margin-bottom:20px;font-size:14px;">
-                You must subscribe to all channels below to access GLX Galaxy
+                You must subscribe to all channels below to access Taskora
             </p>
             
             <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:12px;padding:12px;margin-bottom:20px;">
@@ -1841,148 +1760,6 @@ async function simulateAccountCheck(userId) {
 // ✅ تعديل دالة callAPI لمعالجة أخطاء الحظر
 const API_URL = "https://shy-brook-4dd4.rabiebasha2012.workers.dev";
 
-// ✅ إصلاح دالة لعبة Coin Flip (تم إصلاح مشكلة الإشعار المبكر)
-async function flipCoin() {
-    if (coinGame.isFlipping) return;
-    
-    const betAmount = coinGame.betAmount;
-    const currentBalance = appData.dogsBalance || 0;
-    
-    if (betAmount < 1000) {
-        showNotification("Minimum bet is 1,000 GLX", "warning");
-        return;
-    }
-    
-    if (betAmount > currentBalance) {
-        showNotification("Insufficient GLX balance", "warning");
-        return;
-    }
-    
-    // التحقق من حالة الحظر أولاً
-    const isAllowed = await checkBeforeAction("flip coin");
-    if (!isAllowed) return;
-    
-    // تعطيل الزر أثناء المعالجة
-    const flipButton = document.getElementById('flip-coin-btn');
-    if (flipButton) {
-        flipButton.disabled = true;
-        flipButton.classList.add('coin-flip-btn-processing');
-        flipButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
-    }
-    
-    coinGame.isFlipping = true;
-    
-    try {
-        // ✅ الاتصال بالسيرفر للعب
-        const result = await callAPI('flipCoin', {
-            betAmount: betAmount,
-            chosenSide: coinGame.chosenSide
-        });
-        
-        if (result.success) {
-            const isWin = result.data.isWin;
-            const resultSide = result.data.resultSide;
-            const winAmount = result.data.winAmount || 0;
-            const betAmountNum = result.data.betAmount || betAmount;
-            
-            // ✅ تحديث appData من البيانات المرجعة من السيرفر
-            appData.dogsBalance = result.data.currentBalance;
-            
-            // ✅ تحديث واجهة المستخدم
-            renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
-            
-            // ✅ عرض الرسوم المتحركة للعملة
-            const coin = document.getElementById('coin');
-            if (coin) {
-                coin.classList.remove('coin-spinning', 'coin-final');
-                coin.style.transition = 'transform 2.5s cubic-bezier(0.4,2.4,0.8,0.9)';
-                
-                // حساب الدوران النهائي
-                const finalRotation = resultSide === 'glx' ? 720 : 900;
-                coin.style.setProperty('--final-rotation', finalRotation + 'deg');
-                coin.classList.add('coin-spinning');
-                
-                setTimeout(() => {
-                    coin.classList.remove('coin-spinning');
-                    coin.classList.add('coin-final');
-                    coin.style.transform = `rotateY(${finalRotation}deg)`;
-                    
-                    // ✅ عرض النتيجة مع صافي الربح/الخسارة
-                    showCoinFlipResult(isWin, resultSide, betAmountNum, winAmount, finalRotation);
-                    
-                    // ✅ الآن فقط يتم عرض الإشعار المناسب بعد انتهاء الرسوم المتحركة
-                    if (isWin) {
-                        const netProfit = winAmount - betAmountNum;
-                        setTimeout(() => {
-                            showNotification(`🎉 You won ${winAmount.toLocaleString()} GLX! (Net Profit: +${netProfit.toLocaleString()} GLX)`, "success");
-                        }, 500);
-                    } else {
-                        setTimeout(() => {
-                            showNotification(`😢 You lost ${betAmountNum.toLocaleString()} GLX`, "error");
-                        }, 500);
-                    }
-                    
-                }, 2500);
-            }
-            
-        } else {
-            if (result.error === 'ACCOUNT_BLOCKED') {
-                showNotification("Your account has been blocked.", "error");
-            } else {
-                showNotification("Error: " + result.error, "error");
-            }
-        }
-    } catch (error) {
-        console.error("Coin flip error:", error);
-        showNotification("Error flipping coin. Please try again.", "error");
-    } finally {
-        // ✅ تمكين الزر مرة أخرى بعد انتهاء اللعبة
-        setTimeout(() => {
-            coinGame.isFlipping = false;
-            if (flipButton) {
-                flipButton.disabled = false;
-                flipButton.classList.remove('coin-flip-btn-processing');
-                flipButton.innerHTML = '<i class="fa-solid fa-play"></i> FLIP COIN';
-            }
-        }, 3000);
-    }
-}
-
-// ✅ تعديل دالة عرض النتيجة لتعكس صافي الربح/الخسارة
-function showCoinFlipResult(isWin, resultSide, betAmount, winAmount, finalRotation) {
-    const resultElement = document.getElementById('coin-game-result');
-    const resultText = document.getElementById('coin-result-text');
-    const winAmountElement = document.getElementById('coin-win-amount');
-    const lossAmountElement = document.getElementById('coin-loss-amount');
-    
-    winAmountElement.style.display = 'none';
-    lossAmountElement.style.display = 'none';
-    
-    if (isWin) {
-        const netProfit = winAmount - betAmount;
-        resultText.innerHTML = `🎉 <strong>YOU WIN!</strong><br>${coinGame.chosenSide.toUpperCase()} appeared!<br><small>Net Profit: <span class="net-profit">+${netProfit.toLocaleString()} GLX</span></small>`;
-        resultText.style.color = '#27ae60';
-        winAmountElement.innerHTML = `+${winAmount.toLocaleString()} GLX<br><small style="font-size:12px;opacity:0.8;">(Bet: ${betAmount.toLocaleString()} GLX)</small>`;
-        winAmountElement.style.display = 'block';
-        
-        // تأثير الفوز
-        const selectedBtn = coinGame.chosenSide === 'glx' ? document.getElementById('choose-glx') : document.getElementById('choose-gold');
-        selectedBtn.classList.add('win');
-        selectedBtn.classList.remove('active');
-    } else {
-        resultText.innerHTML = `😢 <strong>YOU LOSE</strong><br>${resultSide.toUpperCase()} appeared<br><small>Loss: <span class="net-loss">${betAmount.toLocaleString()} GLX</span></small>`;
-        resultText.style.color = '#e74c3c';
-        lossAmountElement.textContent = `-${betAmount.toLocaleString()} GLX`;
-        lossAmountElement.style.display = 'block';
-        
-        // تأثير الخسارة
-        const selectedBtn = coinGame.chosenSide === 'glx' ? document.getElementById('choose-glx') : document.getElementById('choose-gold');
-        selectedBtn.classList.add('lose');
-        selectedBtn.classList.remove('active');
-    }
-    
-    resultElement.style.display = 'block';
-}
 
 // ✅ تعديل جميع الدوال الحساسة للتحقق من الحظر أولاً
 async function handleDailyClaim() {
@@ -2005,7 +1782,7 @@ async function handleDailyClaim() {
             appData.dailyStreak = result.data.dailyStreak;
             appData.dogsBalance = result.data.newBalance;
             
-            showNotification(`🎉 Daily bonus claimed! +${result.data.reward} GLX`, "success");
+            showNotification(`🎉 Daily bonus claimed! +${result.data.reward} TSK`, "success");
             renderDailyBonusUI();
             renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
         } else {
@@ -2068,7 +1845,7 @@ const SECURITY_CONFIG = {
 
 // 🔄 التعديل: تحديث APP_CONFIG لتغيير قيمة مكافأة الإحالة إلى 100000
 const APP_CONFIG = {
-    botUsername: 'RealEarnBot_bot',
+    botUsername: 'sdefesdfwwwbot',
     botWallet: 'UQB2IqqJtC8NtRgxksq80c_FC8RqShxpGDKA3e4aJFwjvwgv',
     botToken: '7066931017:AAHwuXbgaKHNrHrbf6jaoC8LDk0lSCPimgI',
     defaultSettings: {
@@ -2083,9 +1860,9 @@ const APP_CONFIG = {
         // 🔄 التعديل: تغيير مكافأة الإحالة من 10000 إلى 100000
         referralReward: 100000,
         pricePerClick: 0.0015,
-        glxToTonRate: 0.0000001,
-        tonToGlxRate: 10000000,
-        ticketPrice: 10000, // ✅ تغيير من 10000 إلى 10000 (10K GLX)
+        tskToTonRate: 0.0000001,
+        tonToTskRate: 10000000,
+        ticketPrice: 10000, // ✅ تغيير من 10000 إلى 10000 (10K TSK)
         ticketTonValue: 0.0001, // ✅ تغيير من 0.001 إلى 0.0001 (0.0001 TON)
         competitionDuration: 24 * 60 * 60 * 1000,
         breakDuration: 60 * 60 * 1000,
@@ -2364,9 +2141,9 @@ function showMainApp() {
 }
 
 // ✅ تعديل أسعار التذاكر الجديدة
-const GLX_TO_TON_RATE = 0.0000001;
-const TON_TO_GLX_RATE = 10000000;
-const TICKET_PRICE = 10000; // ✅ تغيير من 10000 إلى 10000 (10K GLX)
+const TSK_TO_TON_RATE = 0.0000001;
+const TON_TO_TSK_RATE = 10000000;
+const TICKET_PRICE = 10000; // ✅ تغيير من 10000 إلى 10000 (10K TSK)
 const TICKET_TON_VALUE = 0.001; // ✅ تغيير من 0.001 إلى 0.0001 (0.0001 TON)
 const COMPETITION_DURATION = 24 * 60 * 60 * 1000;
 const BREAK_DURATION = 60 * 60 * 1000;
@@ -2393,19 +2170,8 @@ const slotsPayouts = {
     'default': 500
 };
 
-let coinGame = {
-    isFlipping: false,
-    chosenSide: 'glx',
-    betAmount: 1000,
-    lastFlipResult: null,
-    winChance: 45,
-    lossChance: 55,
-    currentRotation: 0,
-    animationId: null
-};
-
 let withdrawalType = 'tonwallet';
-let swapDirection = 'glx_to_ton';
+let swapDirection = 'tsk_to_ton';
 let countdownInterval = null;
 let competitionData = {
     isActive: true,
@@ -2484,13 +2250,13 @@ async function handlePromoCode() {
     const result = await callAPI('redeemPromoCode', { code: code });
     
     if (result.success) {
-        const rewardType = result.data.rewardType || 'glx'; // 'glx', 'ton', or 'ticket'
+        const rewardType = result.data.rewardType || 'tsk'; // 'tsk', 'ton', or 'ticket'
         const reward = result.data.reward;
         
         // تحديث الرصيد بناءً على نوع المكافأة
-        if (rewardType === 'glx') {
+        if (rewardType === 'tsk') {
             appData.dogsBalance = result.data.newBalance;
-            showPromoResult(`🎉 Success! You got +${reward} GLX`, 'success');
+            showPromoResult(`🎉 Success! You got +${reward} TSK`, 'success');
         } else if (rewardType === 'ton') {
             appData.tonBalance = result.data.newTONBalance;
             showPromoResult(`🎉 Success! You got +${reward} TON`, 'success');
@@ -2678,10 +2444,9 @@ function initializeApp(user) {
     }
     
     setupEventListeners(user);
-    setupGalaxyLogButton();
+    setupTaskoraLogButton();
     renderCreateTaskUI();
     initSlotsGame();
-    initCoinFlipGame();
     initPromoCodes();
     
     setTimeout(() => {
@@ -2689,16 +2454,13 @@ function initializeApp(user) {
     }, 2500);
     
     selectWithdrawalType('tonwallet');
-    selectSwapDirection('glx_to_ton');
+    selectSwapDirection('tsk_to_ton');
     
     const ticketInput = document.getElementById('ticket-amount');
     if (ticketInput) {
         ticketInput.addEventListener('input', updateTicketCostDisplay);
         updateTicketCostDisplay();
     }
-    
-    initializeCompetition();
-    loadUserCompetitionData();
     
     // ✅ بدء مؤشر تحديث عداد السحب
     setInterval(updateWithdrawalsResetTimer, 60000); // تحديث كل دقيقة
@@ -2721,7 +2483,7 @@ async function handleReferral(user) {
             
             if (result.success) {
                 // 🔄 التعديل: تحديث رسالة الترحيب لتعكس 100K
-                showNotification("🎉 Welcome bonus activated! +100K GLX", "success");
+                showNotification("🎉 Welcome bonus activated! +100K TSK", "success");
             }
         }
     }
@@ -2730,14 +2492,14 @@ async function handleReferral(user) {
 function renderUI(user) {
     if (!appData) return;
     
-    const GLX = Math.floor(appData.dogsBalance || 0);
+    const TSK = Math.floor(appData.dogsBalance || 0);
     const ton = (appData.tonBalance || 0).toFixed(7);
-    const userLevel = getLevel(GLX);
+    const userLevel = getLevel(TSK);
     
     document.getElementById('home-user-level').textContent = `Level ${userLevel}`;
-    document.getElementById('total-GLX-balance').textContent = GLX.toLocaleString();
+    document.getElementById('total-TSK-balance').textContent = TSK.toLocaleString();
     document.getElementById('home-ton-balance').textContent = parseFloat(ton).toFixed(4);
-    document.getElementById('swap-max-GLX').textContent = GLX.toLocaleString();
+    document.getElementById('swap-max-TSK').textContent = TSK.toLocaleString();
     document.getElementById('swap-max-TON').textContent = parseFloat(ton).toFixed(4);
     
     document.querySelectorAll('.user-ton-balance').forEach(el => {
@@ -2746,7 +2508,7 @@ function renderUI(user) {
     
     document.getElementById('referral-count-display').textContent = (appData.referrals || 0);
     
-    document.getElementById('hud-glx-balance').textContent = GLX.toLocaleString();
+    document.getElementById('hud-tsk-balance').textContent = TSK.toLocaleString();
     document.getElementById('hud-ton-balance').textContent = parseFloat(ton).toFixed(4);
     
     const monetagCount = appData.adsMonetag || 0;
@@ -2790,41 +2552,41 @@ window.selectSwapDirection = function(direction) {
     swapDirection = direction;
     document.querySelectorAll('.swap-direction-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.swap-direction-btn').forEach(btn => {
-        if (btn.textContent.includes(direction === 'glx_to_ton' ? 'GLX → TON' : 'TON → GLX')) {
+        if (btn.textContent.includes(direction === 'tsk_to_ton' ? 'TSK → TON' : 'TON → TSK')) {
             btn.classList.add('active');
         }
     });
     
-    if (direction === 'glx_to_ton') {
-        document.getElementById('glx-to-ton-section').style.display = 'block';
-        document.getElementById('ton-to-glx-section').style.display = 'none';
-        document.querySelector('.page-header p').textContent = '100K GLX = 0.01 TON';
+    if (direction === 'tsk_to_ton') {
+        document.getElementById('tsk-to-ton-section').style.display = 'block';
+        document.getElementById('ton-to-tsk-section').style.display = 'none';
+        document.querySelector('.page-header p').textContent = '100K TSK = 0.01 TON';
     } else {
-        document.getElementById('glx-to-ton-section').style.display = 'none';
-        document.getElementById('ton-to-glx-section').style.display = 'block';
-        document.querySelector('.page-header p').textContent = '0.01 TON = 100K GLX';
+        document.getElementById('tsk-to-ton-section').style.display = 'none';
+        document.getElementById('ton-to-tsk-section').style.display = 'block';
+        document.querySelector('.page-header p').textContent = '0.01 TON = 100K TSK';
     }
     
     calculateSwap();
 };
 
 window.calculateSwap = function() {
-    if (swapDirection === 'glx_to_ton') {
-        const GLXInput = parseFloat(document.getElementById('swap-input-amount').value) || 0;
-        const tonOutput = GLXInput * GLX_TO_TON_RATE;
+    if (swapDirection === 'tsk_to_ton') {
+        const TSKInput = parseFloat(document.getElementById('swap-input-amount').value) || 0;
+        const tonOutput = TSKInput * TSK_TO_TON_RATE;
         document.getElementById('swap-output-amount').textContent = tonOutput.toFixed(7);
     } else {
         const TONInput = parseFloat(document.getElementById('ton-input-amount').value) || 0;
-        const glxOutput = TONInput * TON_TO_GLX_RATE;
-        document.getElementById('ton-output-amount').textContent = Math.floor(glxOutput).toLocaleString();
+        const tskOutput = TONInput * TON_TO_TSK_RATE;
+        document.getElementById('ton-output-amount').textContent = Math.floor(tskOutput).toLocaleString();
     }
 };
 
 window.setMaxSwap = function(type) {
-    if (type === 'glx' || swapDirection === 'glx_to_ton') {
+    if (type === 'tsk' || swapDirection === 'tsk_to_ton') {
         const currentBalance = appData.dogsBalance || 0;
         if (currentBalance < 1000) {
-            showNotification("Minimum swap is 1,000 GLX", "warning");
+            showNotification("Minimum swap is 1,000 TSK", "warning");
             return;
         }
         document.getElementById('swap-input-amount').value = currentBalance;
@@ -2841,45 +2603,45 @@ window.setMaxSwap = function(type) {
 };
 
 window.executeSwap = function() {
-    if (swapDirection === 'glx_to_ton') {
-        executeGLXtoTONSwap();
+    if (swapDirection === 'tsk_to_ton') {
+        executeTSKtoTONSwap();
     } else {
-        executeTONtoGLXSwap();
+        executeTONtoTSKSwap();
     }
 };
 
-async function executeGLXtoTONSwap() {
+async function executeTSKtoTONSwap() {
     // ✅ التحقق من الحظر أولاً
     const isAllowed = await checkBeforeAction("swap");
     if (!isAllowed) return;
     
-    const GLXInput = parseFloat(document.getElementById('swap-input-amount').value) || 0;
-    const currentGLX = appData.dogsBalance || 0;
+    const TSKInput = parseFloat(document.getElementById('swap-input-amount').value) || 0;
+    const currentTSK = appData.dogsBalance || 0;
     
-    if (GLXInput < 1000) {
-        showNotification("Min swap: 1,000 GLX", "warning");
+    if (TSKInput < 1000) {
+        showNotification("Min swap: 1,000 TSK", "warning");
         return;
     }
     
-    if (GLXInput > currentGLX) {
-        showNotification("Insufficient GLX Balance", "warning");
+    if (TSKInput > currentTSK) {
+        showNotification("Insufficient TSK Balance", "warning");
         return;
     }
     
-    const tonValue = GLXInput * GLX_TO_TON_RATE;
+    const tonValue = TSKInput * TSK_TO_TON_RATE;
     
-    if (!confirm(`Swap ${GLXInput.toLocaleString()} GLX for ${tonValue.toFixed(7)} TON?\n\nRate: 100,000 GLX = 0.01 TON`)) return;
+    if (!confirm(`Swap ${TSKInput.toLocaleString()} TSK for ${tonValue.toFixed(7)} TON?\n\nRate: 100,000 TSK = 0.01 TON`)) return;
     
     const result = await callAPI('executeSwap', {
-        type: 'glx_to_ton',
-        amount: GLXInput,
+        type: 'tsk_to_ton',
+        amount: TSKInput,
         tonValue: tonValue
     });
     
     if (result.success) {
-        appData.dogsBalance = result.data.newGLXBalance;
+        appData.dogsBalance = result.data.newTSKBalance;
         appData.tonBalance = result.data.newTONBalance;
-        showNotification(`Swap Complete!\n\n-${GLXInput.toLocaleString()} GLX\n+${tonValue.toFixed(7)} TON`, "success");
+        showNotification(`Swap Complete!\n\n-${TSKInput.toLocaleString()} TSK\n+${tonValue.toFixed(7)} TON`, "success");
         document.getElementById('swap-input-amount').value = '';
         document.getElementById('swap-output-amount').textContent = '0.0000000';
         switchTab('home');
@@ -2893,7 +2655,7 @@ async function executeGLXtoTONSwap() {
     }
 }
 
-async function executeTONtoGLXSwap() {
+async function executeTONtoTSKSwap() {
     // ✅ التحقق من الحظر أولاً
     const isAllowed = await checkBeforeAction("swap");
     if (!isAllowed) return;
@@ -2911,20 +2673,20 @@ async function executeTONtoGLXSwap() {
         return;
     }
     
-    const glxValue = TONInput * TON_TO_GLX_RATE;
+    const tskValue = TONInput * TON_TO_TSK_RATE;
     
-    if (!confirm(`Swap ${TONInput.toFixed(4)} TON for ${glxValue.toLocaleString()} GLX?\n\nRate: 0.01 TON = 100,000 GLX`)) return;
+    if (!confirm(`Swap ${TONInput.toFixed(4)} TON for ${tskValue.toLocaleString()} TSK?\n\nRate: 0.01 TON = 100,000 TSK`)) return;
     
     const result = await callAPI('executeSwap', {
-        type: 'ton_to_glx',
+        type: 'ton_to_tsk',
         amount: TONInput,
-        glxValue: glxValue
+        tskValue: tskValue
     });
     
     if (result.success) {
         appData.tonBalance = result.data.newTONBalance;
-        appData.dogsBalance = result.data.newGLXBalance;
-        showNotification(`Swap Complete!\n\n-${TONInput.toFixed(4)} TON\n+${glxValue.toLocaleString()} GLX`, "success");
+        appData.dogsBalance = result.data.newTSKBalance;
+        showNotification(`Swap Complete!\n\n-${TONInput.toFixed(4)} TON\n+${tskValue.toLocaleString()} TSK`, "success");
         document.getElementById('ton-input-amount').value = '';
         document.getElementById('ton-output-amount').textContent = '0';
         switchTab('home');
@@ -2939,19 +2701,16 @@ async function executeTONtoGLXSwap() {
 }
 
 window.openGame = function(gameType) {
-    document.getElementById('coin-flip-section').style.display = 'none';
     document.getElementById('promo-codes-section').style.display = 'none';
     document.getElementById('daily-streak-section').style.display = 'none';
-    document.getElementById('galaxy-slots-section').style.display = 'none';
+    document.getElementById('taskora-slots-section').style.display = 'none';
     
     const grid = document.querySelector('.bonus-grid');
     grid.style.display = 'none';
     
     document.getElementById(gameType + '-section').style.display = 'block';
     
-    if (gameType === 'coin-flip') {
-        resetCoinFlipGame();
-    } else if (gameType === 'galaxy-slots') {
+    if (gameType === 'taskora-slots') {
         initSlotsGame();
         updateAvailableSpins();
     } else if (gameType === 'daily-streak') {
@@ -2960,20 +2719,19 @@ window.openGame = function(gameType) {
 };
 
 window.closeGame = function() {
-    document.getElementById('coin-flip-section').style.display = 'none';
     document.getElementById('promo-codes-section').style.display = 'none';
     document.getElementById('daily-streak-section').style.display = 'none';
-    document.getElementById('galaxy-slots-section').style.display = 'none';
+    document.getElementById('taskora-slots-section').style.display = 'none';
     
     const grid = document.querySelector('.bonus-grid');
     grid.style.display = 'grid';
 };
 
-function setupGalaxyLogButton() {
-    const galaxyLogBtn = document.getElementById('galaxy-log-button');
-    if (galaxyLogBtn) {
-        galaxyLogBtn.addEventListener('click', function() {
-            switchTab('galaxy-log-page');
+function setupTaskoraLogButton() {
+    const taskoraLogBtn = document.getElementById('taskora-log-button');
+    if (taskoraLogBtn) {
+        taskoraLogBtn.addEventListener('click', function() {
+            switchTab('taskora-log-page');
         });
     }
 }
@@ -3030,6 +2788,8 @@ async function createNewCompetition() {
 }
 
 function updateCompetitionUI() {
+    const statusEl = document.getElementById('competition-status');
+    if (!statusEl) return; // Competition page removed
     const now = Date.now();
     const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
     if (!userId) {
@@ -3037,8 +2797,8 @@ function updateCompetitionUI() {
         return;
     }
     
-    document.getElementById('competition-status').textContent = competitionData.isActive ? 'ACTIVE' : 'ENDED';
-    document.getElementById('competition-status').style.color = competitionData.isActive ? '#27ae60' : '#e74c3c';
+    statusEl.textContent = competitionData.isActive ? 'ACTIVE' : 'ENDED';
+    statusEl.style.color = competitionData.isActive ? '#27ae60' : '#e74c3c';
     
     // ✅ تحديث حساب الجائزة بناءً على السعر الجديد
     const prizePool = competitionData.totalTickets * TICKET_TON_VALUE;
@@ -3132,7 +2892,7 @@ function updateTicketCostDisplay() {
     const cost = tickets * TICKET_PRICE;
     
     document.getElementById('tickets-count-display').textContent = tickets;
-    document.getElementById('tickets-cost-display').textContent = cost.toLocaleString() + ' GLX';
+    document.getElementById('tickets-cost-display').textContent = cost.toLocaleString() + ' TSK';
 }
 
 window.setMaxTickets = function() {
@@ -3140,7 +2900,7 @@ window.setMaxTickets = function() {
     const maxTickets = Math.floor(currentBalance / TICKET_PRICE);
     
     if (maxTickets < 1) {
-        showNotification("You don't have enough GLX to buy a ticket (10,000 GLX required)", "warning");
+        showNotification("You don't have enough TSK to buy a ticket (10,000 TSK required)", "warning");
         return;
     }
     
@@ -3187,7 +2947,7 @@ window.buyTickets = async function() {
     const currentBalance = appData.dogsBalance || 0;
     
     if (totalCost > currentBalance) {
-        showNotification(`Insufficient GLX balance. You need ${totalCost.toLocaleString()} GLX`, "warning");
+        showNotification(`Insufficient TSK balance. You need ${totalCost.toLocaleString()} TSK`, "warning");
         return;
     }
     
@@ -3195,7 +2955,7 @@ window.buyTickets = async function() {
     if (isConfirming) return;
     isConfirming = true;
     
-    const userConfirmed = confirm(`Buy ${tickets} ticket${tickets > 1 ? 's' : ''} for ${totalCost.toLocaleString()} GLX?\n\nEach ticket = 10,000 GLX = 0.001 TON\n\n🏆 Remember: Only #1 wins, all others lose!`);
+    const userConfirmed = confirm(`Buy ${tickets} ticket${tickets > 1 ? 's' : ''} for ${totalCost.toLocaleString()} TSK?\n\nEach ticket = 10,000 TSK = 0.001 TON\n\n🏆 Remember: Only #1 wins, all others lose!`);
     if (!userConfirmed) {
         isConfirming = false;
         return;
@@ -3285,7 +3045,7 @@ async function updateCompetitionLeaderboard() {
                 const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
                 const html = `<div class="competition-rank-card ${rankClass}">
                                 <div class="competition-rank">#${index + 1}</div>
-                                <img src="${entry.photoUrl || 'https://i.ibb.co/tTkJX1Qy/logo.png'}" class="competition-user-avatar" alt="${entry.name}">
+                                <img src="${entry.photoUrl || 'https://i.ibb.co/RVhNgFc/photo.jpg'}" class="competition-user-avatar" alt="${entry.name}">
                                 <div class="competition-user-info">
                                     <div class="competition-user-name">${entry.name}</div>
                                 </div>
@@ -3316,7 +3076,7 @@ async function loadPreviousWinners() {
             const prizeAmount = winner.prize ? parseFloat(winner.prize).toFixed(4) : '0.0000'; // ✅ تغيير إلى 4 خانات عشرية
             const html = `<div class="winner-item">
                             <div class="winner-rank">🏆</div>
-                            <img src="${winner.photoUrl || 'https://i.ibb.co/tTkJX1Qy/logo.png'}" class="winner-avatar" alt="${winner.name}">
+                            <img src="${winner.photoUrl || 'https://i.ibb.co/RVhNgFc/photo.jpg'}" class="winner-avatar" alt="${winner.name}">
                             <div class="winner-info">
                                 <div class="winner-name">${winner.name}</div>
                                 <div class="winner-date">${winnerDate}</div>
@@ -3340,7 +3100,7 @@ window.setMaxTonWallet = function() {
     document.getElementById('ton-withdraw-amount').value = currentBalance.toFixed(2);
 };
 
-window.renderGalaxyLog = async function() {
+window.renderTaskoraLog = async function() {
     const result = await callAPI('getTransactionHistory');
     if (result.success) {
         const historyData = result.data.history || [];
@@ -3356,10 +3116,10 @@ window.renderGalaxyLog = async function() {
             }
         });
         
-        document.getElementById('total-earned').textContent = Math.floor(totalEarned).toLocaleString() + ' GLX';
-        document.getElementById('total-spent').textContent = Math.floor(totalSpent).toLocaleString() + ' GLX';
+        document.getElementById('total-earned').textContent = Math.floor(totalEarned).toLocaleString() + ' TSK';
+        document.getElementById('total-spent').textContent = Math.floor(totalSpent).toLocaleString() + ' TSK';
         
-        const container = document.getElementById('galaxy-log-filtered-list');
+        const container = document.getElementById('taskora-log-filtered-list');
         container.innerHTML = '';
         
         historyData.forEach(item => {
@@ -3387,7 +3147,7 @@ window.renderGalaxyLog = async function() {
             
             const amount = item.currency === 'TON' 
                 ? parseFloat(item.amount).toFixed(4) + ' TON' 
-                : Math.floor(item.amount).toLocaleString() + ' GLX';
+                : Math.floor(item.amount).toLocaleString() + ' TSK';
             
             const html = `<div class="log-item ${typeClass}">
                             <div style="font-size:20px;margin-right:12px;">${icon}</div>
@@ -3511,45 +3271,6 @@ function getTimeAgo(timestamp) {
     return "Just now";
 }
 
-window.setMaxBet = function() {
-    const currentBalance = appData.dogsBalance || 0;
-    const maxBet = Math.floor(currentBalance / 1000) * 1000;
-    
-    if (maxBet < 1000) {
-        showNotification("Minimum bet is 1,000 GLX", "warning");
-        return;
-    }
-    
-    document.getElementById('coin-bet-amount').value = maxBet;
-    coinGame.betAmount = maxBet;
-};
-
-window.setBetAmount = function(amount) {
-    coinGame.betAmount = amount;
-    document.getElementById('coin-bet-amount').value = amount;
-    
-    document.querySelectorAll('.bet-btn').forEach(btn => {
-        btn.classList.remove('active');
-        const btnAmount = parseInt(btn.dataset.amount) || 0;
-        if (btnAmount === amount) {
-            btn.classList.add('active');
-        }
-    });
-};
-
-window.chooseSide = function(side) {
-    coinGame.chosenSide = side;
-    
-    document.querySelectorAll('.side-btn').forEach(btn => {
-        btn.classList.remove('active');
-        btn.classList.remove('win');
-        btn.classList.remove('lose');
-    });
-    
-    const selectedBtn = side === 'glx' ? document.getElementById('choose-glx') : document.getElementById('choose-gold');
-    selectedBtn.classList.add('active');
-};
-
 window.verifyDeposit = async function() {
     // ✅ التحقق من الحظر أولاً
     const isAllowed = await checkBeforeAction("verify deposit");
@@ -3667,54 +3388,6 @@ window.verifyPayment = async function() {
         btn.classList.remove('deposit-processing');
     }
 };
-
-function resetCoinFlipGame() {
-    const coin = document.getElementById('coin');
-    coin.classList.remove('coin-spinning', 'coin-final');
-    coin.style.transform = 'rotateY(0deg)';
-    coin.style.transition = 'none';
-    
-    document.getElementById('coin-game-result').style.display = 'none';
-    
-    document.querySelectorAll('.side-btn').forEach(btn => {
-        btn.classList.remove('win', 'lose');
-        if (btn.id === 'choose-glx') {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-    
-    coinGame.isFlipping = false;
-    coinGame.chosenSide = 'glx';
-    coinGame.betAmount = 1000;
-    coinGame.currentRotation = 0;
-    document.getElementById('coin-bet-amount').value = 1000;
-    
-    updateBetButtons();
-}
-
-window.initCoinFlipGame = function() {
-    resetCoinFlipGame();
-};
-
-function updateBetButtons() {
-    const amounts = [1000, 5000, 10000, 25000];
-    const buttons = document.querySelectorAll('.bet-btn');
-    
-    buttons.forEach((btn, index) => {
-        if (index < amounts.length) {
-            btn.textContent = amounts[index] >= 1000 ? (amounts[index] / 1000) + 'k' : amounts[index];
-            btn.dataset.amount = amounts[index];
-            
-            if (amounts[index] === 1000) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        }
-    });
-}
 
 function initPromoCodes() {
     const redeemBtn = document.getElementById('redeem-code-btn');
@@ -3886,12 +3559,12 @@ async function handleSlotsSpin() {
     
     spinBtn.disabled = true;
     resultText.textContent = "Spinning...";
-    winAmount.textContent = "0 GLX";
+    winAmount.textContent = "0 TSK";
     
     const result = await callAPI('spinSlots');
     if (result.success) {
         const results = result.data.results;
-        const winGLX = result.data.winAmount;
+        const winTSK = result.data.winAmount;
         const newBalance = result.data.newBalance;
         const newSpins = result.data.newSpins;
         
@@ -3910,20 +3583,20 @@ async function handleSlotsSpin() {
         setTimeout(() => {
             const resultString = results.join('');
             
-            if (winGLX > 0) {
+            if (winTSK > 0) {
                 resultText.textContent = `🎉 You won! (${resultString})`;
-                winAmount.textContent = `+${winGLX} GLX`;
+                winAmount.textContent = `+${winTSK} TSK`;
                 appData.dogsBalance = newBalance;
                 appData.extraSpins = newSpins;
                 
-                if (winGLX >= 1000) {
+                if (winTSK >= 1000) {
                     setTimeout(() => {
-                        showNotification(`🎊 JACKPOT! You won ${winGLX} GLX!`, "success");
+                        showNotification(`🎊 JACKPOT! You won ${winTSK} TSK!`, "success");
                     }, 500);
                 }
             } else {
                 resultText.textContent = `No win this time (${resultString})`;
-                winAmount.textContent = "0 GLX";
+                winAmount.textContent = "0 TSK";
                 appData.extraSpins = newSpins;
             }
             
@@ -4034,16 +3707,16 @@ async function renderHistory(container, limit, user) {
                 displayAmount = Number(item.amount).toLocaleString();
             }
             
-            let iconImg = 'https://i.ibb.co/tTkJX1Qy/logo.png';
+            let iconImg = 'https://i.ibb.co/RVhNgFc/photo.jpg';
             const desc = item.description.toLowerCase();
             
             if (item.currency === 'TON') iconImg = 'https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png';
-            else if (desc.includes('ad')) iconImg = 'https://i.ibb.co/tTkJX1Qy/logo.png';
+            else if (desc.includes('ad')) iconImg = 'https://i.ibb.co/RVhNgFc/photo.jpg';
             else if (desc.includes('telegram') || desc.includes('channel') || desc.includes('group')) iconImg = 'https://i.ibb.co/s9YygTBd/20251203-195134.png';
             else if (desc.includes('youtube') || desc.includes('subscribe')) iconImg = 'https://i.ibb.co/CSz6kg9/20251203-200546.png';
             else if (desc.includes('twitter') || desc.includes('follow')) iconImg = 'https://i.ibb.co/60jp6MsF/20251203-200516.png';
             else if (desc.includes('instagram')) iconImg = 'https://img.icons8.com/fluency/96/instagram-new.png';
-            else if (desc.includes('coin flip')) iconImg = 'https://i.ibb.co/tTkJX1Qy/logo.png';
+            else if (desc.includes('coin flip')) iconImg = 'https://i.ibb.co/RVhNgFc/photo.jpg';
             
             const html = `<div class="list-card">
                             <div class="lc-icon"><img src="${iconImg}"></div>
@@ -4089,7 +3762,7 @@ async function renderWithdrawalHistory() {
             }
             
             const html = `<div class="list-card" style="margin-bottom:8px;">
-                            <div class="lc-icon"><img src="${withdrawal.photoUrl || 'https://i.ibb.co/tTkJX1Qy/logo.png'}" style="border-radius:50%;"></div>
+                            <div class="lc-icon"><img src="${withdrawal.photoUrl || 'https://i.ibb.co/RVhNgFc/photo.jpg'}" style="border-radius:50%;"></div>
                             <div class="lc-content">
                                 <div class="lc-title">${withdrawal.name || 'Anonymous'}</div>
                                 <div class="lc-sub">${withdrawal.method === 'ton' ? 'TON Wallet: ' + maskedAccount : 'FaucetPay: ' + maskedAccount}</div>
@@ -4288,7 +3961,7 @@ function setupEventListeners(user) {
                 appData.adsWatched = result.data.adsWatched || appData.adsWatched;
                 appData.dogsBalance = result.data.newBalance || appData.dogsBalance;
                 
-                showNotification(`✅ +${appSettings.adRewardMonetag || 500} GLX added!`, "success");
+                showNotification(`✅ +${appSettings.adRewardMonetag || 500} TSK added!`, "success");
                 renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
             }
         } catch (e) {
@@ -4335,7 +4008,7 @@ function setupEventListeners(user) {
                 appData.adsWatched = result.data.adsWatched || appData.adsWatched;
                 appData.dogsBalance = result.data.newBalance || appData.dogsBalance;
                 
-                showNotification(`✅ +${appSettings.adRewardGiga || 500} GLX added!`, "success");
+                showNotification(`✅ +${appSettings.adRewardGiga || 500} TSK added!`, "success");
                 renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
             }
         } catch (e) {
@@ -4382,7 +4055,7 @@ function setupEventListeners(user) {
                     appData.adsAdsgram = apiResult.data.adsAdsgram || appData.adsAdsgram;
                     appData.dogsBalance = apiResult.data.newBalance || appData.dogsBalance;
                     
-                    showNotification(`✅ +${appSettings.adRewardAdsgram || 500} GLX added!`, "success");
+                    showNotification(`✅ +${appSettings.adRewardAdsgram || 500} TSK added!`, "success");
                     renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
                 }
             }
@@ -4394,7 +4067,7 @@ function setupEventListeners(user) {
     
     document.getElementById('share-referral-btn').addEventListener('click', () => {
         const link = document.getElementById('referral-link-display').textContent;
-        window.Telegram?.WebApp.openTelegramLink(`https://t.me/share/url?url=${link}&text=Join GLX Galaxy!`);
+        window.Telegram?.WebApp.openTelegramLink(`https://t.me/share/url?url=${link}&text=Join Taskora!`);
     });
     
     document.getElementById('copy-referral-btn').addEventListener('click', () => {
@@ -4414,15 +4087,6 @@ function setupEventListeners(user) {
     });
     
     document.getElementById('claim-daily-btn').addEventListener('click', protectedDailyClaim);
-    document.getElementById('buy-tickets-btn').addEventListener('click', buyTickets);
-    document.getElementById('flip-coin-btn').addEventListener('click', flipCoin);
-    
-    document.getElementById('coin-bet-amount').addEventListener('input', function() {
-        const value = parseInt(this.value);
-        if (value && value >= 1000) {
-            coinGame.betAmount = value;
-        }
-    });
     
     document.getElementById('floatingAddTask').addEventListener('click', function() {
         switchTab('create-task-page');
@@ -4618,8 +4282,8 @@ async function verifyMembership(element, link, taskId, reward, title) {
                 } else {
                     // تحديث يدوي للبيانات الأساسية
                     appData.dogsBalance = result.data.newBalance || appData.dogsBalance;
-                    if (result.data.newGLXBalance !== undefined) {
-                        appData.dogsBalance = result.data.newGLXBalance;
+                    if (result.data.newTSKBalance !== undefined) {
+                        appData.dogsBalance = result.data.newTSKBalance;
                     }
                 }
                 
@@ -4645,7 +4309,7 @@ async function verifyMembership(element, link, taskId, reward, title) {
                 const user = { id: userId };
                 renderUI(user);
                 
-                showNotification(`✅ Channel Verified! +${reward} GLX`, "success");
+                showNotification(`✅ Channel Verified! +${reward} TSK`, "success");
                 
             } else {
                 if (result.error === 'ACCOUNT_BLOCKED') {
@@ -4700,13 +4364,11 @@ function switchTab(targetId) {
     if (targetId === 'bonus') {
         const grid = document.querySelector('.bonus-grid');
         grid.style.display = 'grid';
-        document.getElementById('coin-flip-section').style.display = 'none';
         document.getElementById('promo-codes-section').style.display = 'none';
         document.getElementById('daily-streak-section').style.display = 'none';
-        document.getElementById('galaxy-slots-section').style.display = 'none';
+        document.getElementById('taskora-slots-section').style.display = 'none';
         renderDailyBonusUI();
         updateAvailableSpins();
-        resetCoinFlipGame();
     }
     
     if (targetId === 'withdrawal-history') {
@@ -4717,39 +4379,8 @@ function switchTab(targetId) {
         // Do nothing
     }
     
-    if (targetId === 'competition') {
-        isCompetitionPageVisible = true;
-        if (!isCompetitionDataLoaded) {
-            initializeCompetition();
-        }
-        updateCompetitionUI(); // تحديث مرة واحدة عند فتح الصفحة
-        updateCompetitionLeaderboard(); // تحميل القائمة مباشرة
-        
-        // إيقاف أي مؤقت سابق
-        if (competitionUpdateInterval) {
-            clearInterval(competitionUpdateInterval);
-        }
-        
-        // بدء مؤشر لتحديث القائمة كل دقيقة (فقط إذا كانت الصفحة مفتوحة)
-        competitionUpdateInterval = setInterval(() => {
-            if (isCompetitionPageVisible) {
-                updateCompetitionLeaderboard();
-            }
-        }, LEADERBOARD_UPDATE_INTERVAL);
-    } else {
-        isCompetitionPageVisible = false;
-        if (competitionUpdateInterval) {
-            clearInterval(competitionUpdateInterval);
-            competitionUpdateInterval = null;
-        }
-    }
-    
-    if (targetId === 'galaxy-log-page') {
-        renderGalaxyLog();
-    }
-    
-    if (targetId === 'user-withdrawals') {
-        updateUserWithdrawalsStats();
+    if (targetId === 'taskora-log-page') {
+        renderTaskoraLog();
     }
     
     if (targetId === 'withdraw') {
@@ -4765,10 +4396,10 @@ async function renderLeaderboard() {
     const result = await callAPI('getLeaderboard');
     if (result.success) {
         const byInv = result.data.byInvites || [];
-        const byGLX = result.data.byGLX || [];
+        const byTSK = result.data.byTSK || [];
         
         fillList(byInv, 'invites-leaderboard-list', 'referrals', 'Frens');
-        fillList(byGLX, 'earnings-leaderboard-list', 'dogsBalance', 'GLX');
+        fillList(byTSK, 'earnings-leaderboard-list', 'dogsBalance', 'TSK');
     }
 }
 
@@ -4890,7 +4521,7 @@ function resetCaptcha(){
  currentCaptchaToken=null;
 }
 
-window.GLX_CAPTCHA = {
+window.TSK_CAPTCHA = {
  show(type='turnstile', containerId='captchaWidget'){
   currentCaptchaType=type;
   setTimeout(()=>{
