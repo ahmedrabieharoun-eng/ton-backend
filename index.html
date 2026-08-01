@@ -363,7 +363,7 @@
         .competition-nav-icon{position:relative;display:flex;align-items:center;justify-content:center;}
         @keyframes trophyGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(255,215,0,0.7));}50%{filter:drop-shadow(0 0 20px rgba(255,215,0,0.9));}}
         .nav-item.competition-nav-item.active svg{animation:trophyGlow 2s infinite alternate;}
-        .nav-item[data-target="withdrawal-history"] svg{filter:drop-shadow(0 0 8px rgba(168,85,247,0.4));animation:none;}
+        .nav-item[data-target="user-withdrawals"] svg{filter:drop-shadow(0 0 8px rgba(168,85,247,0.4));animation:none;}
         .taskora-log-icon{width:40px;height:40px;background:rgba(168,85,247,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(168,85,247,0.4);transition:all 0.3s;}
         .taskora-log-icon:hover{transform:scale(1.05);background:rgba(168,85,247,0.3);border-color:#a855f7;}
         .btn-filter{padding:8px 15px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--text-muted);font-size:12px;cursor:pointer;transition:all 0.3s;}
@@ -965,15 +965,12 @@
 <div class="page-header"><h1>Ledger</h1><p>Transaction History</p></div>
 <div id="full-history-list" style="padding-bottom:20px;"></div>
 </main>
-<main id="withdrawal-history" class="content-section">
-<div class="page-header"><h1>Withdrawal History</h1><p>All completed withdrawals</p></div>
-<div class="card" style="margin-top:15px;">
-<h2 style="display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-credit-card"></i>Payments Channel</h2>
-<div class="support-channel-card" onclick="window.open('https://t.me/earnmoney139482','_blank')">
-<div style="display:flex;align-items:center;gap:12px;"><div style="width:50px;height:50px;background:linear-gradient(135deg,#a855f7,#7b61ff);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;"><i class="fab fa-telegram"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:700;color:white;margin-bottom:5px;">Payments & Withdrawals Channel</div><div style="font-size:11px;color:var(--text-muted);">Track payments, withdrawals, and transaction updates</div><div style="font-size:10px;color:#ffb300;margin-top:5px;"><i class="fa-solid fa-users"></i> @earnmoney139482</div></div><div style="color:var(--primary-green);font-size:18px;"><i class="fa-solid fa-arrow-right"></i></div></div>
+<main id="user-withdrawals" class="content-section">
+<div class="page-header"><h1>My Withdrawals</h1><p>Track your withdrawal requests</p></div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;"><h3 style="color:var(--gold);font-size:14px;">Withdrawal History</h3><div style="display:flex;gap:5px;"><button class="btn-filter small active" onclick="filterUserWithdrawals('all')">All</button><button class="btn-filter small" onclick="filterUserWithdrawals('pending')">Pending</button><button class="btn-filter small" onclick="filterUserWithdrawals('completed')">Completed</button></div></div>
+<div id="user-withdrawals-list" style="max-height:400px;overflow-y:auto;display:flex;flex-direction:column-reverse;"></div>
 </div>
-</div>
-<div id="withdrawal-history-list" style="max-height:500px;overflow-y:auto;"></div>
 </main>
 <main id="swap-page" class="content-section">
 <div class="page-header"><h1>Swap Market</h1><p>100K TSK = 0.01 TON</p></div>
@@ -1042,7 +1039,7 @@
 <div class="nav-item" data-target="tasks"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="nav-text">Tasks</span></div>
 <div class="nav-item" data-target="bonus"><svg viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg><span class="nav-text">Bonus</span></div>
 <div class="nav-item" data-target="referrals"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Referrals</span></div>
-<div class="nav-item" data-target="withdrawal-history"><svg viewBox="0 0 24 24" style="filter:drop-shadow(0 0 8px rgba(168,85,247,0.4));"><path d="M12 2v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 12l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-text">Withdrawals</span></div>
+<div class="nav-item" data-target="user-withdrawals"><svg viewBox="0 0 24 24" style="filter:drop-shadow(0 0 8px rgba(168,85,247,0.4));"><path d="M12 2v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 12l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-text">My Withdrawals</span></div>
 </nav>
 <script>
 // 🔹 متغيرات نظام الكابتشا
@@ -3733,49 +3730,7 @@ async function renderHistory(container, limit, user) {
     }
 }
 
-async function renderWithdrawalHistory() {
-    const result = await callAPI('getWithdrawalHistory');
-    if (result.success) {
-        const container = document.getElementById('withdrawal-history-list');
-        container.innerHTML = '';
-        
-        const withdrawals = result.data.withdrawals || [];
-        if (withdrawals.length === 0) {
-            container.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-muted);">No withdrawals yet.</p>';
-            return;
-        }
-        
-        withdrawals.forEach(withdrawal => {
-            const timeAgo = getTimeAgo(withdrawal.timestamp);
-            const amount = parseFloat(withdrawal.amount || 0).toFixed(7);
-            
-            let maskedAccount = withdrawal.account || '';
-            if (withdrawal.method === 'faucetpay' && maskedAccount.includes('@')) {
-                const [localPart, domain] = maskedAccount.split('@');
-                if (localPart.length > 3) {
-                    maskedAccount = localPart.charAt(0) + '*'.repeat(Math.max(3, localPart.length - 2)) + localPart.charAt(localPart.length - 1) + '@' + domain;
-                }
-            } else if (withdrawal.method === 'ton') {
-                if (maskedAccount.length > 16) {
-                    maskedAccount = maskedAccount.substring(0, 8) + '...' + maskedAccount.substring(maskedAccount.length - 4);
-                }
-            }
-            
-            const html = `<div class="list-card" style="margin-bottom:8px;">
-                            <div class="lc-icon"><img src="${withdrawal.photoUrl || 'https://i.ibb.co/RVhNgFc/photo.jpg'}" style="border-radius:50%;"></div>
-                            <div class="lc-content">
-                                <div class="lc-title">${withdrawal.name || 'Anonymous'}</div>
-                                <div class="lc-sub">${withdrawal.method === 'ton' ? 'TON Wallet: ' + maskedAccount : 'FaucetPay: ' + maskedAccount}</div>
-                            </div>
-                            <div class="lc-end">
-                                <div class="lc-val" style="color:var(--primary-green);">${amount} TON</div>
-                                <div class="lc-sub" style="font-size:9px;">${timeAgo}</div>
-                            </div>
-                        </div>`;
-            container.insertAdjacentHTML('beforeend', html);
-        });
-    }
-}
+
 
 async function initiateDeposit() {
     // ✅ التحقق من الحظر أولاً
@@ -4371,8 +4326,8 @@ function switchTab(targetId) {
         updateAvailableSpins();
     }
     
-    if (targetId === 'withdrawal-history') {
-        renderWithdrawalHistory();
+    if (targetId === 'user-withdrawals') {
+        updateUserWithdrawalsStats();
     }
     
     if (targetId === 'referrals') {
@@ -4461,7 +4416,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             return;
         }
         
-        showMainApp();
         const { user, isExisting, deviceFingerprint } = verificationResult;
         
         if (window.Telegram?.WebApp) {
@@ -4471,8 +4425,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             window.Telegram.WebApp.backgroundColor = '#202020';
         }
         
+        // ✅ تحميل كل بيانات المستخدم أولاً أثناء شاشة التحميل، ثم إظهار التطبيق
         await initializeUser(user, deviceFingerprint);
         initializeApp(user);
+        showMainApp();
     }, 10000); // 10 ثوانٍ
 });
 </script>
