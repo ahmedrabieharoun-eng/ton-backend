@@ -2408,7 +2408,7 @@ async function initializeUser(user, deviceFingerprint) {
             return;
         }
         console.error('Error initializing user:', result.error);
-        showNotification("Couldn't load your balance. Pull to refresh or reopen the app.", "error");
+        showNotification(`Couldn't load your balance (${result.error || result.errorCode || 'unknown error'}). Pull to refresh or reopen the app.`, "error");
     }
 }
 
