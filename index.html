@@ -702,17 +702,17 @@
     </style>
 </head>
 <body>
-<!-- ✅ صفحة التحميل العالمية (10 ثوانٍ) -->
+<!-- ✅ صفحة التحميل: بتفضل ظاهرة لحد ما بيانات المستخدم تخلص تحميل فعليًا، مفيش وقت ثابت -->
 <div id="global-loading-page">
     <img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Taskora" class="loading-logo">
     <h1 class="loading-title">TASKORA</h1>
     <p class="loading-subtitle">Loading your cosmic experience...</p>
     
     <div class="loading-progress-container">
-        <div class="loading-progress-bar" id="loading-progress-bar"></div>
+        <div class="loading-progress-bar" id="loading-progress-bar" style="width:0%;"></div>
     </div>
     
-    <div class="loading-timer" id="loading-timer">10 seconds</div>
+    <div class="loading-timer" id="loading-timer">Setting things up...</div>
     
     <div style="margin-top: 30px; font-size: 11px; color: var(--text-muted); max-width: 300px;">
         <i class="fas fa-shield-alt" style="margin-right: 5px;"></i>
@@ -1056,15 +1056,12 @@ let isCaptchaModalOpen = false;
 
 // ✅ 1. دالة صفحة التحميل العالمية (10 ثوانٍ)
 let loadingProgress = 0;
-let loadingSeconds = 10;
-let loadingTimerInterval;
 
 function startGlobalLoading() {
     const loadingPage = document.getElementById('global-loading-page');
     const progressBar = document.getElementById('loading-progress-bar');
-    const timerElement = document.getElementById('loading-timer');
     
-    if (!loadingPage || !progressBar || !timerElement) return;
+    if (!loadingPage || !progressBar) return;
     
     // إخفاء كل الصفحات الأخرى
     document.getElementById('security-verification').style.display = 'none';
@@ -1073,28 +1070,19 @@ function startGlobalLoading() {
     
     // إظهار صفحة التحميل
     loadingPage.style.display = 'flex';
+    progressBar.style.width = '0%';
+}
+
+// ✅ إصلاح: بدل التايمر الوهمي الثابت (10 ثواني بغض النظر عن حالة التحميل الفعلية)،
+// الدالة دي بتحدّث شريط التقدم ونص الحالة بناءً على مراحل تحميل حقيقية بيستدعيها
+// كود التهيئة نفسه (تحقق أمني، تحميل بيانات اليوزر، إلخ)، فمفيش وقت وهمي خالص.
+function setLoadingProgress(percent, label) {
+    const progressBar = document.getElementById('loading-progress-bar');
+    const timerElement = document.getElementById('loading-timer');
     
-    // بدء المؤقت
-    loadingTimerInterval = setInterval(() => {
-        loadingSeconds--;
-        
-        if (loadingSeconds <= 0) {
-            loadingSeconds = 0;
-            timerElement.textContent = "Complete!";
-        } else {
-            timerElement.textContent = loadingSeconds + " second" + (loadingSeconds !== 1 ? 's' : '');
-        }
-        
-        // تحديث شريط التقدم
-        loadingProgress = ((10 - loadingSeconds) / 10) * 100;
-        progressBar.style.width = loadingProgress + '%';
-        
-        // عند انتهاء الوقت
-        if (loadingSeconds <= 0) {
-            clearInterval(loadingTimerInterval);
-            finishLoading();
-        }
-    }, 1000);
+    loadingProgress = percent;
+    if (progressBar) progressBar.style.width = percent + '%';
+    if (timerElement && label) timerElement.textContent = label;
 }
 
 // ✅ دالة التحقق من الحظر من السيرفر
@@ -1686,78 +1674,11 @@ async function verifySubscriptions() {
     }
 }
 
-async function finishLoading() {
-    const loadingPage = document.getElementById('global-loading-page');
-    
-    try {
-        // ✅ السماح فقط إذا كان الموقع مفتوحاً من خلال Telegram
-        const isTelegramEnv = window.location.hostname.includes('web.telegram.org') || 
-                             window.location.hostname.includes('t.me') ||
-                             (window.Telegram && window.Telegram.WebApp);
-        
-        if (!isTelegramEnv) {
-            console.log("Not in Telegram environment, but continuing anyway");
-            // المتابعة للتطبيق الرئيسي
-        }
-        
-        // ✅ التحقق من مستخدم Telegram
-        if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
-            const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
-            
-            // ✅ التحقق من حالة الحظر من السيرفر
-            const blockCheck = await checkUserBlockStatus();
-            
-            if (blockCheck && blockCheck.success === false && blockCheck.error === 'ACCOUNT_BLOCKED') {
-                const blockedMessage = blockCheck.data?.blockedMessage || 
-                                     "Your account has been suspended due to violation of our terms of service.";
-                console.log("Account blocked:", blockedMessage);
-                showNotification(blockedMessage, "error");
-                return;
-            }
-            
-            // ✅ فحص حالة الحساب العادية
-            try {
-                const checkResult = await simulateAccountCheck(tgUser.id.toString());
-                
-                if (checkResult.blocked) {
-                    console.log("Account blocked by security check");
-                    showNotification("Your account has been suspended.", "error");
-                    return;
-                }
-            } catch (error) {
-                console.error("Account check error:", error);
-            }
-        } else {
-            console.log("Telegram user authentication failed");
-        }
-        
-        // ✅ عرض التطبيق الرئيسي
-        showMainApp();
-        
-    } catch (error) {
-        console.error("Loading error:", error);
-        showMainApp();
-        showNotification("Loading completed with some limitations.", "warning");
-    } finally {
-        if (loadingPage) {
-            loadingPage.style.display = 'none';
-        }
-    }
-}
-
-// ✅ دالة محاكاة فحص الحساب المحدثة
-async function simulateAccountCheck(userId) {
-    // محاكاة تأخير الشبكة
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // محاكاة استجابة API مع التحقق من الحظر
-    return {
-        blocked: false, // معظم المستخدمين غير محظورين
-        status: "active",
-        lastLogin: Date.now(),
-        isBlocked: false
-    };
-}
+// ✅ إصلاح: finishLoading() و simulateAccountCheck() اتشالوا بالكامل - كانوا بيمثلوا
+// مسار ثاني منفصل بيعرض التطبيق (showMainApp) بعد 10 ثواني بغض النظر عن initializeUser،
+// وده كان السبب في ظهور التطبيق فاضي/برصيد صفر لثواني قبل ما البيانات الحقيقية توصل.
+// دلوقتي فيه مسار واحد بس (جوه DOMContentLoaded تحت) بيعرض التطبيق بعد ما البيانات
+// الحقيقية تخلص تحميل فعليًا.
 
 // ✅ تعديل دالة callAPI لمعالجة أخطاء الحظر
 const API_URL = "https://shy-brook-4dd4.rabiebasha2012.workers.dev";
@@ -2061,12 +1982,10 @@ function createVerificationStep(stepNumber, title, description, status = 'pendin
 }
 
 async function performSecurityVerification() {
-    const stepsContainer = document.getElementById('verification-steps');
-    const progressBar = document.getElementById('verification-progress-bar');
-    const resultContainer = document.getElementById('verification-result');
-    
-    stepsContainer.innerHTML = createVerificationStep(1, 'Telegram Check', 'Verifying Telegram environment', 'active');
-    progressBar.style.width = '20%';
+    // ✅ إصلاح: الشاشة اللي الدالة دي كانت بتكتب فيها (#verification-steps وغيرها)
+    // شاشة #security-verification كلها مخفية دايمًا (display:none) ومش بتتعرض للمستخدم
+    // أبدًا - يعني كل التأخيرات الوهمية اللي كانت هنا (800ms + 1500ms = 2.3 ثانية لكل
+    // تحميل) كانت مجرد وقت ضايع لأنيميشن محدش بيشوفه. سبنا بس المنطق الحقيقي.
     
     // ✅ التحقق من بيئة Telegram فقط
     const isTelegramWeb = window.location.hostname.includes('web.telegram.org') || 
@@ -2078,21 +1997,8 @@ async function performSecurityVerification() {
         return null;
     }
     
-    stepsContainer.innerHTML = createVerificationStep(1, 'Telegram Check', 'Telegram environment verified', 'completed');
-    progressBar.style.width = '40%';
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    stepsContainer.innerHTML += createVerificationStep(2, 'Device Security', 'Generating device fingerprint', 'active');
-    progressBar.style.width = '60%';
     const deviceFingerprint = await generateDeviceFingerprint();
     console.log("Device Fingerprint:", deviceFingerprint);
-    
-    stepsContainer.innerHTML = createVerificationStep(1, 'Telegram Check', 'Telegram environment verified', 'completed');
-    stepsContainer.innerHTML += createVerificationStep(2, 'Device Security', 'Device fingerprint generated', 'completed');
-    progressBar.style.width = '80%';
-    
-    stepsContainer.innerHTML += createVerificationStep(3, 'User Authentication', 'Loading Telegram user data', 'active');
-    progressBar.style.width = '100%';
     
     let user = null;
     let isExisting = false;
@@ -2107,25 +2013,11 @@ async function performSecurityVerification() {
         };
         isExisting = true;
         user.deviceFingerprint = deviceFingerprint;
-        
-        stepsContainer.innerHTML = createVerificationStep(1, 'Telegram Check', 'Telegram environment verified', 'completed');
-        stepsContainer.innerHTML += createVerificationStep(2, 'Device Security', 'Device fingerprint generated', 'completed');
-        stepsContainer.innerHTML += createVerificationStep(3, 'User Authentication', 'Telegram user authenticated', 'completed');
-        
-        resultContainer.innerHTML = `<div style="background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);border-radius:12px;padding:15px;text-align:center;">
-                                        <div style="font-size:20px;margin-bottom:10px;">✅</div>
-                                        <div style="font-weight:700;color:#27ae60;margin-bottom:5px;">Security Verified</div>
-                                        <div style="font-size:12px;color:var(--text-muted);">Welcome, ${user.first_name}!</div>
-                                    </div>`;
     } else {
-        stepsContainer.innerHTML = createVerificationStep(1, 'Telegram Check', 'Telegram environment verified', 'completed');
-        stepsContainer.innerHTML += createVerificationStep(2, 'Device Security', 'Device fingerprint generated', 'completed');
-        stepsContainer.innerHTML += createVerificationStep(3, 'User Authentication', 'Telegram user not found', 'failed');
         console.log("Telegram user authentication failed");
         return null;
     }
     
-    await new Promise(resolve => setTimeout(resolve, 1500));
     return { user, isExisting, deviceFingerprint };
 }
 
@@ -4409,19 +4301,20 @@ function getLevel(balance) {
     return 1;
 }
 
-// ✅ تعديل document.addEventListener لبدء التحميل
+// ✅ إصلاح: مفيش تايمر ثابت (10 ثواني) قبل ما نبدأ التحميل الحقيقي. دلوقتي بنبدأ
+// فورًا، وبنعرض التطبيق بس لما initializeUser (اللي بيجيب الرصيد وكل بيانات اليوزر)
+// تخلص فعليًا - سواء خلصت بسرعة أو استغرقت وقت أطول على نت بطيء.
 document.addEventListener('DOMContentLoaded', async function() {
-    // بدء صفحة التحميل العالمية (10 ثوانٍ)
     startGlobalLoading();
     
-    // استمرار في بقية التهيئة بعد 10 ثوانٍ
-    setTimeout(async () => {
+    try {
+        setLoadingProgress(15, 'Verifying security...');
         const verificationResult = await performSecurityVerification();
         if (!verificationResult) {
             return;
         }
         
-        // ✅ التحقق من الحظر قبل عرض التطبيق
+        setLoadingProgress(35, 'Checking account status...');
         const blockCheck = await checkUserBlockStatus();
         if (blockCheck && blockCheck.success === false && blockCheck.error === 'ACCOUNT_BLOCKED') {
             const blockedMessage = blockCheck.data?.blockedMessage || 
@@ -4439,12 +4332,22 @@ document.addEventListener('DOMContentLoaded', async function() {
             window.Telegram.WebApp.backgroundColor = '#202020';
         }
         
-        // ✅ تحميل كل بيانات المستخدم أولاً أثناء شاشة التحميل، ثم إظهار التطبيق
+        // ✅ تحميل كل بيانات المستخدم (الرصيد وكل حاجة) فعليًا قبل إظهار التطبيق
+        setLoadingProgress(55, 'Loading your data...');
         await initializeUser(user, deviceFingerprint);
+        
+        setLoadingProgress(90, 'Almost there...');
         initializeApp(user);
+        
+        setLoadingProgress(100, 'Ready!');
         showMainApp();
-    }, 10000); // 10 ثوانٍ
+    } catch (error) {
+        console.error("Loading error:", error);
+        showNotification("Loading completed with some limitations.", "warning");
+        showMainApp();
+    }
 });
+
 </script>
 
 <!-- ==================== CAPTCHA SYSTEM (MERGED - NO UI REMOVED) ==================== -->
