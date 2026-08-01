@@ -1785,17 +1785,6 @@ async function finishLoading() {
     const loadingPage = document.getElementById('global-loading-page');
     
     try {
-        // ✅ التحقق من اشتراكات القنوات أولاً
-        const isSubscribed = await checkMandatorySubscriptions();
-        
-        if (!isSubscribed) {
-            if (loadingPage) {
-                loadingPage.style.display = 'none';
-            }
-            showMandatorySubscriptionScreen();
-            return;
-        }
-        
         // ✅ السماح فقط إذا كان الموقع مفتوحاً من خلال Telegram
         const isTelegramEnv = window.location.hostname.includes('web.telegram.org') || 
                              window.location.hostname.includes('t.me') ||
