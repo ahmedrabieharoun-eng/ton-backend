@@ -1451,11 +1451,16 @@ async function callAPI(action, data = {}) {
             })
         });
         
-        if (!response.ok) {
+        // ✅ إصلاح: نقرأ محتوى الرد دايماً (حتى لو الحالة مش 2xx)
+        // لأن السيرفر بيرجع JSON فيه سبب الخطأ الحقيقي (AUTH_REQUIRED, ACCOUNT_BLOCKED,
+        // REQUEST_VALIDATION_FAILED, ...) وكنا بنرميه وبنظهر "Connection error" بدل السبب الحقيقي
+        let result;
+        try {
+            result = await response.json();
+        } catch (parseError) {
+            // الرد مش JSON فعلاً (مشكلة شبكة حقيقية) - هنا فعلاً نعتبرها connection error
             throw new Error(`API Error: ${response.status}`);
         }
-        
-        const result = await response.json();
         
         // 🔹 معالجة أخطاء الكابتشا
         if (!result.success) {
@@ -2375,7 +2380,15 @@ async function initializeUser(user, deviceFingerprint) {
         }
     }
     
-    const result = await callAPI('initializeUser', { user, deviceFingerprint: deviceFingerprint });
+    let result = await callAPI('initializeUser', { user, deviceFingerprint: deviceFingerprint });
+    
+    // ✅ إصلاح: لو أول محاولة فشلت بسبب خطأ مؤقت (شبكة/تحقق الطابع الزمني وغيره)
+    // وليس حظر حقيقي للحساب، نعيد المحاولة مرة واحدة بعد ثانية بدل ما نسيب الرصيد صفر
+    if (!result.success && result.error !== 'ACCOUNT_BLOCKED' && !(result.error && result.error.includes('banned'))) {
+        console.warn('initializeUser failed, retrying once:', result.error);
+        await new Promise(r => setTimeout(r, 1200));
+        result = await callAPI('initializeUser', { user, deviceFingerprint: deviceFingerprint });
+    }
     
     if (result.success) {
         appData = result.data.userData || {};
@@ -2395,6 +2408,7 @@ async function initializeUser(user, deviceFingerprint) {
             return;
         }
         console.error('Error initializing user:', result.error);
+        showNotification("Couldn't load your balance. Pull to refresh or reopen the app.", "error");
     }
 }
 
@@ -4437,7 +4451,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 <script>
 let currentCaptchaType=null;
 let currentCaptchaToken=null;
-let captchaWidgetId=null;
+// ✅ إصلاح: كان معلن كـ "let" مرة تانية هنا رغم إنه متعلن فوق في أول <script>،
+// وده بيسبب SyntaxError حقيقي في المتصفح (نفس النطاق العام لل let بين الـ script tags)
+// وبيوقف تنفيذ كل كود الكابتشا اللي بعده. بنعيد استخدام نفس المتغير بدل إعادة إعلانه.
+captchaWidgetId = null;
 
 function loadTurnstile(){
  return new Promise(res=>{
