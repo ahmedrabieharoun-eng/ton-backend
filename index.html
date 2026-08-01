@@ -1075,27 +1075,11 @@
 <main id="withdraw" class="content-section">
 <div class="page-header"><h1>Withdraw</h1><p>GLX out to TON Wallet</p></div>
     
-<!-- ✅ إضافة عداد السحب اليومي -->
-<div class="withdrawals-counter" id="daily-withdrawals-counter">
-    <div>Today's Withdrawals: <span class="count" id="today-withdrawals-count">0</span>/2</div>
-    <div class="reset-time" id="withdraw-reset-timer">Resets in: 24h 00m</div>
-</div>
-    
-<div class="withdrawal-type-selector">
-<div class="withdrawal-type-btn active" data-type="faucetpay" onclick="selectWithdrawalType('faucetpay')"><i class="fa-solid fa-envelope"></i>FaucetPay</div>
-<div class="withdrawal-type-btn" data-type="tonwallet" onclick="selectWithdrawalType('tonwallet')"><i class="fa-solid fa-wallet"></i>TON Wallet</div>
-</div>
-<div id="faucetpay-form" class="card">
-<div class="input-wrap"><span class="input-label">FaucetPay Email Address</span><input type="email" id="faucetpay-email" class="custom-input" placeholder="example@gmail.com" oninput="maskEmail()"><div id="email-preview" class="email-display masked-email" style="display:none;margin-top:8px;font-size:12px;color:#a855f7;font-family:'Courier New',monospace;"></div></div>
-<div class="input-wrap withdraw-input-with-max"><span class="input-label">Withdrawal Amount (TON)</span><div style="display:flex;align-items:center;gap:8px;"><input type="number" id="faucetpay-amount" class="custom-input" placeholder="0.0001" step="0.0001" min="0.0001" value="0.0001" style="flex:1;"><button class="max-btn" onclick="setMaxFaucetPay()">MAX</button></div><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Minimum: 0.0001 TON</div></div>
-<div class="info-box"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="info-icon">!</div><div style="font-size:11px;line-height:1.4;"><strong>Important Information:</strong><br>• Enter the email registered with your FaucetPay account<br>• Minimum withdrawal: 0.0001 TON<br>• <span style="color:#27ae60;">✅ No fees</span> - We cover all transaction costs<br>• Processing time: Up to 1 minute<br>• Your email will be partially hidden for privacy</div></div></div>
-<button class="btn btn-primary" id="withdraw-faucetpay-btn" onclick="handleFaucetPayWithdraw()"><i class="fa-solid fa-paper-plane"></i>WITHDRAW VIA FAUCETPAY</button>
-</div>
-<div id="tonwallet-form" class="card" style="display:none;">
+<div id="tonwallet-form" class="card">
 <div class="input-wrap"><span class="input-label">TON Wallet Address</span><input type="text" id="ton-wallet-address" class="custom-input" placeholder="UQ... or EQ... or kQ..."><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Enter your TON wallet address (starts with UQ, EQ, or kQ)</div></div>
 <div class="input-wrap"><span class="input-label">Memo (Optional)</span><input type="text" id="ton-memo" class="custom-input" placeholder="For exchange deposits only"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Optional: Required by some exchanges for deposits</div></div>
 <div class="input-wrap withdraw-input-with-max"><span class="input-label">Withdrawal Amount (TON)</span><div style="display:flex;align-items:center;gap:8px;"><input type="number" id="ton-withdraw-amount" class="custom-input" placeholder="0.05" step="0.01" min="0.05" value="0.05" style="flex:1;"><button class="max-btn" onclick="setMaxTonWallet()">MAX</button></div><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Minimum: 0.05 TON</div></div>
-<div class="info-box success"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="info-icon">✓</div><div style="font-size:11px;line-height:1.4;"><strong>Withdrawal Details:</strong><br>• Minimum withdrawal: 0.05 TON<br>• <span style="color:#27ae60;">✅ No fees</span> - We cover all transaction costs<br>• Processing time: Up to 24 hours<br>• Memo is only needed for exchange deposits<br>• Ensure address is correct - transactions are irreversible</div></div></div>
+<div class="info-box success"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="info-icon">✓</div><div style="font-size:11px;line-height:1.4;"><strong>Withdrawal Details:</strong><br>• Minimum withdrawal: 0.05 TON<br>• <span style="color:#27ae60;">✅ No fees</span> - We cover all transaction costs<br>• Processing time: 1-3 minutes<br>• Memo is only needed for exchange deposits<br>• Ensure address is correct - transactions are irreversible</div></div></div>
 <button class="btn btn-primary" id="withdraw-ton-now-btn" onclick="handleTonWalletWithdraw()"><i class="fa-solid fa-wallet"></i>WITHDRAW TO TON WALLET</button>
 </div>
 </main>
@@ -2420,7 +2404,7 @@ let coinGame = {
     animationId: null
 };
 
-let withdrawalType = 'faucetpay';
+let withdrawalType = 'tonwallet';
 let swapDirection = 'glx_to_ton';
 let countdownInterval = null;
 let competitionData = {
@@ -2651,158 +2635,37 @@ async function initializeUser(user, deviceFingerprint) {
     }
 }
 
-// ✅ دالة تحميل بيانات السحب اليومي
+// ✅ حد السحب اليومي معطّل بالكامل - الدوال التالية أصبحت بدون تأثير
 async function loadDailyWithdrawalsData() {
-    const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
-    if (!userId) return;
-    
-    try {
-        const result = await callAPI('getDailyWithdrawals', { userId: userId });
-        if (result.success) {
-            dailyWithdrawals = {
-                count: result.data.todayWithdrawals || 0,
-                lastReset: result.data.lastReset || Date.now(),
-                limit: appSettings.dailyWithdrawalLimit || 2
-            };
-            
-            // ✅ تحديث العداد في الواجهة
-            updateWithdrawalsCounterUI();
-            checkWithdrawalLimit();
-        }
-    } catch (error) {
-        console.error("Error loading daily withdrawals:", error);
-    }
+    return;
 }
 
-// ✅ دالة تحديث عداد السحب اليومي
 function updateWithdrawalsCounterUI() {
-    const counterElement = document.getElementById('daily-withdrawals-counter');
-    const countElement = document.getElementById('today-withdrawals-count');
-    const timerElement = document.getElementById('withdraw-reset-timer');
-    
-    if (!counterElement || !countElement || !timerElement) return;
-    
-    // تحديث العدد
-    countElement.textContent = dailyWithdrawals.count;
-    
-    // تحديث المؤقت
-    updateWithdrawalsResetTimer();
-    
-    // إذا وصل للحد
-    if (dailyWithdrawals.count >= dailyWithdrawals.limit) {
-        counterElement.style.background = 'rgba(231,76,60,0.2)';
-        counterElement.style.borderColor = 'rgba(231,76,60,0.3)';
-        countElement.style.color = '#e74c3c';
-        timerElement.style.color = '#ffb3b3';
-    } else {
-        counterElement.style.background = 'rgba(168,85,247,0.2)';
-        counterElement.style.borderColor = 'rgba(168,85,247,0.3)';
-        countElement.style.color = 'var(--primary-green)';
-        timerElement.style.color = '#FFC107';
-    }
+    return;
 }
 
-// ✅ دالة تحديث مؤقت إعادة تعيين السحب
 function updateWithdrawalsResetTimer() {
-    const timerElement = document.getElementById('withdraw-reset-timer');
-    if (!timerElement) return;
-    
-    const now = Date.now();
-    const nextReset = dailyWithdrawals.lastReset + (24 * 60 * 60 * 1000);
-    const timeLeft = nextReset - now;
-    
-    if (timeLeft <= 0) {
-        timerElement.textContent = "Resets now!";
-        // إعادة تعيين العد تلقائياً
-        resetDailyWithdrawals();
-    } else {
-        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        timerElement.textContent = `Resets in: ${hours}h ${minutes}m`;
-    }
+    return;
 }
 
-// ✅ دالة إعادة تعيين السحب اليومي
 async function resetDailyWithdrawals() {
-    dailyWithdrawals.count = 0;
-    dailyWithdrawals.lastReset = Date.now();
-    
-    // تحديث الواجهة
-    updateWithdrawalsCounterUI();
-    checkWithdrawalLimit();
-    
-    // تحديث السيرفر
-    const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
-    if (userId) {
-        try {
-            await callAPI('resetDailyWithdrawals', { 
-                userId: userId,
-                resetTime: dailyWithdrawals.lastReset 
-            });
-        } catch (error) {
-            console.error("Error resetting daily withdrawals:", error);
-        }
-    }
+    return;
 }
 
-// ✅ دالة التحقق من حد السحب اليومي
+// ✅ لا يوجد حد سحب يومي - دائماً مسموح
 function checkWithdrawalLimit() {
-    const faucetpayBtn = document.getElementById('withdraw-faucetpay-btn');
     const tonwalletBtn = document.getElementById('withdraw-ton-now-btn');
-    
-    const isLimitReached = dailyWithdrawals.count >= dailyWithdrawals.limit;
-    
-    if (faucetpayBtn) {
-        if (isLimitReached) {
-            faucetpayBtn.disabled = true;
-            faucetpayBtn.classList.add('withdraw-disabled');
-            faucetpayBtn.classList.add('daily-limit-reached');
-            faucetpayBtn.innerHTML = '<i class="fa-solid fa-ban"></i> DAILY LIMIT REACHED (2/2)';
-        } else {
-            faucetpayBtn.disabled = false;
-            faucetpayBtn.classList.remove('withdraw-disabled');
-            faucetpayBtn.classList.remove('daily-limit-reached');
-            faucetpayBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> WITHDRAW VIA FAUCETPAY';
-        }
-    }
-    
     if (tonwalletBtn) {
-        if (isLimitReached) {
-            tonwalletBtn.disabled = true;
-            tonwalletBtn.classList.add('withdraw-disabled');
-            tonwalletBtn.classList.add('daily-limit-reached');
-            tonwalletBtn.innerHTML = '<i class="fa-solid fa-ban"></i> DAILY LIMIT REACHED (2/2)';
-        } else {
-            tonwalletBtn.disabled = false;
-            tonwalletBtn.classList.remove('withdraw-disabled');
-            tonwalletBtn.classList.remove('daily-limit-reached');
-            tonwalletBtn.innerHTML = '<i class="fa-solid fa-wallet"></i> WITHDRAW TO TON WALLET';
-        }
+        tonwalletBtn.disabled = false;
+        tonwalletBtn.classList.remove('withdraw-disabled');
+        tonwalletBtn.classList.remove('daily-limit-reached');
+        tonwalletBtn.innerHTML = '<i class="fa-solid fa-wallet"></i> WITHDRAW TO TON WALLET';
     }
-    
-    return !isLimitReached;
+    return true;
 }
 
-// ✅ دالة زيادة عداد السحب اليومي
 async function incrementDailyWithdrawals() {
-    dailyWithdrawals.count++;
-    
-    // تحديث الواجهة
-    updateWithdrawalsCounterUI();
-    checkWithdrawalLimit();
-    
-    // تحديث السيرفر
-    const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
-    if (userId) {
-        try {
-            await callAPI('incrementDailyWithdrawals', { 
-                userId: userId,
-                count: dailyWithdrawals.count 
-            });
-        } catch (error) {
-            console.error("Error incrementing daily withdrawals:", error);
-        }
-    }
+    return;
 }
 
 function initializeApp(user) {
@@ -2825,7 +2688,7 @@ function initializeApp(user) {
         isAdScriptLoaded = typeof show_10058786 === "function";
     }, 2500);
     
-    selectWithdrawalType('faucetpay');
+    selectWithdrawalType('tonwallet');
     selectSwapDirection('glx_to_ton');
     
     const ticketInput = document.getElementById('ticket-amount');
@@ -3464,46 +3327,6 @@ async function loadPreviousWinners() {
         });
     }
 }
-
-window.maskEmail = function() {
-    const emailInput = document.getElementById('faucetpay-email');
-    const emailPreview = document.getElementById('email-preview');
-    
-    if (!emailInput || !emailPreview) return;
-    
-    const email = emailInput.value.trim();
-    if (!email || typeof email !== 'string' || !email.includes('@')) {
-        emailPreview.style.display = 'none';
-        return;
-    }
-    
-    const [localPart, domain] = email.split('@');
-    if (!localPart || !domain) {
-        emailPreview.style.display = 'none';
-        return;
-    }
-    
-    if (localPart.length > 3) {
-        const maskedLocal = localPart.charAt(0) + '*'.repeat(Math.max(3, localPart.length - 2)) + localPart.charAt(localPart.length - 1);
-        const maskedEmail = `${maskedLocal}@${domain}`;
-        emailPreview.textContent = maskedEmail;
-        emailPreview.style.display = 'block';
-    } else {
-        emailPreview.style.display = 'none';
-    }
-};
-
-window.setMaxFaucetPay = function() {
-    const currentBalance = appData.tonBalance || 0;
-    const minAmount = 0.0001;
-    
-    if (currentBalance < minAmount) {
-        showNotification(`Minimum withdrawal is ${minAmount} TON`, "warning");
-        return;
-    }
-    
-    document.getElementById('faucetpay-amount').value = currentBalance.toFixed(4);
-};
 
 window.setMaxTonWallet = function() {
     const currentBalance = appData.tonBalance || 0;
@@ -4605,7 +4428,6 @@ function setupEventListeners(user) {
         switchTab('create-task-page');
     });
     
-    document.getElementById('faucetpay-email')?.addEventListener('input', maskEmail);
     
     document.querySelectorAll('.btn-filter').forEach(btn => {
         if (!btn.hasAttribute('data-setup')) {
@@ -4624,102 +4446,14 @@ function canClickAd() {
 }
 
 window.selectWithdrawalType = function(type) {
-    withdrawalType = type;
-    document.querySelectorAll('.withdrawal-type-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.withdrawal-type-btn[data-type="${type}"]`).classList.add('active');
-    
-    if (type === 'faucetpay') {
-        document.getElementById('faucetpay-form').style.display = 'block';
-        document.getElementById('tonwallet-form').style.display = 'none';
-    } else {
-        document.getElementById('faucetpay-form').style.display = 'none';
-        document.getElementById('tonwallet-form').style.display = 'block';
-    }
+    withdrawalType = 'tonwallet';
+    document.getElementById('tonwallet-form').style.display = 'block';
 };
-
-async function handleFaucetPayWithdraw() {
-    // ✅ التحقق من الحظر أولاً
-    const isAllowed = await checkBeforeAction("withdraw");
-    if (!isAllowed) return;
-    
-    // ✅ التحقق من حد السحب اليومي
-    const canWithdraw = checkWithdrawalLimit();
-    if (!canWithdraw) {
-        showNotification("⚠️ Daily withdrawal limit reached! You can make only 2 withdrawals per day. Try again tomorrow.", "warning");
-        return;
-    }
-    
-    const email = document.getElementById('faucetpay-email').value.trim();
-    const amount = parseFloat(document.getElementById('faucetpay-amount').value);
-    const minAmount = appSettings.minFaucetPayWithdrawal || 0.0001;
-    const currentBalance = appData.tonBalance || 0;
-    
-    if (!email || !email.includes('@')) {
-        showNotification("Please enter a valid email address.", "warning");
-        return;
-    }
-    
-    if (amount < minAmount) {
-        showNotification(`Minimum withdrawal is ${minAmount} TON for FaucetPay.`, "warning");
-        return;
-    }
-    
-    if (amount >= currentBalance) {
-        showNotification(`Insufficient TON balance. You need at least ${(amount + 0.000001).toFixed(6)} TON.`, "warning");
-        return;
-    }
-    
-    const [localPart, domain] = email.split('@');
-    let maskedEmail = '';
-    if (localPart.length > 3) {
-        maskedEmail = localPart.charAt(0) + '*'.repeat(Math.max(3, localPart.length - 2)) + localPart.charAt(localPart.length - 1) + '@' + domain;
-    } else {
-        maskedEmail = '*'.repeat(localPart.length) + '@' + domain;
-    }
-    
-    if (!confirm(`Withdraw ${amount} TON to ${maskedEmail} via FaucetPay?\n\nEmail will be partially hidden for privacy.\n\nToday's withdrawals: ${dailyWithdrawals.count}/2`)) {
-        return;
-    }
-    
-    const result = await callAPI('submitWithdrawal', {
-        method: 'faucetpay',
-        account: email,
-        amount: amount,
-        maskedAccount: maskedEmail
-    });
-    
-    if (result.success) {
-        appData.tonBalance = result.data.newBalance;
-        
-        // ✅ زيادة عداد السحب اليومي
-        await incrementDailyWithdrawals();
-        
-        showNotification(`✅ Withdrawal request submitted!\n\n${amount} TON will be sent to ${maskedEmail} within 1 minute.\n\nToday's withdrawals: ${dailyWithdrawals.count}/2`, "success");
-        document.getElementById('faucetpay-email').value = '';
-        document.getElementById('faucetpay-amount').value = minAmount;
-        document.getElementById('email-preview').style.display = 'none';
-        switchTab('home');
-        renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
-    } else {
-        if (result.error === 'ACCOUNT_BLOCKED') {
-            showNotification("Your account has been blocked.", "error");
-        } else {
-            showNotification("Error: " + result.error, "error");
-        }
-    }
-}
 
 async function handleTonWalletWithdraw() {
     // ✅ التحقق من الحظر أولاً
     const isAllowed = await checkBeforeAction("withdraw");
     if (!isAllowed) return;
-    
-    // ✅ التحقق من حد السحب اليومي
-    const canWithdraw = checkWithdrawalLimit();
-    if (!canWithdraw) {
-        showNotification("⚠️ Daily withdrawal limit reached! You can make only 2 withdrawals per day. Try again tomorrow.", "warning");
-        return;
-    }
     
     const address = document.getElementById('ton-wallet-address').value.trim();
     const amount = parseFloat(document.getElementById('ton-withdraw-amount').value);
@@ -4747,7 +4481,7 @@ async function handleTonWalletWithdraw() {
         shortAddress = address.substring(0, 8) + '...' + address.substring(address.length - 4);
     }
     
-    if (!confirm(`Withdraw ${amount} TON to ${shortAddress}?\n\nAddress: ${shortAddress}\n${memo ? 'Memo: ' + memo + '\n' : ''}\n\nToday's withdrawals: ${dailyWithdrawals.count}/2`)) {
+    if (!confirm(`Withdraw ${amount} TON to ${shortAddress}?\n\nAddress: ${shortAddress}\n${memo ? 'Memo: ' + memo + '\n' : ''}`)) {
         return;
     }
     
@@ -4761,10 +4495,7 @@ async function handleTonWalletWithdraw() {
     if (result.success) {
         appData.tonBalance = result.data.newBalance;
         
-        // ✅ زيادة عداد السحب اليومي
-        await incrementDailyWithdrawals();
-        
-        showNotification(`✅ Withdrawal request submitted!\n\n${amount} TON will be sent to your wallet within 24 hours.\n\nAddress: ${shortAddress}\n\nToday's withdrawals: ${dailyWithdrawals.count}/2`, "success");
+        showNotification(`✅ Withdrawal request submitted!\n\n${amount} TON will be sent to your wallet within 1-3 minutes.\n\nAddress: ${shortAddress}`, "success");
         document.getElementById('ton-wallet-address').value = '';
         document.getElementById('ton-memo').value = '';
         document.getElementById('ton-withdraw-amount').value = minAmount;
