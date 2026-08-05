@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -984,12 +983,12 @@
 <div id="tsk-to-ton-section">
 <div class="input-wrap"><span class="input-label">أنت تعطي (TSK)</span><input type="number" id="swap-input-amount" class="custom-input" placeholder="الحد الأدنى 1,000" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأقصى:<span id="swap-max-TSK">0</span><button onclick="setMaxSwap('tsk')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">الأقصى</button></div></div>
 <div class="input-wrap"><span class="input-label">أنت تحصل على (TON)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:24px;"><span id="swap-output-amount" class="custom-input">0.0000000</span></div></div>
-<div class="swap-mode-text">السعر: 100,000 TSK = 0.01 TON</div>
+<div class="swap-mode-text" id="swap-rate-label-tsk">السعر: 100,000 TSK = 0.01 TON</div>
 </div>
 <div id="ton-to-tsk-section" style="display:none;">
 <div class="input-wrap"><span class="input-label">أنت تعطي (TON)</span><input type="number" id="ton-input-amount" class="custom-input" placeholder="الحد الأدنى 0.0001" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأقصى:<span id="swap-max-TON">0.0000</span><button onclick="setMaxSwap('ton')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">الأقصى</button></div></div>
 <div class="input-wrap"><span class="input-label">أنت تحصل على (TSK)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" style="width:24px;height:24px;border-radius:50%;"><span id="ton-output-amount" class="custom-input">0</span></div></div>
-<div class="swap-mode-text">السعر: 0.01 TON = 100,000 TSK</div>
+<div class="swap-mode-text" id="swap-rate-label-ton">السعر: 0.01 TON = 100,000 TSK</div>
 </div>
 <button class="btn btn-primary" id="execute-swap-btn" onclick="executeSwap()">تأكيد التبديل</button>
 </div>
@@ -1486,75 +1485,59 @@ async function callAPI(action, data = {}) {
 // ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅
 // ✅ الإصلاح الرئيسي: دالة التحقق من الاشتراك الإجباري في القنوات - الإصدار المصحح
 // ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅
+// ترجع كائن { allSubscribed, missingChannels } بدل true/false فقط، عشان شاشة
+// الاشتراك تقدر تعرض القنوات الحقيقية الناقصة القادمة من السيرفر.
 async function checkMandatorySubscriptions() {
     const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
-    if (!userId) return false;
-    
+    if (!userId) return { allSubscribed: true, missingChannels: [] }; // ما ينفعش نتحقق - نسيبه يكمل بدل ما يعلّق
+
     try {
         const result = await callAPI('checkMandatorySubscriptions', { userId: userId });
-        
+
         console.log("Subscription check result:", result); // للتصحيح
-        
+
         if (result.success && result.data) {
-            // ✅ ✅ ✅ الإصلاح هنا: استخدام allSubscribed بدلاً من subscribed ✅ ✅ ✅
             if (result.data.allSubscribed === true) {
                 console.log("User is subscribed to all channels");
-                return true;
+                return { allSubscribed: true, missingChannels: [] };
             }
-            
-            // ✅ ✅ ✅ التحقق أيضاً من subscriptionStatus إذا كان موجوداً
-            if (result.data.subscriptionStatus) {
-                const subscriptionStatus = result.data.subscriptionStatus;
-                const allSubscribed = Object.values(subscriptionStatus).every(status => status === true);
-                if (allSubscribed) {
-                    console.log("User is subscribed to all channels (via subscriptionStatus)");
-                    return true;
-                }
-            }
-            
-            console.log("User is NOT subscribed to all channels:", result.data);
-            return false;
-        } else if (result.success === false && result.error === 'MANDATORY_SUBSCRIPTION_REQUIRED') {
-            console.log("Mandatory subscription required, showing subscription screen");
-            return false;
         }
-        
-        return false;
+
+        // أي حالة تانية (allSubscribed=false أو MANDATORY_SUBSCRIPTION_REQUIRED) بتعتبر غير مشترك
+        const missingChannels = result?.data?.missingChannels
+            || (result?.data?.subscriptionStatus
+                ? Object.keys(result.data.subscriptionStatus).filter(ch => !result.data.subscriptionStatus[ch])
+                : []);
+
+        console.log("User is NOT subscribed to all channels:", result.data || result.error);
+        return { allSubscribed: false, missingChannels };
     } catch (error) {
         console.error("Subscription check error:", error);
-        return false;
+        // خطأ تقني (شبكة إلخ) - ما ينفعش نمنع المستخدم من دخول التطبيق بسببه
+        return { allSubscribed: true, missingChannels: [], checkFailed: true };
     }
 }
 
 // ✅ دالة عرض واجهة الاشتراك الإجباري
-function showMandatorySubscriptionScreen() {
-    const requiredChannels = [
-        {
-            username: '@mjsjsjjsjisj',
-            link: 'https://t.me/mjsjsjjsjisj',
-            name: 'News Channel',
-            description: 'Latest updates & announcements'
-        },
-        {
-            username: '@mjsjsjjsjisj',
-            link: 'https://t.me/mjsjsjjsjisj',
-            name: 'Codes Channel',
-            description: 'Daily promo codes & rewards'
-        },
-        {
-            username: '@earnmoney139482',
-            link: 'https://t.me/earnmoney139482',
-            name: 'Payments Channel',
-            description: 'Track payments & withdrawals'
-        },
-        {
-            username: '@EarnMoneyWithRedone',
-            link: 'https://t.me/EarnMoneyWithRedone',
-            name: 'Partner Channel',
-            description: 'Bot partner channel'
-        }
-    ];
-    
+// ملاحظة: القنوات تُبنى الآن من البيانات الحقيقية القادمة من السيرفر
+// (missingChannels/subscriptionStatus) بدل قائمة ثابتة كانت غير متطابقة مع
+// القنوات الفعلية المُعرّفة في الـ Worker، وده كان ممكن يسيب المستخدم يشترك
+// في قنوات غلط ويفضل عالق في الشاشة دي.
+function showMandatorySubscriptionScreen(channelUsernames) {
+    const usernames = (channelUsernames && channelUsernames.length)
+        ? channelUsernames
+        : ['earnmoney174688', 'earnmoney1685', 'earnmoney139482', 'EarnMoneyWithRedone'];
+
+    const requiredChannels = usernames.map(u => {
+        const clean = String(u).replace(/^@/, '').replace('https://t.me/', '');
+        return {
+            username: '@' + clean,
+            link: 'https://t.me/' + clean,
+            name: clean,
+            description: 'اضغط للانضمام'
+        };
+    });
+
     let channelsHTML = '';
     requiredChannels.forEach(channel => {
         channelsHTML += `<div class="support-channel-card" onclick="window.open('${channel.link}','_blank')" style="margin-bottom:10px;">
@@ -1596,7 +1579,7 @@ function showMandatorySubscriptionScreen() {
             
             <div style="text-align:left;margin-bottom:25px;">
                 <h2 style="font-size:16px;color:var(--gold);margin-bottom:15px;display:flex;align-items:center;gap:8px;">
-                    <i class="fa-solid fa-list-check"></i> القنوات المطلوبة (4)
+                    <i class="fa-solid fa-list-check"></i> القنوات المطلوبة (${requiredChannels.length})
                 </h2>
                 ${channelsHTML}
             </div>
@@ -1865,6 +1848,48 @@ async function generateDeviceFingerprint() {
         components.push(navigator.maxTouchPoints || 0);
         components.push('devicePixelRatio' in window ? window.devicePixelRatio : 'unknown');
         components.push('orientation' in screen ? screen.orientation.type : 'unknown');
+
+        // ✅ توقيت الجهاز (ثابت طالما المستخدم منطقته الزمنية متغيرتش - وغير متأثر بـ IP/VPN)
+        try {
+            components.push(Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown');
+            components.push(new Date().getTimezoneOffset());
+        } catch (e) {
+            components.push('unknown-tz');
+        }
+
+        // ✅ بصمة Canvas - رسم ثابت وقراءة البكسلات؛ بتختلف حسب الهاردوير/تعريفات
+        // الرسوميات ومكتبات النظام، وده مستقل تمامًا عن الـ IP أو الـ VPN
+        try {
+            const c = document.createElement('canvas');
+            c.width = 220; c.height = 40;
+            const ctx = c.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = "14px 'Arial'";
+            ctx.fillStyle = '#f60';
+            ctx.fillRect(0, 0, 100, 20);
+            ctx.fillStyle = '#069';
+            ctx.fillText('Taskora-fp:%$#@!', 2, 2);
+            ctx.strokeStyle = 'rgba(102,204,0,0.7)';
+            ctx.beginPath();
+            ctx.arc(50, 20, 15, 0, Math.PI * 2);
+            ctx.stroke();
+            components.push(c.toDataURL());
+        } catch (e) {
+            components.push('canvas-unsupported');
+        }
+
+        // ✅ بصمة الصوت - خصائص AudioContext الهاردوير (بدون تشغيل صوت فعلي)
+        try {
+            const AudioCtx = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+            if (AudioCtx) {
+                const audioCtx = new AudioCtx(1, 44100, 44100);
+                components.push(audioCtx.sampleRate);
+                components.push(audioCtx.destination.channelCount);
+                components.push(audioCtx.destination.maxChannelCount);
+            }
+        } catch (e) {
+            components.push('audio-unsupported');
+        }
         
         // ✅ إنشاء بصمة فريدة باستخدام SHA-256
         const fingerprintString = components.join('|');
@@ -2035,9 +2060,26 @@ function showMainApp() {
     document.getElementById('app-container').style.display = 'block';
 }
 
-// ✅ تعديل أسعار التذاكر الجديدة
-const TSK_TO_TON_RATE = 0.0000001;
-const TON_TO_TSK_RATE = 10000000;
+// ✅ إصلاح: كانت أسعار التحويل ثابتة في الكود (const)، فحتى لو الأدمن غيّرها من
+// السيرفر/الفاير باس ما كانتش بتتغير في الواجهة. دلوقتي بتتقرا لحظيًا من
+// appSettings (اللي جايه من getConfig)، مع نفس القيم الافتراضية كـ fallback.
+function getTskToTonRate() { return appSettings.tskToTonRate || 0.0000001; }
+function getTonToTskRate() { return appSettings.tonToTskRate || 10000000; }
+
+// ✅ بتحدّث النصوص اللي بتوضح السعر الحالي في شاشة التبديل بالسعر الحقيقي
+// الجاي من السيرفر بدل النص الثابت اللي كان مكتوب في الـ HTML
+function refreshSwapRateLabels() {
+    const tskLabel = document.getElementById('swap-rate-label-tsk');
+    const tonLabel = document.getElementById('swap-rate-label-ton');
+    if (tskLabel) {
+        const tonPer100k = (100000 * getTskToTonRate()).toFixed(4);
+        tskLabel.textContent = `السعر: 100,000 TSK = ${tonPer100k} TON`;
+    }
+    if (tonLabel) {
+        const tskPerTon = Math.round(getTonToTskRate() * 0.01).toLocaleString();
+        tonLabel.textContent = `السعر: 0.01 TON = ${tskPerTon} TSK`;
+    }
+}
 const TICKET_PRICE = 10000; // ✅ تغيير من 10000 إلى 10000 (10K TSK)
 const TICKET_TON_VALUE = 0.001; // ✅ تغيير من 0.001 إلى 0.0001 (0.0001 TON)
 const COMPETITION_DURATION = 24 * 60 * 60 * 1000;
@@ -2215,25 +2257,24 @@ function showPromoResult(message, type) {
     }, 5000);
 }
 
+// ✅ إصلاح: الدالة دي كانت بتقرأ من Firestore (settings/appSettings) وهي قاعدة
+// بيانات مختلفة تمامًا عن اللي السيرفر (الـ Worker) بيستخدمها فعليًا لحساب
+// المكافآت والحدود (Realtime Database عبر action=getConfig). ده معناه إن لو
+// الأدمن غيّر رقم في مكان، الرقم المعروض في الواجهة ممكن يختلف عن الرقم اللي
+// السيرفر فعليًا بيطبقه. دلوقتي بنجيب الإعدادات من نفس المصدر اللي السيرفر
+// بيتحقق منه، فيبقى العرض والتطبيق الفعلي دايمًا متطابقين.
 async function fetchAppSettings() {
-    if (!db) {
-        console.log("Firebase not available, using default settings");
-        return appSettings;
-    }
-    
     try {
-        const doc = await db.collection('settings').doc('appSettings').get();
-        if (doc.exists) {
-            const firebaseSettings = doc.data();
-            const updatedSettings = { ...appSettings, ...firebaseSettings };
-            console.log("✅ Settings loaded from Firebase:", updatedSettings);
+        const result = await callAPI('getConfig');
+        if (result.success && result.data?.settings) {
+            const updatedSettings = { ...appSettings, ...result.data.settings };
+            console.log("✅ Settings loaded from server (Firebase):", updatedSettings);
             return updatedSettings;
-        } else {
-            console.log("No settings found in Firebase, using defaults");
-            return appSettings;
         }
+        console.warn("getConfig failed, keeping previous/default settings:", result.error);
+        return appSettings;
     } catch (error) {
-        console.error("Error fetching settings from Firebase:", error);
+        console.error("Error fetching settings from server:", error);
         return appSettings;
     }
 }
@@ -2241,9 +2282,14 @@ async function fetchAppSettings() {
 async function getUpdatedSettings() {
     const newSettings = await fetchAppSettings();
     appSettings = newSettings;
+    refreshSwapRateLabels();
     return newSettings;
 }
 
+// ✅ إصلاح: الدالة كانت بترجع undefined دايمًا، فحتى لو تم اكتشاف حساب مكرر من
+// نفس الجهاز (بلوك) كان الكود في DOMContentLoaded بيكمل عادي ويعرض التطبيق
+// (initializeApp + showMainApp) من غير ما يظهر شاشة الحظر أبدًا. دلوقتي الدالة
+// بترجع true/false، وDOMContentLoaded بيوقف التحميل ويعرض شاشة الحظر لو false.
 async function initializeUser(user, deviceFingerprint) {
     const isNewUser = await callAPI('checkIsNewUser', { userId: user.id });
     
@@ -2254,13 +2300,12 @@ async function initializeUser(user, deviceFingerprint) {
         });
         
         if (!fingerprintCheck.success) {
-            console.log("Device security check failed");
-            return;
-        }
-        
-        if (fingerprintCheck.data && fingerprintCheck.data.deviceLimitExceeded) {
-            console.log("Multiple accounts detected from same device");
-            return;
+            console.log("Device security check failed - blocking:", fingerprintCheck.error);
+            showBlockedAccess(
+                fingerprintCheck.data?.blockedMessage ||
+                '🚫 تم رصد أكثر من حساب على نفس الجهاز. تم حظر هذا الحساب.'
+            );
+            return false;
         }
         
         const saveResult = await callAPI('saveDeviceFingerprint', {
@@ -2277,7 +2322,12 @@ async function initializeUser(user, deviceFingerprint) {
     
     // ✅ إصلاح: لو أول محاولة فشلت بسبب خطأ مؤقت (شبكة/تحقق الطابع الزمني وغيره)
     // وليس حظر حقيقي للحساب، نعيد المحاولة مرة واحدة بعد ثانية بدل ما نسيب الرصيد صفر
-    if (!result.success && result.error !== 'ACCOUNT_BLOCKED' && !(result.error && result.error.includes('banned'))) {
+    const isRealBlock = result.error === 'ACCOUNT_BLOCKED' ||
+        result.errorCode === 'DEVICE_MULTI_ACCOUNT_BLOCKED' ||
+        (result.error && result.error.includes('banned')) ||
+        result.data?.redirectToBlockPage;
+
+    if (!result.success && !isRealBlock) {
         console.warn('initializeUser failed, retrying once:', result.error);
         await new Promise(r => setTimeout(r, 1200));
         result = await callAPI('initializeUser', { user, deviceFingerprint: deviceFingerprint });
@@ -2295,13 +2345,24 @@ async function initializeUser(user, deviceFingerprint) {
         updateAvailableSpins();
         // 🔄 التعديل: تغيير قيمة مكافأة الإحالة إلى 100000
         handleReferral(user);
+        return true;
     } else {
-        if (result.error && result.error.includes('banned')) {
-            console.log("Account banned");
-            return;
+        const blocked = result.error === 'ACCOUNT_BLOCKED' ||
+            result.errorCode === 'DEVICE_MULTI_ACCOUNT_BLOCKED' ||
+            (result.error && result.error.includes('banned')) ||
+            result.data?.redirectToBlockPage;
+
+        if (blocked) {
+            console.log("Account blocked:", result.errorCode || result.error);
+            showBlockedAccess(
+                result.data?.blockedMessage ||
+                '🚫 تم حظر هذا الحساب.\n\nهذا القرار نهائي.'
+            );
+            return false;
         }
         console.error('Error initializing user:', result.error);
         showNotification(`تعذر تحميل رصيدك (${result.error || result.errorCode || 'خطأ غير معروف'}). اسحب للتحديث أو أعد فتح التطبيق.`, "error");
+        return true; // خطأ تقني غير متعلق بالحظر - نسمح بمتابعة تحميل التطبيق
     }
 }
 
@@ -2477,11 +2538,11 @@ window.selectSwapDirection = function(direction) {
 window.calculateSwap = function() {
     if (swapDirection === 'tsk_to_ton') {
         const TSKInput = parseFloat(document.getElementById('swap-input-amount').value) || 0;
-        const tonOutput = TSKInput * TSK_TO_TON_RATE;
+        const tonOutput = TSKInput * getTskToTonRate();
         document.getElementById('swap-output-amount').textContent = tonOutput.toFixed(7);
     } else {
         const TONInput = parseFloat(document.getElementById('ton-input-amount').value) || 0;
-        const tskOutput = TONInput * TON_TO_TSK_RATE;
+        const tskOutput = TONInput * getTonToTskRate();
         document.getElementById('ton-output-amount').textContent = Math.floor(tskOutput).toLocaleString();
     }
 };
@@ -2532,7 +2593,7 @@ async function executeTSKtoTONSwap() {
         return;
     }
     
-    const tonValue = TSKInput * TSK_TO_TON_RATE;
+    const tonValue = TSKInput * getTskToTonRate();
     
     if (!confirm(`تبديل ${TSKInput.toLocaleString()} TSK مقابل ${tonValue.toFixed(7)} TON؟\n\nالسعر: 100,000 TSK = 0.01 TON`)) return;
     
@@ -2577,7 +2638,7 @@ async function executeTONtoTSKSwap() {
         return;
     }
     
-    const tskValue = TONInput * TON_TO_TSK_RATE;
+    const tskValue = TONInput * getTonToTskRate();
     
     if (!confirm(`تبديل ${TONInput.toFixed(4)} TON مقابل ${tskValue.toLocaleString()} TSK؟\n\nالسعر: 0.01 TON = 100,000 TSK`)) return;
     
@@ -4332,10 +4393,26 @@ document.addEventListener('DOMContentLoaded', async function() {
             window.Telegram.WebApp.headerColor = '#202020';
             window.Telegram.WebApp.backgroundColor = '#202020';
         }
+
+        // ✅ تفعيل شاشة الاشتراك الإجباري: لازم تتحقق قبل ما نعرض التطبيق،
+        // ولو المستخدم مش مشترك في كل القنوات نوقفه هنا ونعرض شاشة الاشتراك
+        // بدل ما نكمل تحميل التطبيق عادي.
+        setLoadingProgress(45, 'Checking subscriptions...');
+        const subscriptionCheck = await checkMandatorySubscriptions();
+        if (!subscriptionCheck.allSubscribed) {
+            showMandatorySubscriptionScreen(subscriptionCheck.missingChannels);
+            return;
+        }
         
         // ✅ تحميل كل بيانات المستخدم (الرصيد وكل حاجة) فعليًا قبل إظهار التطبيق
         setLoadingProgress(55, 'Loading your data...');
-        await initializeUser(user, deviceFingerprint);
+        const initOk = await initializeUser(user, deviceFingerprint);
+        // ✅ لو تم حظر الجهاز/الحساب (initializeUser بترجع false وتعرض شاشة
+        // الحظر بنفسها)، لازم نوقف هنا ومنكملش initializeApp/showMainApp
+        // عشان ما يشوفش التطبيق أصلاً.
+        if (!initOk) {
+            return;
+        }
         
         setLoadingProgress(90, 'Almost there...');
         initializeApp(user);
