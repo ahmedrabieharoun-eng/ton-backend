@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
@@ -706,17 +707,17 @@
 <div id="global-loading-page">
     <img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Taskora" class="loading-logo">
     <h1 class="loading-title">TASKORA</h1>
-    <p class="loading-subtitle">Loading your cosmic experience...</p>
+    <p class="loading-subtitle">جارٍ تحميل تجربتك الكونية...</p>
     
     <div class="loading-progress-container">
         <div class="loading-progress-bar" id="loading-progress-bar" style="width:0%;"></div>
     </div>
     
-    <div class="loading-timer" id="loading-timer">Setting things up...</div>
+    <div class="loading-timer" id="loading-timer">جارٍ إعداد كل شيء...</div>
     
     <div style="margin-top: 30px; font-size: 11px; color: var(--text-muted); max-width: 300px;">
         <i class="fas fa-shield-alt" style="margin-right: 5px;"></i>
-        Performing security checks & loading your data
+        إجراء فحوصات أمنية وتحميل بياناتك
     </div>
 </div>
 
@@ -724,18 +725,18 @@
 <div id="captchaModal" class="captcha-modal">
     <div class="captcha-container">
         <div class="captcha-header">
-            <h3>🔒 Security Verification Required</h3>
-            <p>Complete the captcha to continue watching ads</p>
+            <h3>🔒 التحقق الأمني مطلوب</h3>
+            <p>أكمل الكابتشا لمواصلة مشاهدة الإعلانات</p>
         </div>
         
         <div class="captcha-ad-info">
             <i class="fas fa-shield-alt"></i> 
-            This helps prevent automated tools from abusing the system
+            هذا يساعد على منع الأدوات الآلية من إساءة استخدام النظام
         </div>
         
         <div class="captcha-note">
             <i class="fas fa-exclamation-triangle"></i>
-            <strong>Important:</strong> This verification is required after every 10 ads to ensure you're human
+            <strong>مهم:</strong> هذا التحقق مطلوب بعد كل 10 إعلانات للتأكد أنك إنسان حقيقي
         </div>
         
         <div id="captchaWidget" class="captcha-widget-container">
@@ -744,10 +745,10 @@
         
         <div class="captcha-buttons">
             <button class="btn-captcha btn-captcha-cancel" onclick="closeCaptcha()">
-                <i class="fas fa-times"></i> Cancel
+                <i class="fas fa-times"></i> إلغاء
             </button>
             <button class="btn-captcha btn-captcha-verify" id="verifyCaptchaBtn" onclick="verifyCaptcha()">
-                <i class="fas fa-check"></i> Verify & Continue
+                <i class="fas fa-check"></i> تحقق واستمر
             </button>
         </div>
     </div>
@@ -755,36 +756,36 @@
 
 <!-- باقي الكود (نفس الكود السابق) -->
 <div id="security-verification" class="verification-container" style="display:none;">
-<div style="margin-bottom:25px;"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Taskora" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;border:3px solid var(--primary-green);"><h1 style="font-size:24px;margin-bottom:8px;color:#fff;">Taskora Security</h1><p style="color:var(--text-muted);font-size:13px;">Secure verification process in progress</p></div>
+<div style="margin-bottom:25px;"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Taskora" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;border:3px solid var(--primary-green);"><h1 style="font-size:24px;margin-bottom:8px;color:#fff;">أمان Taskora</h1><p style="color:var(--text-muted);font-size:13px;">عملية تحقق آمنة قيد التنفيذ</p></div>
 <div class="verification-progress"><div id="verification-progress-bar" class="progress-bar" style="width:0%"></div></div>
 <div id="verification-steps"></div>
 <div id="verification-result" style="display:none;margin-top:20px;"></div>
 </div>
 <div id="blocked-access" class="blocked-container" style="display:none;">
 <div class="blocked-icon">🚫</div>
-<div class="blocked-title">ACCESS BLOCKED</div>
+<div class="blocked-title">الوصول محظور</div>
 <div id="blocked-reason" class="blocked-reason"></div>
-<p style="color:var(--text-muted);font-size:12px;margin-top:20px;">If you believe this is an error, please contact support.</p>
+<p style="color:var(--text-muted);font-size:12px;margin-top:20px;">إذا كنت تعتقد أن هذا خطأ، يرجى التواصل مع الدعم.</p>
 </div>
 <div class="app-container" style="display:none;" id="app-container">
 <div class="hud-container">
-<div><div class="user-name" id="home-username">Explorer</div><div class="user-rank" id="home-user-level" style="display:none;"></div><div style="display:flex;align-items:center;gap:15px;margin-top:5px;"><div class="stats-pill" style="margin:0;padding:6px 12px;"><span style="color:var(--gold);">TSK:</span><span id="hud-tsk-balance" style="color:#fff;font-weight:700;">0</span></div><div class="stats-pill" style="margin:0;padding:6px 12px;"><span style="color:var(--gold);">TON:</span><span id="hud-ton-balance" style="color:#fff;font-weight:700;">0.0000</span></div></div></div>
-<div style="display:flex;align-items:center;gap:10px;"><div class="taskora-log-icon" id="taskora-log-button"><span style="font-size:20px;">📜</span></div><div class="hud-avatar"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="User"></div></div>
+<div><div class="user-name" id="home-username">مستكشف</div><div class="user-rank" id="home-user-level" style="display:none;"></div><div style="display:flex;align-items:center;gap:15px;margin-top:5px;"><div class="stats-pill" style="margin:0;padding:6px 12px;"><span style="color:var(--gold);">TSK:</span><span id="hud-tsk-balance" style="color:#fff;font-weight:700;">0</span></div><div class="stats-pill" style="margin:0;padding:6px 12px;"><span style="color:var(--gold);">TON:</span><span id="hud-ton-balance" style="color:#fff;font-weight:700;">0.0000</span></div></div></div>
+<div style="display:flex;align-items:center;gap:10px;"><div class="taskora-log-icon" id="taskora-log-button"><span style="font-size:20px;">📜</span></div><div class="hud-avatar"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="مستخدم"></div></div>
 </div>
 
 <main id="home" class="content-section active">
 <div class="main-coin-section"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" class="main-coin-img" alt="TSK"><div class="balance-display"><div class="balance-amount" id="total-TSK-balance">0</div><div class="balance-unit">TSK</div></div><div class="stats-pill"><span class="ton-val"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:16px;border-radius:50%;"><span id="home-ton-balance">0.0000</span> TON</span><span style="opacity:0.3">|</span><span style="font-size:10px;opacity:0.8;">100K = 0.01 TON</span></div></div>
 <div class="action-bar">
-<div class="btn btn-action nav-link" data-target="swap-page"><svg viewBox="0 0 24 24"><path d="M7 16V4m0 0L3 8m4-4 4 4m6 0v12m0 0 4-4m-4 4-4-4"/></svg><span>Swap</span></div>
-<div class="btn btn-action nav-link" data-target="withdraw"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0-6-6m6 6 6-6"/></svg><span>Withdraw</span></div>
-<div class="btn btn-action nav-link" data-target="deposit"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0-6-6m6 6 6-6" transform="rotate(180,12,12)"/></svg><span>Deposit</span></div>
-<div class="btn btn-action nav-link" data-target="user-withdrawals"><svg viewBox="0 0 24 24"><path d="M12 2v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 12l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>My Withdrawals</span></div>
+<div class="btn btn-action nav-link" data-target="swap-page"><svg viewBox="0 0 24 24"><path d="M7 16V4m0 0L3 8m4-4 4 4m6 0v12m0 0 4-4m-4 4-4-4"/></svg><span>تبديل</span></div>
+<div class="btn btn-action nav-link" data-target="withdraw"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0-6-6m6 6 6-6"/></svg><span>سحب</span></div>
+<div class="btn btn-action nav-link" data-target="deposit"><svg viewBox="0 0 24 24"><path d="M12 5v14m0 0-6-6m6 6 6-6" transform="rotate(180,12,12)"/></svg><span>إيداع</span></div>
+<div class="btn btn-action nav-link" data-target="user-withdrawals"><svg viewBox="0 0 24 24"><path d="M12 2v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 12l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>سحوباتي</span></div>
 </div>
 
 <!-- 🔄 التعديل: قناه الأخبار قبل الدعم -->
 <div class="card" style="margin-top:12px;">
     <h2 style="display:flex;align-items:center;gap:8px;">
-        <i class="fa-solid fa-bullhorn"></i>Updates & News
+        <i class="fa-solid fa-bullhorn"></i>التحديثات والأخبار
     </h2>
     <div class="support-channel-card" onclick="window.open('https://t.me/mjsjsjjsjisj','_blank')" style="margin-bottom:10px;">
         <div style="display:flex;align-items:center;gap:12px;">
@@ -792,8 +793,8 @@
                 <i class="fa-solid fa-bell"></i>
             </div>
             <div style="flex:1;">
-                <div style="font-size:14px;font-weight:700;color:white;margin-bottom:5px;">Bot Updates & News</div>
-                <div style="font-size:11px;color:var(--text-muted);">Latest updates, announcements, and news about the bot</div>
+                <div style="font-size:14px;font-weight:700;color:white;margin-bottom:5px;">تحديثات وأخبار البوت</div>
+                <div style="font-size:11px;color:var(--text-muted);">أحدث التحديثات والإعلانات والأخبار عن البوت</div>
                 <div style="font-size:10px;color:#b8860b;margin-top:5px;">
                     <i class="fa-solid fa-users"></i> @mjsjsjjsjisj
                 </div>
@@ -808,7 +809,7 @@
 <!-- 🔄 التعديل: قسم الدعم يأتي بعد الأخبار -->
 <div class="card" style="margin-top:12px;">
     <h2 style="display:flex;align-items:center;gap:8px;">
-        <i class="fa-solid fa-headset"></i>Support & Help
+        <i class="fa-solid fa-headset"></i>الدعم والمساعدة
     </h2>
     <div class="support-channel-card" onclick="window.open('https://t.me/aborabie777','_blank')" style="margin-bottom:10px;">
         <div style="display:flex;align-items:center;gap:12px;">
@@ -816,8 +817,8 @@
                 <i class="fa-solid fa-user-gear"></i>
             </div>
             <div style="flex:1;">
-                <div style="font-size:14px;font-weight:700;color:white;margin-bottom:5px;">Technical Support</div>
-                <div style="font-size:11px;color:var(--text-muted);">Get help with technical issues and account problems</div>
+                <div style="font-size:14px;font-weight:700;color:white;margin-bottom:5px;">الدعم الفني</div>
+                <div style="font-size:11px;color:var(--text-muted);">احصل على المساعدة في المشاكل التقنية ومشاكل الحساب</div>
             </div>
             <div style="color:#3498db;font-size:18px;">
                 <i class="fa-solid fa-arrow-right"></i>
@@ -830,8 +831,8 @@
                 <i class="fa-solid fa-circle-question"></i>
             </div>
             <div style="flex:1;">
-                <div style="font-size:14px;font-weight:700;color:white;margin-bottom:5px;">General Support & FAQ</div>
-                <div style="font-size:11px;color:var(--text-muted);">Get answers to common questions and general help</div>
+                <div style="font-size:14px;font-weight:700;color:white;margin-bottom:5px;">الدعم العام والأسئلة الشائعة</div>
+                <div style="font-size:11px;color:var(--text-muted);">احصل على إجابات للأسئلة الشائعة والمساعدة العامة</div>
             </div>
             <div style="color:#27ae60;font-size:18px;">
                 <i class="fa-solid fa-arrow-right"></i>
@@ -841,61 +842,61 @@
 </div>
 </main>
 <main id="taskora-log-page" class="content-section">
-<div class="page-header"><h1>Taskora Log</h1><p>Complete transaction history</p></div>
+<div class="page-header"><h1>سجل Taskora</h1><p>سجل كامل للمعاملات</p></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px;">
-<div class="log-stat-card"><div style="font-size:12px;color:var(--text-muted);">Total Earned</div><div style="font-size:18px;font-weight:700;color:#27ae60;" id="total-earned">0 TSK</div></div>
-<div class="log-stat-card"><div style="font-size:12px;color:var(--text-muted);">Total Spent</div><div style="font-size:18px;font-weight:700;color:#e74c3c;" id="total-spent">0 TSK</div></div>
+<div class="log-stat-card"><div style="font-size:12px;color:var(--text-muted);">إجمالي الأرباح</div><div style="font-size:18px;font-weight:700;color:#27ae60;" id="total-earned">0 TSK</div></div>
+<div class="log-stat-card"><div style="font-size:12px;color:var(--text-muted);">إجمالي المصروفات</div><div style="font-size:18px;font-weight:700;color:#e74c3c;" id="total-spent">0 TSK</div></div>
 </div>
 <div id="taskora-log-filtered-list" style="max-height:500px;overflow-y:auto;"></div>
 </main>
 <main id="deposit" class="content-section">
-<div class="page-header"><h1>Deposit TON</h1><p>Add funds to your account</p></div>
+<div class="page-header"><h1>إيداع TON</h1><p>أضف أموالاً إلى حسابك</p></div>
 <div class="card">
-<div style="text-align:center;margin-bottom:20px;"><div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;"><i class="fa-solid fa-arrow-down-to-line" style="color:#27ae60;"></i>Deposit TON</div><div style="font-size:12px;color:var(--text-muted);">Add TON directly to your account</div></div>
-<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.3);padding:12px;border-radius:12px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.1);"><div><div style="font-size:11px;color:var(--text-muted);">Current Balance</div><div style="font-size:20px;font-weight:700;color:#fff;"><span class="user-ton-balance">0.0000</span> TON</div></div></div>
-<div class="input-wrap"><span class="input-label">Deposit Amount (TON)</span><input type="number" id="deposit-amount" class="custom-input" placeholder="0.01" step="0.001" min="0.01" value="0.01"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Minimum: 0.01 TON</div></div>
-<button class="btn btn-ton" id="deposit-pay-btn" onclick="initiateDeposit()"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:20px;border-radius:50%;">Pay with Tonkeeper</button>
-<div id="deposit-status" style="display:none;text-align:center;margin-top:15px;"><div id="deposit-status-message" style="font-size:12px;color:var(--text-muted);"></div><button class="btn btn-check" id="check-deposit-btn" onclick="verifyDeposit()" style="margin-top:10px;">Check Payment</button></div>
-<div class="info-box" style="background:rgba(52,152,219,0.1);border-color:rgba(52,152,219,0.3);margin-top:15px;"><div style="display:flex;align-items:flex-start;gap:10px;"><div style="color:#3498db;font-size:14px;"><i class="fa-solid fa-circle-info"></i></div><div style="font-size:11px;line-height:1.5;"><strong>Deposit Instructions:</strong><br>1. Enter the TON amount you want to deposit<br>2. Click "Pay with Tonkeeper"<br>3. Confirm the payment in your Tonkeeper wallet<br>4. Click "Check Payment" to verify<br>5. Funds will be added to your account immediately</div></div></div>
+<div style="text-align:center;margin-bottom:20px;"><div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;"><i class="fa-solid fa-arrow-down-to-line" style="color:#27ae60;"></i>إيداع TON</div><div style="font-size:12px;color:var(--text-muted);">أضف TON مباشرة إلى حسابك</div></div>
+<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.3);padding:12px;border-radius:12px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.1);"><div><div style="font-size:11px;color:var(--text-muted);">الرصيد الحالي</div><div style="font-size:20px;font-weight:700;color:#fff;"><span class="user-ton-balance">0.0000</span> TON</div></div></div>
+<div class="input-wrap"><span class="input-label">مبلغ الإيداع (TON)</span><input type="number" id="deposit-amount" class="custom-input" placeholder="0.01" step="0.001" min="0.01" value="0.01"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأدنى: 0.01 TON</div></div>
+<button class="btn btn-ton" id="deposit-pay-btn" onclick="initiateDeposit()"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:20px;border-radius:50%;">ادفع عبر Tonkeeper</button>
+<div id="deposit-status" style="display:none;text-align:center;margin-top:15px;"><div id="deposit-status-message" style="font-size:12px;color:var(--text-muted);"></div><button class="btn btn-check" id="check-deposit-btn" onclick="verifyDeposit()" style="margin-top:10px;">تحقق من الدفع</button></div>
+<div class="info-box" style="background:rgba(52,152,219,0.1);border-color:rgba(52,152,219,0.3);margin-top:15px;"><div style="display:flex;align-items:flex-start;gap:10px;"><div style="color:#3498db;font-size:14px;"><i class="fa-solid fa-circle-info"></i></div><div style="font-size:11px;line-height:1.5;"><strong>تعليمات الإيداع:</strong><br>1. أدخل مبلغ TON الذي تريد إيداعه<br>2. اضغط على "ادفع عبر Tonkeeper"<br>3. أكّد الدفع في محفظة Tonkeeper الخاصة بك<br>4. اضغط على "تحقق من الدفع" للتأكيد<br>5. سيتم إضافة الرصيد إلى حسابك فورًا</div></div></div>
 </div>
-<div class="card" style="margin-top:15px;"><div style="text-align:center;"><div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;"><i class="fa-solid fa-headset" style="color:#3498db;"></i>Need Help with Deposit?</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:15px;">If you're having issues with deposit, contact our support team</div><button class="btn btn-ton" onclick="window.open('https://t.me/monssksk','_blank')" style="background:linear-gradient(90deg,#3498db,#2980b9);"><i class="fab fa-telegram"></i>Contact Support</button></div></div>
+<div class="card" style="margin-top:15px;"><div style="text-align:center;"><div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;"><i class="fa-solid fa-headset" style="color:#3498db;"></i>تحتاج مساعدة في الإيداع؟</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:15px;">إذا كنت تواجه مشاكل في الإيداع، تواصل مع فريق الدعم</div><button class="btn btn-ton" onclick="window.open('https://t.me/monssksk','_blank')" style="background:linear-gradient(90deg,#3498db,#2980b9);"><i class="fab fa-telegram"></i>تواصل مع الدعم</button></div></div>
 </main>
 <main id="bonus" class="content-section">
-<div class="page-header"><h1>Taskora Bonus</h1><p>Daily rewards & fun games</p></div>
+<div class="page-header"><h1>مكافآت Taskora</h1><p>مكافآت يومية وألعاب ممتعة</p></div>
 <div class="bonus-grid">
-<div class="bonus-game-card" onclick="openGame('promo-codes')"><img src="https://i.ibb.co/0VVhKYzb/Chat-GPT-Image-Aug-1-2026-10-08-59-PM.png" alt="Promo Codes & Rewards" class="game-banner"><div class="game-content"><div class="game-icon">🎁</div><div class="game-title">Promo Codes</div><div class="game-description">Redeem codes for free rewards</div></div></div>
-<div class="bonus-game-card" onclick="openGame('daily-streak')"><img src="https://i.ibb.co/0jwjjb99/Chat-GPT-Image-Aug-1-2026-10-12-33-PM.png" alt="Daily Streak" class="game-banner"><div class="game-content"><div class="game-icon">📅</div><div class="game-title">Daily Streak</div><div class="game-description">Claim daily rewards up to 7 days</div></div></div>
-<div class="bonus-game-card" onclick="openGame('taskora-slots')"><img src="https://i.ibb.co/CSN088k/Chat-GPT-Image-Aug-1-2026-10-18-33-PM.png" alt="Taskora Slots Game" class="game-banner"><div class="game-content"><div class="game-icon">🎰</div><div class="game-title">Taskora Slots</div><div class="game-description">Spin the reels & win big jackpots</div></div></div>
+<div class="bonus-game-card" onclick="openGame('promo-codes')"><img src="https://i.ibb.co/0VVhKYzb/Chat-GPT-Image-Aug-1-2026-10-08-59-PM.png" alt="أكواد الخصم والمكافآت" class="game-banner"><div class="game-content"><div class="game-icon">🎁</div><div class="game-title">أكواد الخصم</div><div class="game-description">استبدل الأكواد بمكافآت مجانية</div></div></div>
+<div class="bonus-game-card" onclick="openGame('daily-streak')"><img src="https://i.ibb.co/0jwjjb99/Chat-GPT-Image-Aug-1-2026-10-12-33-PM.png" alt="التسجيل اليومي" class="game-banner"><div class="game-content"><div class="game-icon">📅</div><div class="game-title">التسجيل اليومي</div><div class="game-description">احصل على مكافآت يومية حتى 7 أيام</div></div></div>
+<div class="bonus-game-card" onclick="openGame('taskora-slots')"><img src="https://i.ibb.co/CSN088k/Chat-GPT-Image-Aug-1-2026-10-18-33-PM.png" alt="لعبة سلوتس Taskora" class="game-banner"><div class="game-content"><div class="game-icon">🎰</div><div class="game-title">سلوتس Taskora</div><div class="game-description">أدر البكرات واربح جوائز كبيرة</div></div></div>
 </div>
 <div id="promo-codes-section" class="card" style="display:none;">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-gift" style="color:#b8860b;"></i>Promo Codes & Rewards</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-gift" style="color:#b8860b;"></i>أكواد الخصم والمكافآت</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>رجوع</button></div>
 <div class="promo-card" style="background:linear-gradient(135deg,rgba(184,134,11,0.2),rgba(123,97,255,0.2));border-radius:20px;padding:20px;margin-bottom:15px;border:2px solid rgba(184,134,11,0.3);position:relative;overflow:hidden;">
 <div style="position:absolute;top:-50px;right:-50px;width:100px;height:100px;background:rgba(184,134,11,0.1);border-radius:50%;"></div>
 <div style="position:absolute;bottom:-30px;left:-30px;width:80px;height:80px;background:rgba(123,97,255,0.1);border-radius:50%;"></div>
 <div style="position:relative;z-index:2;">
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;"><div style="width:50px;height:50px;background:linear-gradient(135deg,#b8860b,#7b61ff);border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;"><i class="fa-solid fa-key"></i></div><div><div style="font-size:16px;font-weight:800;color:white;">Redeem Code</div><div style="font-size:12px;color:rgba(255,255,255,0.7);">Enter promo code for rewards</div></div></div>
-<div style="display:flex;gap:10px;margin-bottom:15px;"><input type="text" id="promo-code-input" placeholder="Enter promo code..." style="flex:1;padding:12px 15px;border-radius:12px;background:rgba(0,0,0,0.3);border:1px solid rgba(184,134,11,0.5);color:white;font-family:inherit;font-size:14px;outline:none;"><button id="redeem-code-btn" style="padding:12px 20px;background:linear-gradient(135deg,#b8860b,#7b61ff);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-gift"></i>Redeem</button></div>
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;"><div style="width:50px;height:50px;background:linear-gradient(135deg,#b8860b,#7b61ff);border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;"><i class="fa-solid fa-key"></i></div><div><div style="font-size:16px;font-weight:800;color:white;">استبدال الكود</div><div style="font-size:12px;color:rgba(255,255,255,0.7);">أدخل كود الخصم للحصول على المكافأة</div></div></div>
+<div style="display:flex;gap:10px;margin-bottom:15px;"><input type="text" id="promo-code-input" placeholder="أدخل كود الخصم..." style="flex:1;padding:12px 15px;border-radius:12px;background:rgba(0,0,0,0.3);border:1px solid rgba(184,134,11,0.5);color:white;font-family:inherit;font-size:14px;outline:none;"><button id="redeem-code-btn" style="padding:12px 20px;background:linear-gradient(135deg,#b8860b,#7b61ff);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-gift"></i>استبدال</button></div>
 <div id="promo-result" style="padding:10px;border-radius:10px;font-size:12px;text-align:center;display:none;"></div>
 </div>
 </div>
 <div class="code-channel-card" style="background:linear-gradient(135deg,rgba(255,193,7,0.2),rgba(255,152,0,0.2));border-radius:20px;padding:20px;border:2px solid rgba(255,193,7,0.3);position:relative;overflow:hidden;cursor:pointer;" onclick="window.open('https://t.me/mjsjsjjsjisj','_blank')">
 <div style="position:absolute;top:-30px;right:-30px;width:80px;height:80px;background:rgba(255,193,7,0.1);border-radius:50%;"></div>
 <div style="position:relative;z-index:2;">
-<div style="display:flex;align-items:center;gap:15px;"><div style="width:60px;height:60px;background:linear-gradient(135deg,#FFC107,#FF9800);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;"><i class="fab fa-telegram"></i></div><div style="flex:1;"><div style="font-size:16px;font-weight:800;color:white;margin-bottom:5px;"><i class="fa-solid fa-bolt" style="color:#FFC107;"></i>Codes Channel</div><div style="font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:8px;">Get exclusive promo codes & daily rewards</div><div style="display:flex;align-items:center;gap:5px;"><span style="font-size:11px;color:#FFC107;font-weight:700;"><i class="fa-solid fa-users"></i>Join Now</span><span style="font-size:11px;color:rgba(255,255,255,0.6);">@mjsjsjjsjisj</span></div></div><div style="width:40px;height:40px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#FFC107;font-size:18px;"><i class="fa-solid fa-arrow-right"></i></div></div>
+<div style="display:flex;align-items:center;gap:15px;"><div style="width:60px;height:60px;background:linear-gradient(135deg,#FFC107,#FF9800);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;"><i class="fab fa-telegram"></i></div><div style="flex:1;"><div style="font-size:16px;font-weight:800;color:white;margin-bottom:5px;"><i class="fa-solid fa-bolt" style="color:#FFC107;"></i>قناة الأكواد</div><div style="font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:8px;">احصل على أكواد حصرية ومكافآت يومية</div><div style="display:flex;align-items:center;gap:5px;"><span style="font-size:11px;color:#FFC107;font-weight:700;"><i class="fa-solid fa-users"></i>انضم الآن</span><span style="font-size:11px;color:rgba(255,255,255,0.6);">@mjsjsjjsjisj</span></div></div><div style="width:40px;height:40px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#FFC107;font-size:18px;"><i class="fa-solid fa-arrow-right"></i></div></div>
 </div>
 </div>
 </div>
 <div id="daily-streak-section" class="card" style="display:none;">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-calendar-check" style="color:#b8860b;"></i>Daily Streak</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-calendar-check" style="color:#b8860b;"></i>التسجيل اليومي</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>رجوع</button></div>
 <div class="daily-row" id="daily-checkin-grid"></div>
-<button class="btn btn-primary" id="claim-daily-btn">Claim Bonus</button>
+<button class="btn btn-primary" id="claim-daily-btn">احصل على المكافأة</button>
 <p id="next-claim-timer" style="text-align:center;font-size:11px;margin-top:8px;opacity:0.7;"></p>
 </div>
 <div id="taskora-slots-section" class="card" style="display:none;text-align:center;">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-slot-machine" style="color:#b8860b;"></i>Taskora Slots Game</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;"><h3 style="font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-slot-machine" style="color:#b8860b;"></i>لعبة سلوتس Taskora</h3><button class="btn btn-action" onclick="closeGame()" style="width:auto;padding:8px 12px;font-size:11px;"><i class="fa-solid fa-arrow-left"></i>رجوع</button></div>
 <div class="spins-display">
-<div><div style="font-size:12px;color:var(--text-muted);">Available Spins</div><div class="spins-count" id="available-spins">1</div></div>
-<button class="btn btn-ton" onclick="getExtraSpin()" style="width:auto;padding:8px 15px;">🎬 Watch Ad for Extra Spin</button>
+<div><div style="font-size:12px;color:var(--text-muted);">عدد اللفات المتاحة</div><div class="spins-count" id="available-spins">1</div></div>
+<button class="btn btn-ton" onclick="getExtraSpin()" style="width:auto;padding:8px 15px;">🎬 شاهد إعلانًا للحصول على لفة إضافية</button>
 </div>
 <div class="slots-machine">
 <div class="slots-reels">
@@ -904,126 +905,126 @@
 <div class="reel-container"><div class="reel" id="reel3"></div></div>
 </div>
 <div class="slots-result">
-<div id="slots-result-text" style="font-size:14px;margin-bottom:10px;">Press SPIN to play!</div>
+<div id="slots-result-text" style="font-size:14px;margin-bottom:10px;">اضغط SPIN للعب!</div>
 <div id="slots-win-amount" style="font-size:24px;font-weight:800;color:var(--primary-green);">0 TSK</div>
 </div>
 </div>
-<button class="btn btn-primary" id="slots-spin-btn" style="margin-bottom:15px;">🚀 SPIN NOW</button>
+<button class="btn btn-primary" id="slots-spin-btn" style="margin-bottom:15px;">🚀 أدر الآن</button>
 <div class="payout-table">
 <div class="payout-item">3x 🌟 = <span class="jackpot">10000 TSK</span></div>
 <div class="payout-item">3x 🪐 = 5000 TSK</div>
 <div class="payout-item">3x 💫 = 2500 TSK</div>
 <div class="payout-item">3x ⭐ = 1200 TSK</div>
 <div class="payout-item">2x 🌟 = 700 TSK</div>
-<div class="payout-item">Any Match = 500 TSK</div>
+<div class="payout-item">أي تطابق = 500 TSK</div>
 </div>
 </div>
 </main>
 <main id="tasks" class="content-section">
-<div class="page-header"><h1>Missions</h1><p>Complete tasks to earn TSK</p></div>
+<div class="page-header"><h1>المهام</h1><p>أكمل المهام لتربح TSK</p></div>
 <div class="card">
-<div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:12px;font-weight:700;"><span>Daily Ad Limit</span><span style="color:var(--gold);">650 Total</span></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:12px;font-weight:700;"><span>الحد اليومي للإعلانات</span><span style="color:var(--gold);">650 إجمالي</span></div>
 <div id="monetag-ad-task" class="list-card" style="background:rgba(255,255,255,0.08);border-color:var(--primary-green);margin-bottom:10px;">
-<div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Ad"></div>
-<div class="lc-content"><div class="lc-title">Monetag Ad</div><div class="lc-sub"><span id="monetag-count">0</span>/<span id="monetag-limit">50</span></div></div>
+<div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="إعلان"></div>
+<div class="lc-content"><div class="lc-title">إعلان Monetag</div><div class="lc-sub"><span id="monetag-count">0</span>/<span id="monetag-limit">50</span></div></div>
 <div class="lc-end"><div class="lc-val">+500</div></div>
 </div>
 <div id="gigapub-ad-task" class="list-card" style="background:rgba(255,255,255,0.08);border-color:var(--primary-green);margin-bottom:10px;">
-<div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Ad"></div>
-<div class="lc-content"><div class="lc-title">GigaPub Ad</div><div class="lc-sub"><span id="giga-count">0</span>/<span id="giga-limit">300</span></div></div>
+<div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="إعلان"></div>
+<div class="lc-content"><div class="lc-title">إعلان GigaPub</div><div class="lc-sub"><span id="giga-count">0</span>/<span id="giga-limit">300</span></div></div>
 <div class="lc-end"><div class="lc-val">+500</div></div>
 </div>
 <div id="adsgram-ad-task" class="list-card" style="background:rgba(255,255,255,0.08);border-color:var(--primary-green);">
-<div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Ad"></div>
-<div class="lc-content"><div class="lc-title">AdsGram Ad</div><div class="lc-sub"><span id="adsgram-count">0</span>/<span id="adsgram-limit">300</span></div></div>
+<div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="إعلان"></div>
+<div class="lc-content"><div class="lc-title">إعلان AdsGram</div><div class="lc-sub"><span id="adsgram-count">0</span>/<span id="adsgram-limit">300</span></div></div>
 <div class="lc-end"><div class="lc-val">+500</div></div>
 </div>
 </div>
 
 <!-- 🔄 التعديل: حذف قسم Partners بالكامل -->
-<h2>Community</h2>
+<h2>المجتمع</h2>
 <div id="community-tasks-card"><div id="community-tasks-list"></div></div>
 </main>
 <main id="create-task-page" class="content-section">
-<div class="page-header"><h1>Add Mission</h1><p>Promote your channel or bot</p></div>
+<div class="page-header"><h1>إضافة مهمة</h1><p>روّج لقناتك أو بوتك</p></div>
 <div class="card">
-<div class="input-wrap"><span class="input-label">Task Name</span><input type="text" id="new-task-name" class="custom-input" placeholder="e.g. Join Taskora Channel"></div>
-<div class="input-wrap"><span class="input-label">Link</span><input type="text" id="new-task-link" class="custom-input" placeholder="https://t.me/..."></div>
-<div class="input-label" style="margin-bottom:10px;">Category</div>
+<div class="input-wrap"><span class="input-label">اسم المهمة</span><input type="text" id="new-task-name" class="custom-input" placeholder="مثال: انضم لقناة Taskora"></div>
+<div class="input-wrap"><span class="input-label">الرابط</span><input type="text" id="new-task-link" class="custom-input" placeholder="https://t.me/..."></div>
+<div class="input-label" style="margin-bottom:10px;">الفئة</div>
 <div class="cat-select">
-<div class="cat-opt active" onclick="selectCat(this,'channel')">Channel / Group</div>
-<div class="cat-opt" onclick="selectCat(this,'bot')">Website / Bot</div>
+<div class="cat-opt active" onclick="selectCat(this,'channel')">قناة / مجموعة</div>
+<div class="cat-opt" onclick="selectCat(this,'bot')">موقع / بوت</div>
 </div>
-<div id="admin-required-msg" style="background:rgba(255,179,0,0.15);border:1px solid #ffb300;border-radius:12px;padding:12px;margin-bottom:20px;font-size:12px;color:#ffb300;display:block;line-height:1.5;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:5px;"></i><strong>Action Required:</strong> You must add <u>@sdefesdfwwwbot</u> as an <strong>Admin</strong> in your Channel/Group for tracking to work.</div>
-<div class="input-label" style="margin-bottom:10px;">Number of Completions</div>
+<div id="admin-required-msg" style="background:rgba(255,179,0,0.15);border:1px solid #ffb300;border-radius:12px;padding:12px;margin-bottom:20px;font-size:12px;color:#ffb300;display:block;line-height:1.5;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:5px;"></i><strong>إجراء مطلوب:</strong> يجب عليك إضافة <u>@sdefesdfwwwbot</u> كـ<strong>مشرف</strong> في قناتك/مجموعتك حتى يعمل التتبع.</div>
+<div class="input-label" style="margin-bottom:10px;">عدد مرات الإتمام</div>
 <div class="price-grid" id="price-options"></div>
-<div id="payment-step-1"><button class="btn btn-ton" id="pay-task-btn" onclick="initiatePayment()"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:20px;border-radius:50%;">Pay <span id="pay-amount-display">0</span> TON</button></div>
-<div id="payment-step-2" style="display:none;text-align:center;"><p style="font-size:12px;margin-bottom:10px;color:#fff;">Payment sent? Verify below:</p><button class="btn btn-check" id="check-payment-btn" onclick="verifyPayment()">Check Payment</button><p id="payment-status-msg" style="font-size:11px;margin-top:8px;color:var(--text-muted);">Waiting for transaction...</p></div>
+<div id="payment-step-1"><button class="btn btn-ton" id="pay-task-btn" onclick="initiatePayment()"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:20px;border-radius:50%;">ادفع <span id="pay-amount-display">0</span> TON</button></div>
+<div id="payment-step-2" style="display:none;text-align:center;"><p style="font-size:12px;margin-bottom:10px;color:#fff;">هل تم إرسال الدفع؟ تحقق أدناه:</p><button class="btn btn-check" id="check-payment-btn" onclick="verifyPayment()">تحقق من الدفع</button><p id="payment-status-msg" style="font-size:11px;margin-top:8px;color:var(--text-muted);">بانتظار المعاملة...</p></div>
 </div>
-<button class="btn btn-action nav-link" data-target="tasks" style="margin-top:10px;">Cancel</button>
+<button class="btn btn-action nav-link" data-target="tasks" style="margin-top:10px;">إلغاء</button>
 </main>
 <main id="history" class="content-section">
-<div class="page-header"><h1>Ledger</h1><p>Transaction History</p></div>
+<div class="page-header"><h1>السجل</h1><p>سجل المعاملات</p></div>
 <div id="full-history-list" style="padding-bottom:20px;"></div>
 </main>
 <main id="user-withdrawals" class="content-section">
-<div class="page-header"><h1>My Withdrawals</h1><p>Track your withdrawal requests</p></div>
+<div class="page-header"><h1>سحوباتي</h1><p>تتبع طلبات السحب الخاصة بك</p></div>
 <div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;"><h3 style="color:var(--gold);font-size:14px;">Withdrawal History</h3><div style="display:flex;gap:5px;"><button class="btn-filter small active" onclick="filterUserWithdrawals('all')">All</button><button class="btn-filter small" onclick="filterUserWithdrawals('pending')">Pending</button><button class="btn-filter small" onclick="filterUserWithdrawals('completed')">Completed</button></div></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;"><h3 style="color:var(--gold);font-size:14px;">سجل السحب</h3><div style="display:flex;gap:5px;"><button class="btn-filter small active" onclick="filterUserWithdrawals('all')">الكل</button><button class="btn-filter small" onclick="filterUserWithdrawals('pending')">قيد الانتظار</button><button class="btn-filter small" onclick="filterUserWithdrawals('completed')">مكتمل</button></div></div>
 <div id="user-withdrawals-list" style="max-height:400px;overflow-y:auto;display:flex;flex-direction:column-reverse;"></div>
 </div>
 </main>
 <main id="swap-page" class="content-section">
-<div class="page-header"><h1>Swap Market</h1><p>100K TSK = 0.01 TON</p></div>
+<div class="page-header"><h1>سوق التبديل</h1><p>100K TSK = 0.01 TON</p></div>
 <div class="swap-direction-selector">
 <div class="swap-direction-btn active" onclick="selectSwapDirection('tsk_to_ton')">TSK → TON</div>
 <div class="swap-direction-btn" onclick="selectSwapDirection('ton_to_tsk')">TON → TSK</div>
 </div>
 <div class="card">
 <div id="tsk-to-ton-section">
-<div class="input-wrap"><span class="input-label">You Give (TSK)</span><input type="number" id="swap-input-amount" class="custom-input" placeholder="Min 1,000" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Max:<span id="swap-max-TSK">0</span><button onclick="setMaxSwap('tsk')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">MAX</button></div></div>
-<div class="input-wrap"><span class="input-label">You Get (TON)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:24px;"><span id="swap-output-amount" class="custom-input">0.0000000</span></div></div>
-<div class="swap-mode-text">Rate: 100,000 TSK = 0.01 TON</div>
+<div class="input-wrap"><span class="input-label">أنت تعطي (TSK)</span><input type="number" id="swap-input-amount" class="custom-input" placeholder="الحد الأدنى 1,000" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأقصى:<span id="swap-max-TSK">0</span><button onclick="setMaxSwap('tsk')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">الأقصى</button></div></div>
+<div class="input-wrap"><span class="input-label">أنت تحصل على (TON)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:24px;"><span id="swap-output-amount" class="custom-input">0.0000000</span></div></div>
+<div class="swap-mode-text">السعر: 100,000 TSK = 0.01 TON</div>
 </div>
 <div id="ton-to-tsk-section" style="display:none;">
-<div class="input-wrap"><span class="input-label">You Give (TON)</span><input type="number" id="ton-input-amount" class="custom-input" placeholder="Min 0.0001" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Max:<span id="swap-max-TON">0.0000</span><button onclick="setMaxSwap('ton')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">MAX</button></div></div>
-<div class="input-wrap"><span class="input-label">You Get (TSK)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" style="width:24px;height:24px;border-radius:50%;"><span id="ton-output-amount" class="custom-input">0</span></div></div>
-<div class="swap-mode-text">Rate: 0.01 TON = 100,000 TSK</div>
+<div class="input-wrap"><span class="input-label">أنت تعطي (TON)</span><input type="number" id="ton-input-amount" class="custom-input" placeholder="الحد الأدنى 0.0001" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأقصى:<span id="swap-max-TON">0.0000</span><button onclick="setMaxSwap('ton')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">الأقصى</button></div></div>
+<div class="input-wrap"><span class="input-label">أنت تحصل على (TSK)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" style="width:24px;height:24px;border-radius:50%;"><span id="ton-output-amount" class="custom-input">0</span></div></div>
+<div class="swap-mode-text">السعر: 0.01 TON = 100,000 TSK</div>
 </div>
-<button class="btn btn-primary" id="execute-swap-btn" onclick="executeSwap()">Confirm Swap</button>
+<button class="btn btn-primary" id="execute-swap-btn" onclick="executeSwap()">تأكيد التبديل</button>
 </div>
 </main>
 <main id="withdraw" class="content-section">
-<div class="page-header"><h1>Withdraw</h1><p>TSK out to TON Wallet</p></div>
+<div class="page-header"><h1>سحب</h1><p>سحب TSK إلى محفظة TON</p></div>
     
 <div id="tonwallet-form" class="card">
-<div class="input-wrap"><span class="input-label">TON Wallet Address</span><input type="text" id="ton-wallet-address" class="custom-input" placeholder="UQ... or EQ... or kQ..."><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Enter your TON wallet address (starts with UQ, EQ, or kQ)</div></div>
-<div class="input-wrap"><span class="input-label">Memo (Optional)</span><input type="text" id="ton-memo" class="custom-input" placeholder="For exchange deposits only"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Optional: Required by some exchanges for deposits</div></div>
-<div class="input-wrap withdraw-input-with-max"><span class="input-label">Withdrawal Amount (TON)</span><div style="display:flex;align-items:center;gap:8px;"><input type="number" id="ton-withdraw-amount" class="custom-input" placeholder="0.05" step="0.01" min="0.05" value="0.05" style="flex:1;"><button class="max-btn" onclick="setMaxTonWallet()">MAX</button></div><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">Minimum: 0.05 TON</div></div>
-<div class="info-box success"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="info-icon">✓</div><div style="font-size:11px;line-height:1.4;"><strong>Withdrawal Details:</strong><br>• Minimum withdrawal: 0.05 TON<br>• <span style="color:#27ae60;">✅ No fees</span> - We cover all transaction costs<br>• Processing time: 1-3 minutes<br>• Memo is only needed for exchange deposits<br>• Ensure address is correct - transactions are irreversible</div></div></div>
-<button class="btn btn-primary" id="withdraw-ton-now-btn" onclick="handleTonWalletWithdraw()"><i class="fa-solid fa-wallet"></i>WITHDRAW TO TON WALLET</button>
+<div class="input-wrap"><span class="input-label">عنوان محفظة TON</span><input type="text" id="ton-wallet-address" class="custom-input" placeholder="UQ... أو EQ... أو kQ..."><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">أدخل عنوان محفظة TON الخاصة بك (يبدأ بـ UQ أو EQ أو kQ)</div></div>
+<div class="input-wrap"><span class="input-label">ملاحظة (اختياري)</span><input type="text" id="ton-memo" class="custom-input" placeholder="لإيداعات المنصات فقط"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">اختياري: مطلوب من بعض المنصات للإيداع</div></div>
+<div class="input-wrap withdraw-input-with-max"><span class="input-label">مبلغ السحب (TON)</span><div style="display:flex;align-items:center;gap:8px;"><input type="number" id="ton-withdraw-amount" class="custom-input" placeholder="0.05" step="0.01" min="0.05" value="0.05" style="flex:1;"><button class="max-btn" onclick="setMaxTonWallet()">الأقصى</button></div><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأدنى: 0.05 TON</div></div>
+<div class="info-box success"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="info-icon">✓</div><div style="font-size:11px;line-height:1.4;"><strong>تفاصيل السحب:</strong><br>• الحد الأدنى للسحب: 0.05 TON<br>• <span style="color:#27ae60;">✅ بدون رسوم</span> - نحن نتحمل جميع تكاليف المعاملة<br>• وقت المعالجة: 1-3 دقائق<br>• الملاحظة مطلوبة فقط لإيداعات المنصات<br>• تأكد من صحة العنوان - المعاملات لا يمكن التراجع عنها</div></div></div>
+<button class="btn btn-primary" id="withdraw-ton-now-btn" onclick="handleTonWalletWithdraw()"><i class="fa-solid fa-wallet"></i>السحب إلى محفظة TON</button>
 </div>
 </main>
 <main id="leaderboard" class="content-section">
-<div class="page-header"><h1>Top Kings</h1><p>The richest in Taskora</p></div>
-<div class="leader-tabs"><div class="tab-btn active" data-target="invites-leaderboard-list">Invites</div><div class="tab-btn" data-target="earnings-leaderboard-list">Holders</div></div>
+<div class="page-header"><h1>أفضل الملوك</h1><p>الأكثر ثراءً في Taskora</p></div>
+<div class="leader-tabs"><div class="tab-btn active" data-target="invites-leaderboard-list">الدعوات</div><div class="tab-btn" data-target="earnings-leaderboard-list">الحائزون</div></div>
 <div class="podium-list" id="invites-leaderboard-list"></div>
 <div class="podium-list hidden" id="earnings-leaderboard-list"></div>
 </main>
 
 <!-- 🔄 التعديل: تحديث قيمة مكافأة الإحالة إلى 100K -->
 <main id="referrals" class="content-section">
-<div class="page-header"><h1>Referrals</h1><p>Invite friends, earn together</p></div>
+<div class="page-header"><h1>الإحالات</h1><p>ادعُ أصدقاءك واربحوا معًا</p></div>
 <div class="card" style="text-align:center;">
 <img src="https://i.ibb.co/RVhNgFc/photo.jpg" style="width:80px;margin-bottom:15px;">
-<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:12px;margin-bottom:20px;"><div style="font-size:12px;color:var(--text-muted);">Total Referrals</div><div style="font-size:24px;font-weight:800;color:#fff;" id="referral-count-display">0</div></div>
+<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:12px;margin-bottom:20px;"><div style="font-size:12px;color:var(--text-muted);">إجمالي الإحالات</div><div style="font-size:24px;font-weight:800;color:#fff;" id="referral-count-display">0</div></div>
 
 <!-- 🔄 التعديل: تغيير النص من 10000 إلى 100K -->
-<p>Earn <strong>+100K TSK</strong> for every friend.</p>
+<p>اربح <strong>+100K TSK</strong> عن كل صديق.</p>
 
 <div id="referral-link-display" style="background:#000;padding:10px;border-radius:8px;font-family:monospace;font-size:10px;color:#aaa;margin:15px 0;word-break:break-all;">...</div>
-<button class="btn btn-primary" id="share-referral-btn">Invite Friends</button>
-<button class="btn btn-outline" id="copy-referral-btn" style="margin-top:10px;">Copy Link</button>
+<button class="btn btn-primary" id="share-referral-btn">دعوة الأصدقاء</button>
+<button class="btn btn-outline" id="copy-referral-btn" style="margin-top:10px;">نسخ الرابط</button>
 </div>
 </main>
 </div>
@@ -1031,15 +1032,15 @@
 <div class="floating-add-task hidden" id="floatingAddTask" onclick="switchTab('create-task-page')">
 <div class="floating-add-task-content">
 <div class="floating-add-task-icon">+</div>
-<div class="floating-add-task-text">Add Task</div>
+<div class="floating-add-task-text">إضافة مهمة</div>
 </div>
 </div>
 
 <nav class="bottom-nav">
-<div class="nav-item active" data-target="home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span class="nav-text">Home</span></div>
-<div class="nav-item" data-target="tasks"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="nav-text">Tasks</span></div>
-<div class="nav-item" data-target="bonus"><svg viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg><span class="nav-text">Bonus</span></div>
-<div class="nav-item" data-target="referrals"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Referrals</span></div>
+<div class="nav-item active" data-target="home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span class="nav-text">الرئيسية</span></div>
+<div class="nav-item" data-target="tasks"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="nav-text">المهام</span></div>
+<div class="nav-item" data-target="bonus"><svg viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg><span class="nav-text">المكافآت</span></div>
+<div class="nav-item" data-target="referrals"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">الإحالات</span></div>
 </nav>
 <script>
 // 🔹 متغيرات نظام الكابتشا
@@ -1104,7 +1105,7 @@ async function checkBeforeAction(actionName) {
     const blockCheck = await checkUserBlockStatus();
     if (blockCheck && blockCheck.success === false && blockCheck.error === 'ACCOUNT_BLOCKED') {
         console.log("Account blocked for action:", actionName);
-        showNotification("Your account has been blocked.", "error");
+        showNotification("تم حظر حسابك.", "error");
         return false;
     }
     return true;
@@ -1143,14 +1144,14 @@ function openCaptcha(adType) {
                     const verifyBtn = document.getElementById('verifyCaptchaBtn');
                     if (verifyBtn) {
                         verifyBtn.disabled = false;
-                        verifyBtn.innerHTML = '<i class="fas fa-check"></i> Verify & Continue';
+                        verifyBtn.innerHTML = '<i class="fas fa-check"></i> تحقق واستمر';
                     }
                 }
             });
         }
     }, 500);
     
-    showNotification("🔒 Security verification required to continue watching ads", "info");
+    showNotification("🔒 التحقق الأمني مطلوب لمواصلة مشاهدة الإعلانات", "info");
 }
 
 // ✅ دالة إغلاق نافذة الكابتشا
@@ -1173,7 +1174,7 @@ function closeCaptcha() {
     const verifyBtn = document.getElementById('verifyCaptchaBtn');
     if (verifyBtn) {
         verifyBtn.disabled = false;
-        verifyBtn.innerHTML = '<i class="fas fa-check"></i> Verify & Continue';
+        verifyBtn.innerHTML = '<i class="fas fa-check"></i> تحقق واستمر';
         verifyBtn.classList.remove('btn-captcha-processing');
     }
 }
@@ -1181,14 +1182,14 @@ function closeCaptcha() {
 // ✅ دالة التحقق من الكابتشا
 async function verifyCaptcha() {
     if (!captchaToken) {
-        showNotification("Please complete the captcha first.", "warning");
+        showNotification("يرجى إكمال الكابتشا أولاً.", "warning");
         return;
     }
     
     const verifyBtn = document.getElementById('verifyCaptchaBtn');
     if (verifyBtn) {
         verifyBtn.disabled = true;
-        verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+        verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ التحقق...';
         verifyBtn.classList.add('btn-captcha-processing');
     }
     
@@ -1214,7 +1215,7 @@ async function verifyCaptcha() {
                 }
             }
             
-            showNotification("✅ Captcha verified successfully! You can continue watching ads.", "success");
+            showNotification("✅ تم التحقق من الكابتشا بنجاح! يمكنك متابعة مشاهدة الإعلانات.", "success");
             
             closeCaptcha();
             
@@ -1225,7 +1226,7 @@ async function verifyCaptcha() {
                 }, 1000);
             }
         } else {
-            showNotification("❌ Captcha verification failed: " + result.error, "error");
+            showNotification("❌ فشل التحقق من الكابتشا: " + result.error, "error");
             
             // 🔹 إعادة تعيين الكابتشا
             if (window.turnstile && captchaWidgetId) {
@@ -1235,17 +1236,17 @@ async function verifyCaptcha() {
             
             if (verifyBtn) {
                 verifyBtn.disabled = false;
-                verifyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Verify & Continue';
+                verifyBtn.innerHTML = '<i class="fa-solid fa-check"></i> تحقق واستمر';
                 verifyBtn.classList.remove('btn-captcha-processing');
             }
         }
     } catch (error) {
         console.error("Captcha verification error:", error);
-        showNotification("Error verifying captcha. Please try again.", "error");
+        showNotification("خطأ في التحقق من الكابتشا. حاول مرة أخرى.", "error");
         
         if (verifyBtn) {
             verifyBtn.disabled = false;
-            verifyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Verify & Continue';
+            verifyBtn.innerHTML = '<i class="fa-solid fa-check"></i> تحقق واستمر';
             verifyBtn.classList.remove('btn-captcha-processing');
         }
     }
@@ -1332,18 +1333,18 @@ async function executeMonetagAd() {
                 captchaToken = null;
             }
             
-            showNotification(`✅ +${appSettings.adRewardMonetag || 500} TSK added!`, "success");
+            showNotification(`✅ تمت إضافة +${appSettings.adRewardMonetag || 500} TSK!`, "success");
             renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
         }
     } catch (e) {
-        showNotification("Ad not ready", "warning");
+        showNotification("الإعلان غير جاهز", "warning");
     }
 }
 
 // ✅ دالة تنفيذ إعلان Giga بعد التحقق
 async function executeGigaAd() {
     if (typeof window.showGiga !== 'function') {
-        showNotification("Giga Ads loading...", "info");
+        showNotification("جارٍ تحميل الإعلان...", "info");
         return;
     }
     
@@ -1367,19 +1368,19 @@ async function executeGigaAd() {
                 captchaToken = null;
             }
             
-            showNotification(`✅ +${appSettings.adRewardGiga || 500} TSK added!`, "success");
+            showNotification(`✅ تمت إضافة +${appSettings.adRewardGiga || 500} TSK!`, "success");
             renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
         }
     } catch (e) {
         console.error(e);
-        showNotification("Ad failed or closed.", "warning");
+        showNotification("فشل الإعلان أو تم إغلاقه.", "warning");
     }
 }
 
 // ✅ دالة تنفيذ إعلان Adsgram بعد التحقق
 async function executeAdsgramAd() {
     if (!AdController) {
-        showNotification("AdsGram not initialized", "warning");
+        showNotification("لم يتم تهيئة الإعلانات", "warning");
         return;
     }
     
@@ -1402,13 +1403,13 @@ async function executeAdsgramAd() {
                     captchaToken = null;
                 }
                 
-                showNotification(`✅ +${appSettings.adRewardAdsgram || 500} TSK added!`, "success");
+                showNotification(`✅ تمت إضافة +${appSettings.adRewardAdsgram || 500} TSK!`, "success");
                 renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
             }
         }
     } catch (error) {
         console.error("AdsGram error:", error);
-        showNotification("Ad playback error.", "error");
+        showNotification("خطأ في تشغيل الإعلان.", "error");
     }
 }
 
@@ -1463,12 +1464,12 @@ async function callAPI(action, data = {}) {
             }
             
             if (result.error === 'INVALID_CAPTCHA') {
-                showNotification("❌ Captcha verification failed. Please try again.", "error");
+                showNotification("❌ فشل التحقق من الكابتشا. حاول مرة أخرى.", "error");
                 return result;
             }
             
             if (result.error === 'ACCOUNT_BLOCKED') {
-                showNotification("Your account has been blocked.", "error");
+                showNotification("تم حظر حسابك.", "error");
                 return result;
             }
         }
@@ -1477,7 +1478,7 @@ async function callAPI(action, data = {}) {
         
     } catch (error) {
         console.error('API call failed:', error);
-        showNotification("Connection error. Please try again.", "error");
+        showNotification("خطأ في الاتصال. حاول مرة أخرى.", "error");
         return { success: false, error: error.message };
     }
 }
@@ -1579,33 +1580,33 @@ function showMandatorySubscriptionScreen() {
     <div style="padding:20px;max-width:500px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;justify-content:center;">
         <div class="card" style="text-align:center;">
             <img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="Taskora" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;border:3px solid var(--primary-green);">
-            <h1 style="font-size:24px;margin-bottom:8px;color:#fff;">⚠️ Subscription Required</h1>
+            <h1 style="font-size:24px;margin-bottom:8px;color:#fff;">⚠️ الاشتراك مطلوب</h1>
             <p style="color:var(--text-muted);margin-bottom:20px;font-size:14px;">
-                You must subscribe to all channels below to access Taskora
+                يجب عليك الاشتراك في جميع القنوات أدناه للوصول إلى Taskora
             </p>
             
             <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:12px;padding:12px;margin-bottom:20px;">
                 <div style="display:flex;align-items:center;gap:10px;">
                     <div style="color:#e74c3c;font-size:18px;"><i class="fa-solid fa-triangle-exclamation"></i></div>
                     <div style="font-size:12px;color:#e74c3c;">
-                        <strong>Important:</strong> Join all channels and stay subscribed to use the bot
+                        <strong>مهم:</strong> انضم لجميع القنوات وابقَ مشتركًا لاستخدام البوت
                     </div>
                 </div>
             </div>
             
             <div style="text-align:left;margin-bottom:25px;">
                 <h2 style="font-size:16px;color:var(--gold);margin-bottom:15px;display:flex;align-items:center;gap:8px;">
-                    <i class="fa-solid fa-list-check"></i> Required Channels (4)
+                    <i class="fa-solid fa-list-check"></i> القنوات المطلوبة (4)
                 </h2>
                 ${channelsHTML}
             </div>
             
             <button class="btn btn-primary" onclick="verifySubscriptions()" style="margin-bottom:10px;padding:15px;">
-                <i class="fa-solid fa-check-circle"></i> I'VE SUBSCRIBED TO ALL CHANNELS
+                <i class="fa-solid fa-check-circle"></i> لقد اشتركت في جميع القنوات
             </button>
             
             <p style="font-size:11px;color:var(--text-muted);margin-top:15px;">
-                After subscribing, click the button above to verify
+                بعد الاشتراك، اضغط على الزر أعلاه للتحقق
             </p>
         </div>
     </div>`;
@@ -1622,10 +1623,10 @@ async function verifySubscriptions() {
     const verifyBtn = document.querySelector('button[onclick="verifySubscriptions()"]');
     if (verifyBtn) {
         verifyBtn.disabled = true;
-        verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> VERIFYING...';
+        verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ التحقق...';
     }
     
-    showNotification("⏳ Verifying your subscriptions...", "info");
+    showNotification("⏳ جارٍ التحقق من اشتراكاتك...", "info");
     
     try {
         const result = await callAPI('checkMandatorySubscriptions', { userId: userId });
@@ -1633,7 +1634,7 @@ async function verifySubscriptions() {
         if (result.success && result.data) {
             // ✅ ✅ ✅ الإصلاح هنا أيضاً: استخدام allSubscribed بدلاً من subscribed ✅ ✅ ✅
             if (result.data.allSubscribed === true) {
-                showNotification("✅ All subscriptions verified! Loading app...", "success");
+                showNotification("✅ تم التحقق من جميع الاشتراكات! جارٍ تحميل التطبيق...", "success");
                 
                 // إخفاء شاشة الاشتراك وإظهار التطبيق
                 setTimeout(() => {
@@ -1642,7 +1643,7 @@ async function verifySubscriptions() {
                 
             } else {
                 const unsubscribedChannels = result.data?.missingChannels || [];
-                let errorMessage = "You need to subscribe to all channels:";
+                let errorMessage = "يجب عليك الاشتراك في جميع القنوات:";
                 
                 unsubscribedChannels.forEach(channel => {
                     errorMessage += `\n- ${channel}`;
@@ -1652,24 +1653,24 @@ async function verifySubscriptions() {
                 
                 if (verifyBtn) {
                     verifyBtn.disabled = false;
-                    verifyBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> I\'VE SUBSCRIBED TO ALL CHANNELS';
+                    verifyBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> لقد اشتركت في جميع القنوات';
                 }
             }
         } else {
-            showNotification("Error verifying subscriptions. Please try again.", "error");
+            showNotification("خطأ في التحقق من الاشتراكات. حاول مرة أخرى.", "error");
             
             if (verifyBtn) {
                 verifyBtn.disabled = false;
-                verifyBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> I\'VE SUBSCRIBED TO ALL CHANNELS';
+                verifyBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> لقد اشتركت في جميع القنوات';
             }
         }
     } catch (error) {
         console.error("Verification error:", error);
-        showNotification("Error verifying subscriptions. Please try again.", "error");
+        showNotification("خطأ في التحقق من الاشتراكات. حاول مرة أخرى.", "error");
         
         if (verifyBtn) {
             verifyBtn.disabled = false;
-            verifyBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> I\'VE SUBSCRIBED TO ALL CHANNELS';
+            verifyBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> لقد اشتركت في جميع القنوات';
         }
     }
 }
@@ -1696,7 +1697,7 @@ async function handleDailyClaim() {
     // تعطيل الزر
     claimButton.disabled = true;
     claimButton.classList.add('btn-processing');
-    claimButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
+    claimButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ المعالجة...';
     
     try {
         const result = await callAPI('claimDailyBonus');
@@ -1705,26 +1706,26 @@ async function handleDailyClaim() {
             appData.dailyStreak = result.data.dailyStreak;
             appData.dogsBalance = result.data.newBalance;
             
-            showNotification(`🎉 Daily bonus claimed! +${result.data.reward} TSK`, "success");
+            showNotification(`🎉 تم الحصول على المكافأة اليومية! +${result.data.reward} TSK`, "success");
             renderDailyBonusUI();
             renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
         } else {
             if (result.error === 'ACCOUNT_BLOCKED') {
-                showNotification("Your account has been blocked.", "error");
+                showNotification("تم حظر حسابك.", "error");
             } else {
-                showNotification("Error: " + result.error, "error");
+                showNotification("خطأ: " + result.error, "error");
             }
         }
     } catch (error) {
         console.error("Daily claim error:", error);
-        showNotification("Error claiming daily bonus", "error");
+        showNotification("خطأ في الحصول على المكافأة اليومية", "error");
     } finally {
         // تمكين الزر بعد 2 ثانية
         setTimeout(() => {
             if (claimButton) {
                 claimButton.disabled = false;
                 claimButton.classList.remove('btn-processing');
-                claimButton.textContent = "Claim Bonus";
+                claimButton.textContent = "احصل على المكافأة";
             }
         }, 2000);
     }
@@ -2094,7 +2095,7 @@ function showGigaAdBeforeAction(actionName, callback) {
     if (typeof window.showGiga === 'function') {
         gigaAdRequired = true;
         gigaAdCallback = callback;
-        showNotification(`Please watch an ad to ${actionName}`, "info");
+        showNotification(`يرجى مشاهدة إعلان لإتمام هذا الإجراء`, "info");
         window.showGiga()
             .then(() => {
                 gigaAdRequired = false;
@@ -2104,7 +2105,7 @@ function showGigaAdBeforeAction(actionName, callback) {
                 }
             })
             .catch(() => {
-                showNotification("Ad failed or was skipped", "warning");
+                showNotification("فشل الإعلان أو تم تخطيه", "warning");
                 gigaAdRequired = false;
                 gigaAdCallback = null;
             });
@@ -2115,7 +2116,7 @@ function showGigaAdBeforeAction(actionName, callback) {
 
 function protectedDailyClaim() {
     if (gigaAdRequired) {
-        showNotification("Please complete the ad first", "warning");
+        showNotification("يرجى إكمال الإعلان أولاً", "warning");
         return;
     }
     showGigaAdBeforeAction("claim daily bonus", handleDailyClaim);
@@ -2134,12 +2135,12 @@ async function handlePromoCode() {
     
     const code = codeInput.value.trim().toUpperCase();
     if (!code) {
-        showPromoResult('Please enter a promo code', 'error');
+        showPromoResult('يرجى إدخال كود الخصم', 'error');
         return;
     }
     
     redeemBtn.disabled = true;
-    redeemBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+    redeemBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ التحقق...';
     
     const result = await callAPI('redeemPromoCode', { code: code });
     
@@ -2150,13 +2151,13 @@ async function handlePromoCode() {
         // تحديث الرصيد بناءً على نوع المكافأة
         if (rewardType === 'tsk') {
             appData.dogsBalance = result.data.newBalance;
-            showPromoResult(`🎉 Success! You got +${reward} TSK`, 'success');
+            showPromoResult(`🎉 تم بنجاح! حصلت على +${reward} TSK`, 'success');
         } else if (rewardType === 'ton') {
             appData.tonBalance = result.data.newTONBalance;
-            showPromoResult(`🎉 Success! You got +${reward} TON`, 'success');
+            showPromoResult(`🎉 تم بنجاح! حصلت على +${reward} TON`, 'success');
         } else if (rewardType === 'ticket') {
             appData.competitionTickets = (appData.competitionTickets || 0) + reward;
-            showPromoResult(`🎉 Success! You got +${reward} Competition Ticket(s)`, 'success');
+            showPromoResult(`🎉 تم بنجاح! حصلت على +${reward} تذكرة مسابقة`, 'success');
             
             // تحديث بيانات المسابقة
             if (competitionData && competitionData.userTickets) {
@@ -2178,14 +2179,14 @@ async function handlePromoCode() {
         }
     } else {
         if (result.error === 'ACCOUNT_BLOCKED') {
-            showNotification("Your account has been blocked.", "error");
+            showNotification("تم حظر حسابك.", "error");
         } else {
             showPromoResult('❌ ' + result.error, 'error');
         }
     }
     
     redeemBtn.disabled = false;
-    redeemBtn.innerHTML = '<i class="fa-solid fa-gift"></i> Redeem';
+    redeemBtn.innerHTML = '<i class="fa-solid fa-gift"></i> استبدال';
 }
 
 function showPromoResult(message, type) {
@@ -2300,7 +2301,7 @@ async function initializeUser(user, deviceFingerprint) {
             return;
         }
         console.error('Error initializing user:', result.error);
-        showNotification(`Couldn't load your balance (${result.error || result.errorCode || 'unknown error'}). Pull to refresh or reopen the app.`, "error");
+        showNotification(`تعذر تحميل رصيدك (${result.error || result.errorCode || 'خطأ غير معروف'}). اسحب للتحديث أو أعد فتح التطبيق.`, "error");
     }
 }
 
@@ -2328,7 +2329,7 @@ function checkWithdrawalLimit() {
         tonwalletBtn.disabled = false;
         tonwalletBtn.classList.remove('withdraw-disabled');
         tonwalletBtn.classList.remove('daily-limit-reached');
-        tonwalletBtn.innerHTML = '<i class="fa-solid fa-wallet"></i> WITHDRAW TO TON WALLET';
+        tonwalletBtn.innerHTML = '<i class="fa-solid fa-wallet"></i> السحب إلى محفظة TON';
     }
     return true;
 }
@@ -2386,7 +2387,7 @@ async function handleReferral(user) {
             
             if (result.success) {
                 // 🔄 التعديل: تحديث رسالة الترحيب لتعكس 100K
-                showNotification("🎉 Welcome bonus activated! +100K TSK", "success");
+                showNotification("🎉 تم تفعيل مكافأة الترحيب! +100K TSK", "success");
             }
         }
     }
@@ -2399,7 +2400,7 @@ function renderUI(user) {
     const ton = (appData.tonBalance || 0).toFixed(7);
     const userLevel = getLevel(TSK);
     
-    document.getElementById('home-user-level').textContent = `Level ${userLevel}`;
+    document.getElementById('home-user-level').textContent = `المستوى ${userLevel}`;
     document.getElementById('total-TSK-balance').textContent = TSK.toLocaleString();
     document.getElementById('home-ton-balance').textContent = parseFloat(ton).toFixed(4);
     document.getElementById('swap-max-TSK').textContent = TSK.toLocaleString();
@@ -2489,7 +2490,7 @@ window.setMaxSwap = function(type) {
     if (type === 'tsk' || swapDirection === 'tsk_to_ton') {
         const currentBalance = appData.dogsBalance || 0;
         if (currentBalance < 1000) {
-            showNotification("Minimum swap is 1,000 TSK", "warning");
+            showNotification("الحد الأدنى للتبديل هو 1,000 TSK", "warning");
             return;
         }
         document.getElementById('swap-input-amount').value = currentBalance;
@@ -2497,7 +2498,7 @@ window.setMaxSwap = function(type) {
     } else {
         const currentBalance = appData.tonBalance || 0;
         if (currentBalance < 0.0001) {
-            showNotification("Minimum swap is 0.0001 TON", "warning");
+            showNotification("الحد الأدنى للتبديل هو 0.0001 TON", "warning");
             return;
         }
         document.getElementById('ton-input-amount').value = currentBalance.toFixed(4);
@@ -2522,18 +2523,18 @@ async function executeTSKtoTONSwap() {
     const currentTSK = appData.dogsBalance || 0;
     
     if (TSKInput < 1000) {
-        showNotification("Min swap: 1,000 TSK", "warning");
+        showNotification("الحد الأدنى للتبديل: 1,000 TSK", "warning");
         return;
     }
     
     if (TSKInput > currentTSK) {
-        showNotification("Insufficient TSK Balance", "warning");
+        showNotification("رصيد TSK غير كافٍ", "warning");
         return;
     }
     
     const tonValue = TSKInput * TSK_TO_TON_RATE;
     
-    if (!confirm(`Swap ${TSKInput.toLocaleString()} TSK for ${tonValue.toFixed(7)} TON?\n\nRate: 100,000 TSK = 0.01 TON`)) return;
+    if (!confirm(`تبديل ${TSKInput.toLocaleString()} TSK مقابل ${tonValue.toFixed(7)} TON؟\n\nالسعر: 100,000 TSK = 0.01 TON`)) return;
     
     const result = await callAPI('executeSwap', {
         type: 'tsk_to_ton',
@@ -2544,16 +2545,16 @@ async function executeTSKtoTONSwap() {
     if (result.success) {
         appData.dogsBalance = result.data.newTSKBalance;
         appData.tonBalance = result.data.newTONBalance;
-        showNotification(`Swap Complete!\n\n-${TSKInput.toLocaleString()} TSK\n+${tonValue.toFixed(7)} TON`, "success");
+        showNotification(`تم التبديل بنجاح!\n\n-${TSKInput.toLocaleString()} TSK\n+${tonValue.toFixed(7)} TON`, "success");
         document.getElementById('swap-input-amount').value = '';
         document.getElementById('swap-output-amount').textContent = '0.0000000';
         switchTab('home');
         renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
     } else {
         if (result.error === 'ACCOUNT_BLOCKED') {
-            showNotification("Your account has been blocked.", "error");
+            showNotification("تم حظر حسابك.", "error");
         } else {
-            showNotification("Error: " + result.error, "error");
+            showNotification("خطأ: " + result.error, "error");
         }
     }
 }
@@ -2567,18 +2568,18 @@ async function executeTONtoTSKSwap() {
     const currentTON = appData.tonBalance || 0;
     
     if (TONInput < 0.0001) {
-        showNotification("Min swap: 0.0001 TON", "warning");
+        showNotification("الحد الأدنى للتبديل: 0.0001 TON", "warning");
         return;
     }
     
     if (TONInput > currentTON) {
-        showNotification("Insufficient TON Balance", "warning");
+        showNotification("رصيد TON غير كافٍ", "warning");
         return;
     }
     
     const tskValue = TONInput * TON_TO_TSK_RATE;
     
-    if (!confirm(`Swap ${TONInput.toFixed(4)} TON for ${tskValue.toLocaleString()} TSK?\n\nRate: 0.01 TON = 100,000 TSK`)) return;
+    if (!confirm(`تبديل ${TONInput.toFixed(4)} TON مقابل ${tskValue.toLocaleString()} TSK؟\n\nالسعر: 0.01 TON = 100,000 TSK`)) return;
     
     const result = await callAPI('executeSwap', {
         type: 'ton_to_tsk',
@@ -2589,16 +2590,16 @@ async function executeTONtoTSKSwap() {
     if (result.success) {
         appData.tonBalance = result.data.newTONBalance;
         appData.dogsBalance = result.data.newTSKBalance;
-        showNotification(`Swap Complete!\n\n-${TONInput.toFixed(4)} TON\n+${tskValue.toLocaleString()} TSK`, "success");
+        showNotification(`تم التبديل بنجاح!\n\n-${TONInput.toFixed(4)} TON\n+${tskValue.toLocaleString()} TSK`, "success");
         document.getElementById('ton-input-amount').value = '';
         document.getElementById('ton-output-amount').textContent = '0';
         switchTab('home');
         renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
     } else {
         if (result.error === 'ACCOUNT_BLOCKED') {
-            showNotification("Your account has been blocked.", "error");
+            showNotification("تم حظر حسابك.", "error");
         } else {
-            showNotification("Error: " + result.error, "error");
+            showNotification("خطأ: " + result.error, "error");
         }
     }
 }
@@ -2657,7 +2658,7 @@ async function initializeCompetition() {
             }
         } else {
             if (result.error === 'ACCOUNT_BLOCKED') {
-                showNotification("Your account has been blocked.", "error");
+                showNotification("تم حظر حسابك.", "error");
                 return;
             }
             await createNewCompetition();
@@ -2803,7 +2804,7 @@ window.setMaxTickets = function() {
     const maxTickets = Math.floor(currentBalance / TICKET_PRICE);
     
     if (maxTickets < 1) {
-        showNotification("You don't have enough TSK to buy a ticket (10,000 TSK required)", "warning");
+        showNotification("لا يوجد لديك TSK كافٍ لشراء تذكرة (مطلوب 10,000 TSK)", "warning");
         return;
     }
     
@@ -2815,7 +2816,7 @@ window.setMaxTickets = function() {
 window.buyTickets = async function() {
     const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
     if (!userId) {
-        showNotification("User authentication error. Please restart the bot.", "error");
+        showNotification("خطأ في التحقق من هوية المستخدم. أعد تشغيل البوت.", "error");
         return;
     }
     
@@ -2829,12 +2830,12 @@ window.buyTickets = async function() {
     }
     
     if (competitionData.breakMode) {
-        showNotification("Competition is on break. Please wait for the next round.", "warning");
+        showNotification("المسابقة متوقفة مؤقتًا. انتظر الجولة القادمة.", "warning");
         return;
     }
     
     if (!competitionData.isActive) {
-        showNotification("Competition has ended. Please wait for the next round.", "warning");
+        showNotification("انتهت المسابقة. انتظر الجولة القادمة.", "warning");
         return;
     }
     
@@ -2842,7 +2843,7 @@ window.buyTickets = async function() {
     const tickets = parseInt(ticketInput.value) || 0;
     
     if (tickets < 1) {
-        showNotification("Please enter at least 1 ticket", "warning");
+        showNotification("يرجى إدخال تذكرة واحدة على الأقل", "warning");
         return;
     }
     
@@ -2850,7 +2851,7 @@ window.buyTickets = async function() {
     const currentBalance = appData.dogsBalance || 0;
     
     if (totalCost > currentBalance) {
-        showNotification(`Insufficient TSK balance. You need ${totalCost.toLocaleString()} TSK`, "warning");
+        showNotification(`رصيد TSK غير كافٍ. تحتاج إلى ${totalCost.toLocaleString()} TSK`, "warning");
         return;
     }
     
@@ -2858,17 +2859,17 @@ window.buyTickets = async function() {
     if (isConfirming) return;
     isConfirming = true;
     
-    const userConfirmed = confirm(`Buy ${tickets} ticket${tickets > 1 ? 's' : ''} for ${totalCost.toLocaleString()} TSK?\n\nEach ticket = 10,000 TSK = 0.001 TON\n\n🏆 Remember: Only #1 wins, all others lose!`);
+    const userConfirmed = confirm(`شراء ${tickets} تذكرة مقابل ${totalCost.toLocaleString()} TSK؟\n\nكل تذكرة = 10,000 TSK = 0.001 TON\n\n🏆 تذكر: صاحب المركز الأول فقط يفوز، والباقي يخسر!`);
     if (!userConfirmed) {
         isConfirming = false;
         return;
     }
     
     buyBtn.disabled = true;
-    buyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    buyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ المعالجة...';
     
     const statusMsg = document.getElementById('buy-tickets-status');
-    statusMsg.textContent = "Processing your purchase...";
+    statusMsg.textContent = "جارٍ معالجة عملية الشراء...";
     statusMsg.style.color = "#FFC107";
     
     try {
@@ -2890,8 +2891,8 @@ window.buyTickets = async function() {
             };
             
             buyBtn.disabled = false;
-            buyBtn.innerHTML = '<i class="fa-solid fa-ticket"></i> BUY TICKETS';
-            statusMsg.textContent = `✅ Successfully purchased ${tickets} ticket${tickets > 1 ? 's' : ''}!`;
+            buyBtn.innerHTML = '<i class="fa-solid fa-ticket"></i> شراء تذاكر';
+            statusMsg.textContent = `✅ تم شراء ${tickets} تذكرة بنجاح!`;
             statusMsg.style.color = "#27ae60";
             ticketInput.value = 1;
             updateTicketCostDisplay();
@@ -2904,17 +2905,17 @@ window.buyTickets = async function() {
             updateCompetitionUI();
         } else {
             if (result.error === 'ACCOUNT_BLOCKED') {
-                showNotification("Your account has been blocked.", "error");
+                showNotification("تم حظر حسابك.", "error");
             } else {
                 throw new Error(result.error || "Unknown error");
             }
         }
     } catch (error) {
         console.error("Ticket purchase error:", error);
-        showNotification("Error: " + error.message, "error");
+        showNotification("خطأ: " + error.message, "error");
         buyBtn.disabled = false;
-        buyBtn.innerHTML = '<i class="fa-solid fa-ticket"></i> BUY TICKETS';
-        statusMsg.textContent = "❌ Error processing purchase";
+        buyBtn.innerHTML = '<i class="fa-solid fa-ticket"></i> شراء تذاكر';
+        statusMsg.textContent = "❌ خطأ في معالجة عملية الشراء";
         statusMsg.style.color = "#e74c3c";
     } finally {
         isConfirming = false;
@@ -2939,7 +2940,7 @@ async function updateCompetitionLeaderboard() {
             const leaderboardData = result.data.leaderboard || [];
             
             if (leaderboardData.length === 0) {
-                leaderboardContainer.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-muted);">No tickets purchased yet</p>';
+                leaderboardContainer.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-muted);">لم يتم شراء تذاكر بعد</p>';
                 return;
             }
             
@@ -2969,7 +2970,7 @@ async function loadPreviousWinners() {
         const winners = result.data.winners || [];
         
         if (winners.length === 0) {
-            winnersContainer.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-muted);">No previous winners yet</p>';
+            winnersContainer.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-muted);">لا يوجد فائزون سابقون بعد</p>';
             return;
         }
         
@@ -2996,7 +2997,7 @@ window.setMaxTonWallet = function() {
     const minAmount = 0.05;
     
     if (currentBalance < minAmount) {
-        showNotification(`Minimum withdrawal is ${minAmount} TON`, "warning");
+        showNotification(`الحد الأدنى للسحب هو ${minAmount} TON`, "warning");
         return;
     }
     
@@ -3104,7 +3105,7 @@ async function updateUserWithdrawalsList(filterType, withdrawalsData) {
     filteredWithdrawals.sort((a, b) => b.timestamp - a.timestamp);
     
     if (filteredWithdrawals.length === 0) {
-        container.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-muted);">No withdrawals found</p>';
+        container.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-muted);">لا توجد عمليات سحب</p>';
         return;
     }
     
@@ -3118,15 +3119,15 @@ async function updateUserWithdrawalsList(filterType, withdrawalsData) {
         
         if (withdrawal.status === 'rejected') {
             status = 'rejected';
-            statusText = '❌ Rejected';
+            statusText = '❌ مرفوض';
             statusClass = 'status-rejected';
         } else if (withdrawal.status === 'completed' || withdrawal.processed === true) {
             status = 'completed';
-            statusText = '✅ Completed';
+            statusText = '✅ مكتمل';
             statusClass = 'status-completed';
         } else {
             status = 'pending';
-            statusText = '⏳ Pending';
+            statusText = '⏳ قيد الانتظار';
             statusClass = 'status-pending';
         }
         
@@ -3144,7 +3145,7 @@ async function updateUserWithdrawalsList(filterType, withdrawalsData) {
         
         const html = `<div class="user-withdrawal-item">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-                            <div style="font-size:12px;font-weight:600;">${withdrawal.method === 'ton' ? 'TON Wallet' : 'FaucetPay'}</div>
+                            <div style="font-size:12px;font-weight:600;">${withdrawal.method === 'ton' ? 'محفظة TON' : 'FaucetPay'}</div>
                             <div class="withdrawal-status ${statusClass}">${statusText}</div>
                         </div>
                         <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px;" class="masked-email">${maskedAccount}</div>
@@ -3158,7 +3159,7 @@ async function updateUserWithdrawalsList(filterType, withdrawalsData) {
 }
 
 function getTimeAgo(timestamp) {
-    if (!timestamp) return "Unknown time";
+    if (!timestamp) return "وقت غير معروف";
     
     const now = Date.now();
     const diff = now - timestamp;
@@ -3167,11 +3168,11 @@ function getTimeAgo(timestamp) {
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
     
-    if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
-    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-    if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-    if (seconds > 0) return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
-    return "Just now";
+    if (days > 0) return `منذ ${days} يوم`;
+    if (hours > 0) return `منذ ${hours} ساعة`;
+    if (minutes > 0) return `منذ ${minutes} دقيقة`;
+    if (seconds > 0) return `منذ ${seconds} ثانية`;
+    return "الآن";
 }
 
 window.verifyDeposit = async function() {
@@ -3184,10 +3185,10 @@ window.verifyDeposit = async function() {
     if (!btn || !msg) return;
     
     btn.disabled = true;
-    btn.textContent = "Processing...";
+    btn.textContent = "جارٍ المعالجة...";
     btn.classList.add('deposit-processing');
     
-    msg.textContent = "⏳ Verifying payment on blockchain... This may take up to 30 seconds";
+    msg.textContent = "⏳ جارٍ التحقق من الدفع على البلوكتشين... قد يستغرق هذا حتى 30 ثانية";
     msg.style.color = "#FFC107";
     
     try {
@@ -3196,7 +3197,7 @@ window.verifyDeposit = async function() {
         const result = await callAPI('verifyDeposit', { transactionId: depositTransactionId });
         if (result.success) {
             if (result.data && result.data.verified) {
-                msg.textContent = `✅ Payment verified! Your deposit of ${result.data.amount || '0'} TON will be added within 1 hour after manual review.`;
+                msg.textContent = `✅ تم التحقق من الدفع! سيتم إضافة إيداعك البالغ ${result.data.amount || '0'} TON خلال ساعة بعد المراجعة اليدوية.`;
                 msg.style.color = "#27ae60";
                 
                 setTimeout(() => {
@@ -3206,27 +3207,27 @@ window.verifyDeposit = async function() {
                     renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
                 }, 5000);
             } else {
-                msg.textContent = "Payment not found yet. Please wait 10-30 seconds and try again.";
+                msg.textContent = "لم يتم العثور على الدفع بعد. انتظر 10-30 ثانية وحاول مرة أخرى.";
                 msg.style.color = "#e74c3c";
                 btn.disabled = false;
-                btn.textContent = "Check Again";
+                btn.textContent = "تحقق مرة أخرى";
             }
         } else {
             if (result.error === 'ACCOUNT_BLOCKED') {
-                showNotification("Your account has been blocked.", "error");
+                showNotification("تم حظر حسابك.", "error");
             } else {
-                msg.textContent = "Error: " + (result.error || "Unknown error");
+                msg.textContent = "خطأ: " + (result.error || "خطأ غير معروف");
                 msg.style.color = "#e74c3c";
                 btn.disabled = false;
-                btn.textContent = "Check Again";
+                btn.textContent = "تحقق مرة أخرى";
             }
         }
     } catch (error) {
         console.error("Deposit verification error:", error);
-        msg.textContent = "Connection error. Please try again.";
+        msg.textContent = "خطأ في الاتصال. حاول مرة أخرى.";
         msg.style.color = "#e74c3c";
         btn.disabled = false;
-        btn.textContent = "Check Again";
+        btn.textContent = "تحقق مرة أخرى";
     } finally {
         btn.classList.remove('deposit-processing');
     }
@@ -3242,10 +3243,10 @@ window.verifyPayment = async function() {
     if (!btn || !msg) return;
     
     btn.disabled = true;
-    btn.textContent = "Processing...";
+    btn.textContent = "جارٍ المعالجة...";
     btn.classList.add('deposit-processing');
     
-    msg.textContent = "⏳ Connecting to TON API... This may take up to 30 seconds";
+    msg.textContent = "⏳ جارٍ الاتصال بشبكة TON... قد يستغرق هذا حتى 30 ثانية";
     msg.style.color = "#ffb300";
     
     try {
@@ -3253,10 +3254,10 @@ window.verifyPayment = async function() {
         
         const result = await callAPI('verifyTaskPayment', { taskId: currentTaskId });
         if (result.success) {
-            msg.textContent = "Payment Verified! Activating Mission...";
+            msg.textContent = "تم التحقق من الدفع! جارٍ تفعيل المهمة...";
             msg.style.color = "#b8860b";
             
-            showNotification("✅ Payment verified! Mission will be activated within 1 hour after manual review.", "success");
+            showNotification("✅ تم التحقق من الدفع! سيتم تفعيل المهمة خلال ساعة بعد المراجعة اليدوية.", "success");
             
             document.getElementById('payment-step-1').style.display = 'block';
             document.getElementById('payment-step-2').style.display = 'none';
@@ -3264,7 +3265,7 @@ window.verifyPayment = async function() {
             document.getElementById('new-task-link').value = '';
             
             btn.disabled = false;
-            btn.textContent = "Check Payment";
+            btn.textContent = "تحقق من الدفع";
             
             const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
             if (userId) {
@@ -3274,19 +3275,19 @@ window.verifyPayment = async function() {
             switchTab('tasks');
         } else {
             if (result.error === 'ACCOUNT_BLOCKED') {
-                showNotification("Your account has been blocked.", "error");
+                showNotification("تم حظر حسابك.", "error");
             } else {
-                msg.textContent = "Payment not found yet. Please wait 10s and try again.";
+                msg.textContent = "لم يتم العثور على الدفع بعد. انتظر 10 ثوانٍ وحاول مرة أخرى.";
                 msg.style.color = "#e74c3c";
                 btn.disabled = false;
-                btn.textContent = "Check Again";
+                btn.textContent = "تحقق مرة أخرى";
             }
         }
     } catch (e) {
         console.error(e);
-        msg.textContent = "Error checking payment. Try again.";
+        msg.textContent = "خطأ في التحقق من الدفع. حاول مرة أخرى.";
         btn.disabled = false;
-        btn.textContent = "Check Again";
+        btn.textContent = "تحقق مرة أخرى";
     } finally {
         btn.classList.remove('deposit-processing');
     }
@@ -3330,7 +3331,7 @@ function renderCreateTaskUI() {
     options.forEach((opt, idx) => {
         const html = `<div class="price-opt ${idx === 0 ? 'active' : ''}" data-count="${opt}" onclick="selectPrice(this)">
                         <div class="price-count">${opt.toLocaleString()}</div>
-                        <div class="price-cost" id="cost-${opt}">Loading...</div>
+                        <div class="price-cost" id="cost-${opt}">جارٍ التحميل...</div>
                     </div>`;
         container.insertAdjacentHTML('beforeend', html);
     });
@@ -3368,12 +3369,12 @@ window.initiatePayment = async function() {
     const link = document.getElementById('new-task-link').value.trim();
     
     if (!name || !link) {
-        showNotification("Please fill all fields.", "warning");
+        showNotification("يرجى ملء جميع الحقول.", "warning");
         return;
     }
     
     if (!link.startsWith('http')) {
-        showNotification("Invalid link.", "warning");
+        showNotification("رابط غير صالح.", "warning");
         return;
     }
     
@@ -3402,9 +3403,9 @@ window.initiatePayment = async function() {
         document.getElementById('payment-step-2').style.display = 'block';
     } else {
         if (result.error === 'ACCOUNT_BLOCKED') {
-            showNotification("Your account has been blocked.", "error");
+            showNotification("تم حظر حسابك.", "error");
         } else {
-            showNotification("Error: " + result.error, "error");
+            showNotification("خطأ: " + result.error, "error");
         }
     }
 };
@@ -3434,11 +3435,11 @@ function updateAvailableSpins() {
     if (extraSpins > 0) {
         spinBtn.disabled = false;
         spinBtn.classList.remove('btn-disabled');
-        spinBtn.textContent = `🚀 SPIN NOW (${extraSpins} left)`;
+        spinBtn.textContent = `🚀 أدر الآن (${extraSpins} متبقية)`;
     } else {
         spinBtn.disabled = true;
         spinBtn.classList.add('btn-disabled');
-        spinBtn.textContent = "🚀 NO SPINS LEFT";
+        spinBtn.textContent = "🚀 لا توجد لفات متبقية";
     }
 }
 
@@ -3451,7 +3452,7 @@ async function handleSlotsSpin() {
     
     const extraSpins = appData.extraSpins || 0;
     if (extraSpins <= 0) {
-        showNotification("You don't have any spins left! Watch an ad to get more spins.", "warning");
+        showNotification("لا يوجد لديك لفات متبقية! شاهد إعلانًا للحصول على المزيد.", "warning");
         return;
     }
     
@@ -3461,7 +3462,7 @@ async function handleSlotsSpin() {
     const winAmount = document.getElementById('slots-win-amount');
     
     spinBtn.disabled = true;
-    resultText.textContent = "Spinning...";
+    resultText.textContent = "جارٍ التدوير...";
     winAmount.textContent = "0 TSK";
     
     const result = await callAPI('spinSlots');
@@ -3487,18 +3488,18 @@ async function handleSlotsSpin() {
             const resultString = results.join('');
             
             if (winTSK > 0) {
-                resultText.textContent = `🎉 You won! (${resultString})`;
+                resultText.textContent = `🎉 لقد ربحت! (${resultString})`;
                 winAmount.textContent = `+${winTSK} TSK`;
                 appData.dogsBalance = newBalance;
                 appData.extraSpins = newSpins;
                 
                 if (winTSK >= 1000) {
                     setTimeout(() => {
-                        showNotification(`🎊 JACKPOT! You won ${winTSK} TSK!`, "success");
+                        showNotification(`🎊 جائزة كبرى! ربحت ${winTSK} TSK!`, "success");
                     }, 500);
                 }
             } else {
-                resultText.textContent = `No win this time (${resultString})`;
+                resultText.textContent = `لا يوجد فوز هذه المرة (${resultString})`;
                 winAmount.textContent = "0 TSK";
                 appData.extraSpins = newSpins;
             }
@@ -3511,9 +3512,9 @@ async function handleSlotsSpin() {
         }, 2000);
     } else {
         if (result.error === 'ACCOUNT_BLOCKED') {
-            showNotification("Your account has been blocked.", "error");
+            showNotification("تم حظر حسابك.", "error");
         } else {
-            showNotification("Error: " + result.error, "error");
+            showNotification("خطأ: " + result.error, "error");
         }
         isSpinning = false;
         spinBtn.disabled = false;
@@ -3531,15 +3532,15 @@ window.getExtraSpin = async function() {
             const result = await callAPI('addExtraSpin');
             if (result.success) {
                 appData.extraSpins = result.data.newSpins;
-                showNotification("🎉 You earned an extra spin!", "success");
+                showNotification("🎉 حصلت على لفة إضافية!", "success");
                 updateAvailableSpins();
             }
         } catch (e) {
             console.error("Ad error:", e);
-            showNotification("Ad not available.", "warning");
+            showNotification("الإعلان غير متاح.", "warning");
         }
     } else {
-        showNotification("Ads system loading...", "info");
+        showNotification("جارٍ تحميل نظام الإعلانات...", "info");
     }
 };
 
@@ -3560,7 +3561,7 @@ function renderDailyBonusUI() {
         else if (i === streak && canClaim) statusClass = 'active';
         
         const html = `<div class="daily-box ${statusClass}">
-                        <div style="font-size:9px;">DAY ${i + 1}</div>
+                        <div style="font-size:9px;">اليوم ${i + 1}</div>
                         <div style="font-weight:700;">+${rewards[i]}</div>
                     </div>`;
         container.insertAdjacentHTML('beforeend', html);
@@ -3572,17 +3573,17 @@ function renderDailyBonusUI() {
     if (canClaim) {
         btn.disabled = false;
         btn.classList.remove('btn-disabled');
-        btn.textContent = `Claim +${rewards[streak] || 100}`;
-        timer.textContent = "Ready to claim!";
+        btn.textContent = `احصل على +${rewards[streak] || 100}`;
+        timer.textContent = "جاهز للاستلام!";
     } else {
         btn.disabled = true;
         btn.classList.add('btn-disabled');
-        btn.textContent = "Claimed";
+        btn.textContent = "تم الاستلام";
         
         const timeLeft = msInDay - (now - lastClaim);
         const hours = Math.floor(timeLeft / (1000 * 60 * 60));
         const mins = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        timer.textContent = `Next reward in: ${hours}h ${mins}m`;
+        timer.textContent = `المكافأة القادمة خلال: ${hours} س ${mins} د`;
     }
 }
 
@@ -3594,7 +3595,7 @@ async function renderHistory(container, limit, user) {
         const historyData = result.data.history || [];
         
         if (historyData.length === 0) {
-            container.innerHTML = '<p style="text-align:center;padding:20px 0;font-size:12px;color:var(--text-muted);">No logs yet.</p>';
+            container.innerHTML = '<p style="text-align:center;padding:20px 0;font-size:12px;color:var(--text-muted);">لا يوجد سجل بعد.</p>';
             return;
         }
         
@@ -3646,13 +3647,13 @@ async function initiateDeposit() {
     const amount = parseFloat(document.getElementById('deposit-amount').value) || 0.01;
     
     if (amount < 0.01) {
-        showNotification("Minimum deposit is 0.01 TON", "warning");
+        showNotification("الحد الأدنى للإيداع هو 0.01 TON", "warning");
         return;
     }
     
     const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
     if (!userId) {
-        showNotification("User authentication error", "error");
+        showNotification("خطأ في التحقق من هوية المستخدم", "error");
         return;
     }
     
@@ -3661,7 +3662,7 @@ async function initiateDeposit() {
     const paymentUrl = `https://app.tonkeeper.com/transfer/${BOT_WALLET}?amount=${nanoTon}&text=${depositTransactionId}`;
     
     document.getElementById('deposit-status').style.display = 'block';
-    document.getElementById('deposit-status-message').textContent = "Payment link generated. Opening Tonkeeper...";
+    document.getElementById('deposit-status-message').textContent = "تم إنشاء رابط الدفع. جارٍ فتح Tonkeeper...";
     document.getElementById('deposit-status-message').style.color = "#FFC107";
     
     if (window.Telegram?.WebApp) {
@@ -3791,7 +3792,7 @@ function setupEventListeners(user) {
         }
         
         if (!canClickAd()) {
-            showNotification("Please wait 3 seconds before clicking again.", "warning");
+            showNotification("يرجى الانتظار 3 ثوانٍ قبل الضغط مرة أخرى.", "warning");
             return;
         }
         
@@ -3805,7 +3806,7 @@ function setupEventListeners(user) {
         if ((appData.adsMonetag || 0) >= limit) return;
         
         if (!isAdScriptLoaded) {
-            showNotification("Loading ad...", "info");
+            showNotification("جارٍ تحميل الإعلان...", "info");
             return;
         }
         
@@ -3822,11 +3823,11 @@ function setupEventListeners(user) {
                 appData.adsWatched = result.data.adsWatched || appData.adsWatched;
                 appData.dogsBalance = result.data.newBalance || appData.dogsBalance;
                 
-                showNotification(`✅ +${appSettings.adRewardMonetag || 500} TSK added!`, "success");
+                showNotification(`✅ تمت إضافة +${appSettings.adRewardMonetag || 500} TSK!`, "success");
                 renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
             }
         } catch (e) {
-            showNotification("Ad not ready", "warning");
+            showNotification("الإعلان غير جاهز", "warning");
         }
     });
     
@@ -3838,7 +3839,7 @@ function setupEventListeners(user) {
         }
         
         if (!canClickAd()) {
-            showNotification("Please wait 3 seconds before clicking again.", "warning");
+            showNotification("يرجى الانتظار 3 ثوانٍ قبل الضغط مرة أخرى.", "warning");
             return;
         }
         
@@ -3852,7 +3853,7 @@ function setupEventListeners(user) {
         if ((appData.adsGiga || 0) >= limit) return;
         
         if (typeof window.showGiga !== 'function') {
-            showNotification("Giga Ads loading...", "info");
+            showNotification("جارٍ تحميل الإعلان...", "info");
             return;
         }
         
@@ -3869,12 +3870,12 @@ function setupEventListeners(user) {
                 appData.adsWatched = result.data.adsWatched || appData.adsWatched;
                 appData.dogsBalance = result.data.newBalance || appData.dogsBalance;
                 
-                showNotification(`✅ +${appSettings.adRewardGiga || 500} TSK added!`, "success");
+                showNotification(`✅ تمت إضافة +${appSettings.adRewardGiga || 500} TSK!`, "success");
                 renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
             }
         } catch (e) {
             console.error(e);
-            showNotification("Ad failed or closed.", "warning");
+            showNotification("فشل الإعلان أو تم إغلاقه.", "warning");
         }
     });
     
@@ -3886,7 +3887,7 @@ function setupEventListeners(user) {
         }
         
         if (!canClickAd()) {
-            showNotification("Please wait 3 seconds before clicking again.", "warning");
+            showNotification("يرجى الانتظار 3 ثوانٍ قبل الضغط مرة أخرى.", "warning");
             return;
         }
         
@@ -3900,7 +3901,7 @@ function setupEventListeners(user) {
         if ((appData.adsAdsgram || 0) >= limit) return;
         
         if (!AdController) {
-            showNotification("AdsGram not initialized", "warning");
+            showNotification("لم يتم تهيئة الإعلانات", "warning");
             return;
         }
         
@@ -3916,25 +3917,25 @@ function setupEventListeners(user) {
                     appData.adsAdsgram = apiResult.data.adsAdsgram || appData.adsAdsgram;
                     appData.dogsBalance = apiResult.data.newBalance || appData.dogsBalance;
                     
-                    showNotification(`✅ +${appSettings.adRewardAdsgram || 500} TSK added!`, "success");
+                    showNotification(`✅ تمت إضافة +${appSettings.adRewardAdsgram || 500} TSK!`, "success");
                     renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
                 }
             }
         } catch (error) {
             console.error("AdsGram error:", error);
-            showNotification("Ad playback error.", "error");
+            showNotification("خطأ في تشغيل الإعلان.", "error");
         }
     });
     
     document.getElementById('share-referral-btn').addEventListener('click', () => {
         const link = document.getElementById('referral-link-display').textContent;
-        window.Telegram?.WebApp.openTelegramLink(`https://t.me/share/url?url=${link}&text=Join Taskora!`);
+        window.Telegram?.WebApp.openTelegramLink(`https://t.me/share/url?url=${link}&text=انضم إلى Taskora!`);
     });
     
     document.getElementById('copy-referral-btn').addEventListener('click', () => {
         navigator.clipboard.writeText(document.getElementById('referral-link-display').textContent)
             .then(() => {
-                showNotification("Copied!", "success");
+                showNotification("تم النسخ!", "success");
             });
     });
     
@@ -3987,17 +3988,17 @@ async function handleTonWalletWithdraw() {
     const currentBalance = appData.tonBalance || 0;
     
     if (!address || address.length < 5) {
-        showNotification("Please enter a valid TON wallet address.", "warning");
+        showNotification("يرجى إدخال عنوان محفظة TON صالح.", "warning");
         return;
     }
     
     if (amount < minAmount) {
-        showNotification(`Minimum withdrawal is ${minAmount} TON for TON Wallet.`, "warning");
+        showNotification(`الحد الأدنى للسحب هو ${minAmount} TON لمحفظة TON.`, "warning");
         return;
     }
     
     if (amount >= currentBalance) {
-        showNotification(`Insufficient TON balance. You need at least ${(amount + 0.0001).toFixed(4)} TON.`, "warning");
+        showNotification(`رصيد TON غير كافٍ. تحتاج إلى ${(amount + 0.0001).toFixed(4)} TON على الأقل.`, "warning");
         return;
     }
     
@@ -4006,7 +4007,7 @@ async function handleTonWalletWithdraw() {
         shortAddress = address.substring(0, 8) + '...' + address.substring(address.length - 4);
     }
     
-    if (!confirm(`Withdraw ${amount} TON to ${shortAddress}?\n\nAddress: ${shortAddress}\n${memo ? 'Memo: ' + memo + '\n' : ''}`)) {
+    if (!confirm(`سحب ${amount} TON إلى ${shortAddress}؟\n\nالعنوان: ${shortAddress}\n${memo ? 'ملاحظة: ' + memo + '\n' : ''}`)) {
         return;
     }
     
@@ -4020,7 +4021,7 @@ async function handleTonWalletWithdraw() {
     if (result.success) {
         appData.tonBalance = result.data.newBalance;
         
-        showNotification(`✅ Withdrawal request submitted!\n\n${amount} TON will be sent to your wallet within 1-3 minutes.\n\nAddress: ${shortAddress}`, "success");
+        showNotification(`✅ تم إرسال طلب السحب!\n\nسيتم إرسال ${amount} TON إلى محفظتك خلال 1-3 دقائق.\n\nالعنوان: ${shortAddress}`, "success");
         document.getElementById('ton-wallet-address').value = '';
         document.getElementById('ton-memo').value = '';
         document.getElementById('ton-withdraw-amount').value = minAmount;
@@ -4028,9 +4029,9 @@ async function handleTonWalletWithdraw() {
         renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
     } else {
         if (result.error === 'ACCOUNT_BLOCKED') {
-            showNotification("Your account has been blocked.", "error");
+            showNotification("تم حظر حسابك.", "error");
         } else {
-            showNotification("Error: " + result.error, "error");
+            showNotification("خطأ: " + result.error, "error");
         }
     }
 }
@@ -4052,23 +4053,23 @@ window.handleDynamicTask = async function(element) {
     }
     
     element.classList.add('waiting-verify');
-    statusEl.textContent = "Tap again to Verify";
+    statusEl.textContent = "اضغط مرة أخرى للتحقق";
     statusEl.style.color = "#ffb300";
-    rewardEl.textContent = "Check";
+    rewardEl.textContent = "تحقق";
     rewardEl.style.fontSize = "12px";
 };
 
 async function verifyMembership(element, link, taskId, reward, title) {
     const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
     if (!userId) {
-        showNotification("❌ User authentication error", "error");
+        showNotification("❌ خطأ في التحقق من هوية المستخدم", "error");
         element.classList.remove('waiting-verify');
         return;
     }
     
     const channelUsername = extractChannelUsernameFromLink(link);
     if (!channelUsername) {
-        showNotification("❌ Invalid channel link", "error");
+        showNotification("❌ رابط القناة غير صالح", "error");
         element.classList.remove('waiting-verify');
         return;
     }
@@ -4079,7 +4080,7 @@ async function verifyMembership(element, link, taskId, reward, title) {
     // تعطيل العنصر أثناء المعالجة
     element.style.pointerEvents = 'none';
     element.classList.add('task-btn-disabled');
-    statusEl.textContent = "Verifying...";
+    statusEl.textContent = "جارٍ التحقق...";
     statusEl.style.color = "#FFC107";
     
     try {
@@ -4087,7 +4088,7 @@ async function verifyMembership(element, link, taskId, reward, title) {
         const isAllowed = await checkBeforeAction("verify task");
         if (!isAllowed) {
             element.classList.remove('waiting-verify');
-            statusEl.textContent = "Join First!";
+            statusEl.textContent = "انضم أولاً!";
             statusEl.style.color = "#ff4444";
             return;
         }
@@ -4096,9 +4097,9 @@ async function verifyMembership(element, link, taskId, reward, title) {
         const verificationResult = await verifyTaskChannel(taskId, channelUsername);
         
         if (!verificationResult.success) {
-            showNotification("❌ Verification failed: " + (verificationResult.error || "Unknown error"), "error");
+            showNotification("❌ فشل التحقق: " + (verificationResult.error || "خطأ غير معروف"), "error");
             element.classList.remove('waiting-verify');
-            statusEl.textContent = "Join First!";
+            statusEl.textContent = "انضم أولاً!";
             statusEl.style.color = "#ff4444";
             
             // تمكين العنصر
@@ -4157,12 +4158,12 @@ async function verifyMembership(element, link, taskId, reward, title) {
                 element.style.pointerEvents = 'none';
                 element.classList.remove('waiting-verify');
                 
-                statusEl.textContent = "✅ Verified ✓";
+                statusEl.textContent = "✅ تم التحقق ✓";
                 statusEl.style.color = "#27ae60";
                 
                 const rewardEl = document.getElementById(`reward-${taskId}`);
                 if (rewardEl) {
-                    rewardEl.textContent = "Done";
+                    rewardEl.textContent = "تم";
                     rewardEl.style.color = "#27ae60";
                 }
                 
@@ -4170,29 +4171,29 @@ async function verifyMembership(element, link, taskId, reward, title) {
                 const user = { id: userId };
                 renderUI(user);
                 
-                showNotification(`✅ Channel Verified! +${reward} TSK`, "success");
+                showNotification(`✅ تم التحقق من القناة! +${reward} TSK`, "success");
                 
             } else {
                 if (result.error === 'ACCOUNT_BLOCKED') {
-                    showNotification("Your account has been blocked.", "error");
+                    showNotification("تم حظر حسابك.", "error");
                 } else {
-                    showNotification("❌ Failed to save verification: " + result.error, "warning");
+                    showNotification("❌ فشل حفظ التحقق: " + result.error, "warning");
                     element.classList.remove('waiting-verify');
-                    statusEl.textContent = "Join First!";
+                    statusEl.textContent = "انضم أولاً!";
                     statusEl.style.color = "#ff4444";
                 }
             }
         } else {
-            showNotification("❌ You must join the channel first!", "warning");
+            showNotification("❌ يجب عليك الانضمام إلى القناة أولاً!", "warning");
             element.classList.remove('waiting-verify');
-            statusEl.textContent = "Join First!";
+            statusEl.textContent = "انضم أولاً!";
             statusEl.style.color = "#ff4444";
         }
     } catch (error) {
         console.error("Verification error:", error);
-        showNotification("❌ Verification error. Please try again.", "error");
+        showNotification("❌ خطأ في التحقق. حاول مرة أخرى.", "error");
         element.classList.remove('waiting-verify');
-        statusEl.textContent = "Error - Try Again";
+        statusEl.textContent = "خطأ - حاول مرة أخرى";
         statusEl.style.color = "#ff4444";
     } finally {
         // تمكين العنصر بعد 2 ثانية
@@ -4269,7 +4270,7 @@ function fillList(data, containerId, key, suffix) {
     container.innerHTML = '';
     
     if (data.length === 0) {
-        container.innerHTML = '<p style="text-align:center;padding:20px;">No Data</p>';
+        container.innerHTML = '<p style="text-align:center;padding:20px;">لا توجد بيانات</p>';
         return;
     }
     
@@ -4318,7 +4319,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const blockCheck = await checkUserBlockStatus();
         if (blockCheck && blockCheck.success === false && blockCheck.error === 'ACCOUNT_BLOCKED') {
             const blockedMessage = blockCheck.data?.blockedMessage || 
-                                 "Your account has been suspended due to violation of our terms of service.";
+                                 "تم تعليق حسابك بسبب مخالفة شروط الخدمة.";
             showNotification(blockedMessage, "error");
             return;
         }
@@ -4343,7 +4344,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         showMainApp();
     } catch (error) {
         console.error("Loading error:", error);
-        showNotification("Loading completed with some limitations.", "warning");
+        showNotification("اكتمل التحميل مع بعض القيود.", "warning");
         showMainApp();
     }
 });
