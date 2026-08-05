@@ -983,12 +983,12 @@
 <div id="tsk-to-ton-section">
 <div class="input-wrap"><span class="input-label">أنت تعطي (TSK)</span><input type="number" id="swap-input-amount" class="custom-input" placeholder="الحد الأدنى 1,000" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأقصى:<span id="swap-max-TSK">0</span><button onclick="setMaxSwap('tsk')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">الأقصى</button></div></div>
 <div class="input-wrap"><span class="input-label">أنت تحصل على (TON)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/8DsyHqwK/toncoin-ton-logo.png" style="width:24px;"><span id="swap-output-amount" class="custom-input">0.0000000</span></div></div>
-<div class="swap-mode-text" id="swap-rate-label-tsk">السعر: 100,000 TSK = 0.01 TON</div>
+<div class="swap-mode-text">السعر: 100,000 TSK = 0.01 TON</div>
 </div>
 <div id="ton-to-tsk-section" style="display:none;">
 <div class="input-wrap"><span class="input-label">أنت تعطي (TON)</span><input type="number" id="ton-input-amount" class="custom-input" placeholder="الحد الأدنى 0.0001" oninput="calculateSwap()"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأقصى:<span id="swap-max-TON">0.0000</span><button onclick="setMaxSwap('ton')" style="margin-left:10px;background:var(--primary-green);color:#000;border:none;padding:4px 8px;border-radius:6px;font-size:10px;cursor:pointer;">الأقصى</button></div></div>
 <div class="input-wrap"><span class="input-label">أنت تحصل على (TSK)</span><div style="display:flex;align-items:center;gap:10px;"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" style="width:24px;height:24px;border-radius:50%;"><span id="ton-output-amount" class="custom-input">0</span></div></div>
-<div class="swap-mode-text" id="swap-rate-label-ton">السعر: 0.01 TON = 100,000 TSK</div>
+<div class="swap-mode-text">السعر: 0.01 TON = 100,000 TSK</div>
 </div>
 <button class="btn btn-primary" id="execute-swap-btn" onclick="executeSwap()">تأكيد التبديل</button>
 </div>
@@ -2060,30 +2060,14 @@ function showMainApp() {
     document.getElementById('app-container').style.display = 'block';
 }
 
-// ✅ إصلاح: كانت أسعار التحويل ثابتة في الكود (const)، فحتى لو الأدمن غيّرها من
-// السيرفر/الفاير باس ما كانتش بتتغير في الواجهة. دلوقتي بتتقرا لحظيًا من
-// appSettings (اللي جايه من getConfig)، مع نفس القيم الافتراضية كـ fallback.
-function getTskToTonRate() { return appSettings.tskToTonRate || 0.0000001; }
-function getTonToTskRate() { return appSettings.tonToTskRate || 10000000; }
-
-// ✅ بتحدّث النصوص اللي بتوضح السعر الحالي في شاشة التبديل بالسعر الحقيقي
-// الجاي من السيرفر بدل النص الثابت اللي كان مكتوب في الـ HTML
-function refreshSwapRateLabels() {
-    const tskLabel = document.getElementById('swap-rate-label-tsk');
-    const tonLabel = document.getElementById('swap-rate-label-ton');
-    if (tskLabel) {
-        const tonPer100k = (100000 * getTskToTonRate()).toFixed(4);
-        tskLabel.textContent = `السعر: 100,000 TSK = ${tonPer100k} TON`;
-    }
-    if (tonLabel) {
-        const tskPerTon = Math.round(getTonToTskRate() * 0.01).toLocaleString();
-        tonLabel.textContent = `السعر: 0.01 TON = ${tskPerTon} TSK`;
-    }
-}
-const TICKET_PRICE = 10000; // ✅ تغيير من 10000 إلى 10000 (10K TSK)
-const TICKET_TON_VALUE = 0.001; // ✅ تغيير من 0.001 إلى 0.0001 (0.0001 TON)
-const COMPETITION_DURATION = 24 * 60 * 60 * 1000;
-const BREAK_DURATION = 60 * 60 * 1000;
+// ✅ القيم دي دلوقتي مرنة بالكامل وبتتقرأ من appSettings (القادمة من Firebase عبر السيرفر)
+// بدل ما تكون ثابتة - لو appSettings لسه مش محمّلة، بيتم استخدام نفس القيم الافتراضية القديمة كـ fallback فقط
+function getTskToTonRate() { return appSettings.tskToTonRate ?? 0.0000001; }
+function getTonToTskRate() { return appSettings.tonToTskRate ?? 10000000; }
+function getTicketPrice() { return appSettings.ticketPrice ?? 10000; }
+function getTicketTonValue() { return appSettings.ticketTonValue ?? 0.0001; }
+function getCompetitionDuration() { return appSettings.competitionDuration ?? (24 * 60 * 60 * 1000); }
+function getBreakDuration() { return appSettings.breakDuration ?? (60 * 60 * 1000); }
 const ADSGRAM_BLOCK_ID = 'int-18879';
 
 let appData = {};
@@ -2113,7 +2097,7 @@ let countdownInterval = null;
 let competitionData = {
     isActive: true,
     startTime: Date.now(),
-    endTime: Date.now() + COMPETITION_DURATION,
+    endTime: Date.now() + getCompetitionDuration(),
     totalTickets: 0,
     prizePool: 0,
     userTickets: {},
@@ -2207,7 +2191,7 @@ async function handlePromoCode() {
                 if (userId) {
                     competitionData.userTickets[userId] = (competitionData.userTickets[userId] || 0) + reward;
                     competitionData.totalTickets = (competitionData.totalTickets || 0) + reward;
-                    competitionData.prizePool = competitionData.totalTickets * TICKET_TON_VALUE;
+                    competitionData.prizePool = competitionData.totalTickets * getTicketTonValue();
                 }
             }
         }
@@ -2257,22 +2241,19 @@ function showPromoResult(message, type) {
     }, 5000);
 }
 
-// ✅ إصلاح: الدالة دي كانت بتقرأ من Firestore (settings/appSettings) وهي قاعدة
-// بيانات مختلفة تمامًا عن اللي السيرفر (الـ Worker) بيستخدمها فعليًا لحساب
-// المكافآت والحدود (Realtime Database عبر action=getConfig). ده معناه إن لو
-// الأدمن غيّر رقم في مكان، الرقم المعروض في الواجهة ممكن يختلف عن الرقم اللي
-// السيرفر فعليًا بيطبقه. دلوقتي بنجيب الإعدادات من نفس المصدر اللي السيرفر
-// بيتحقق منه، فيبقى العرض والتطبيق الفعلي دايمًا متطابقين.
 async function fetchAppSettings() {
     try {
-        const result = await callAPI('getConfig');
+        // الإعدادات بتيجي من السيرفر (Worker) اللي بدوره بيقراها من Firebase
+        // وينشئها بالقيم الافتراضية أوتوماتيك لو مش موجودة بعد.
+        const result = await callAPI('getConfig', {});
         if (result.success && result.data?.settings) {
             const updatedSettings = { ...appSettings, ...result.data.settings };
-            console.log("✅ Settings loaded from server (Firebase):", updatedSettings);
+            console.log("✅ Settings loaded from server/Firebase:", updatedSettings);
             return updatedSettings;
+        } else {
+            console.log("Could not load settings from server, using local defaults");
+            return appSettings;
         }
-        console.warn("getConfig failed, keeping previous/default settings:", result.error);
-        return appSettings;
     } catch (error) {
         console.error("Error fetching settings from server:", error);
         return appSettings;
@@ -2282,7 +2263,6 @@ async function fetchAppSettings() {
 async function getUpdatedSettings() {
     const newSettings = await fetchAppSettings();
     appSettings = newSettings;
-    refreshSwapRateLabels();
     return newSettings;
 }
 
@@ -2736,7 +2716,7 @@ async function createNewCompetition() {
         isActive: true,
         breakMode: false,
         startTime: now,
-        endTime: now + COMPETITION_DURATION,
+        endTime: now + getCompetitionDuration(),
         totalTickets: 0,
         prizePool: 0,
         userTickets: {},
@@ -2745,7 +2725,7 @@ async function createNewCompetition() {
     
     await callAPI('createCompetition', {
         startTime: now,
-        endTime: now + COMPETITION_DURATION
+        endTime: now + getCompetitionDuration()
     });
     
     startCountdown();
@@ -2766,7 +2746,7 @@ function updateCompetitionUI() {
     statusEl.style.color = competitionData.isActive ? '#27ae60' : '#e74c3c';
     
     // ✅ تحديث حساب الجائزة بناءً على السعر الجديد
-    const prizePool = competitionData.totalTickets * TICKET_TON_VALUE;
+    const prizePool = competitionData.totalTickets * getTicketTonValue();
     document.getElementById('prize-pool').textContent = prizePool.toFixed(4) + ' TON';
     
     document.getElementById('total-tickets').textContent = (competitionData.totalTickets || 0).toLocaleString();
@@ -2824,7 +2804,7 @@ function startCountdown() {
                 competitionData.isActive = false;
                 setTimeout(() => {
                     createNewCompetition();
-                }, BREAK_DURATION);
+                }, getBreakDuration());
             }
             
             const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
@@ -2854,7 +2834,7 @@ function updateTicketCostDisplay() {
     if (!ticketInput) return;
     
     const tickets = parseInt(ticketInput.value) || 1;
-    const cost = tickets * TICKET_PRICE;
+    const cost = tickets * getTicketPrice();
     
     document.getElementById('tickets-count-display').textContent = tickets;
     document.getElementById('tickets-cost-display').textContent = cost.toLocaleString() + ' TSK';
@@ -2862,7 +2842,7 @@ function updateTicketCostDisplay() {
 
 window.setMaxTickets = function() {
     const currentBalance = appData.dogsBalance || 0;
-    const maxTickets = Math.floor(currentBalance / TICKET_PRICE);
+    const maxTickets = Math.floor(currentBalance / getTicketPrice());
     
     if (maxTickets < 1) {
         showNotification("لا يوجد لديك TSK كافٍ لشراء تذكرة (مطلوب 10,000 TSK)", "warning");
@@ -2908,7 +2888,7 @@ window.buyTickets = async function() {
         return;
     }
     
-    const totalCost = tickets * TICKET_PRICE;
+    const totalCost = tickets * getTicketPrice();
     const currentBalance = appData.dogsBalance || 0;
     
     if (totalCost > currentBalance) {
@@ -2948,7 +2928,7 @@ window.buyTickets = async function() {
                 ...competitionData,
                 userTickets: result.data.userTickets || competitionData.userTickets,
                 totalTickets: result.data.totalTickets || competitionData.totalTickets,
-                prizePool: result.data.totalTickets * TICKET_TON_VALUE // ✅ تحديث الجائزة بالسعر الجديد
+                prizePool: result.data.totalTickets * getTicketTonValue() // ✅ تحديث الجائزة بالسعر الجديد
             };
             
             buyBtn.disabled = false;
