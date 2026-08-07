@@ -1230,6 +1230,14 @@ async function verifyCaptcha() {
             isCaptchaVerified = true;
             adClickCount = 0;
             
+            // ✅ إصلاح: لازم نحتفظ بالإعلان المنتظر والتوكن اللي اتحقق منه *قبل*
+            // ما ننادي closeCaptcha()، لأنها كانت بتصفّرهم لـ null فورًا، فيضيع
+            // التوكن الصحيح ولا يشتغل الإعلان تلقائيًا بعد نجاح التحقق — وده اللي
+            // كان بيخلي المستخدم يرجع لصفحة الإعلان فيُطلب منه كابتشا تاني من الأول
+            // (لأن السيرفر بيصفّر عداد الإعلانات بس جوه handleAdClick لما يستقبل توكن صحيح).
+            const actionToResume = pendingAdAction;
+            const verifiedToken = captchaToken;
+            
             // 🔹 تحديث بيانات المستخدم بعد التحقق الناجح
             const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
             if (user) {
@@ -1246,10 +1254,14 @@ async function verifyCaptcha() {
             
             closeCaptcha();
             
+            // نرجّع التوكن اللي اتحقق منه عشان يتبعت فعليًا مع طلب مشاهدة الإعلان القادم
+            // (closeCaptcha صفّرته، فلازم نستعيده هنا بعد ما نستخدمه)
+            captchaToken = verifiedToken;
+            
             // 🔹 تشغيل الإعلان المنتظر بعد التحقق
-            if (pendingAdAction) {
+            if (actionToResume) {
                 setTimeout(() => {
-                    handlePendingAdAction(pendingAdAction);
+                    handlePendingAdAction(actionToResume);
                 }, 1000);
             }
         } else {
@@ -1279,165 +1291,152 @@ async function verifyCaptcha() {
     }
 }
 
-// ✅ دالة التحقق من الكابتشا قبل عرض الإعلان
+// ✅ دالة التحقق من الكابتشا قبل عرض الإعلان — السيرفر هو المصدر الوحيد للحقيقة
 async function checkCaptchaBeforeAd(adType) {
     try {
-        // 🔹 الحصول على عدد الإعلانات اليومية من السيرفر
-        const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
-        if (userId) {
-            const result = await callAPI('getAdStats', { userId: userId });
-            if (result.success) {
-                adClickCount = result.data.adsWatchedToday || 0;
-                
-                // إذا طلب السيرفر كابتشا
-                if (result.data.requiresCaptcha) {
-                    openCaptcha(adType);
-                    return false;
-                }
-            }
-        }
-        
-        // 🔹 إذا تم التحقق بالفعل من الكابتشا
+        // لو المستخدم عدّى الكابتشا لسه (isCaptchaVerified)، السيرفر بيكون
+        // صفّر العداد فورًا لحظة نجاح verifyCaptcha، فمينفعش نعتبره غير كافي
         if (isCaptchaVerified) {
             return true;
         }
         
-        // 🔹 زيادة العداد المحلي
-        adClickCount++;
-        
-        // 🔹 إذا وصل للحد، طلب الكابتشا
-        if (adClickCount >= AD_CLICK_LIMIT_BEFORE_CAPTCHA) {
-            openCaptcha(adType);
-            return false;
+        const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+        if (!userId) {
+            // مفيش يوزر إيدي - مينفعش نتحقق، نسيبه يكمل وhandleAdClick هيتأكد فعليًا
+            return true;
         }
         
+        const result = await callAPI('getAdStats', { userId: userId });
+        if (result.success) {
+            adClickCount = result.data.adsWatchedToday || 0;
+            
+            // ✅ إجباري: كل 10 إعلانات (أو أي عدد محدد من إعدادات السيرفر) لازم كابتشا
+            if (result.data.requiresCaptcha) {
+                openCaptcha(adType);
+                return false;
+            }
+            return true;
+        }
+        
+        // فشل السؤال عن الحالة - نسيبه يكمل (fail-safe)؛ handleAdClick هو
+        // اللي بيفرض القرار الفعلي والنهائي على أي حال
         return true;
     } catch (error) {
         console.error("Check captcha error:", error);
-        // في حالة الخطأ، السماح بالإعلان (fail-safe)
         return true;
     }
 }
 
-// ✅ دالة معالجة الإعلان المنتظر
-function handlePendingAdAction(adType) {
-    switch(adType) {
-        case 'monetag':
-            executeMonetagAd();
-            break;
-        case 'giga':
-            executeGigaAd();
-            break;
-        case 'adsgram':
-            executeAdsgramAd();
-            break;
-    }
-}
-
-// ✅ دالة تنفيذ إعلان Monetag بعد التحقق
-async function executeMonetagAd() {
-    await getUpdatedSettings();
-    const limit = appSettings.limitMonetag || 50;
-    if ((appData.adsMonetag || 0) >= limit) return;
-    
-    try {
-        await show_10058786({ ymid: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
-        
-        const result = await callAPI('handleAdClick', {
-            adType: 'monetag',
-            reward: appSettings.adRewardMonetag || 500,
-            captchaToken: captchaToken
-        });
-        
-        if (result.success) {
-            appData.adsMonetag = result.data.adsMonetag || appData.adsMonetag;
-            appData.adsWatched = result.data.adsWatched || appData.adsWatched;
-            appData.dogsBalance = result.data.newBalance || appData.dogsBalance;
-            
-            // 🔹 إذا تم استخدام الكابتشا، إعادة تعيينها
-            if (isCaptchaVerified) {
-                isCaptchaVerified = false;
-                captchaToken = null;
-            }
-            
-            showNotification(`✅ تمت إضافة +${appSettings.adRewardMonetag || 500} TSK!`, "success");
-            renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
+// ✅ إعدادات موحّدة لكل مزوّد إعلانات — نقطة واحدة لإضافة/تعديل أي نوع إعلان
+const AD_PROVIDERS = {
+    monetag: {
+        limitKey: 'limitMonetag',
+        countKey: 'adsMonetag',
+        rewardKey: 'adRewardMonetag',
+        isReady: () => isAdScriptLoaded,
+        notReadyMessage: "جارٍ تحميل الإعلان...",
+        play: async () => {
+            await show_10058786({ ymid: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
         }
-    } catch (e) {
-        showNotification("الإعلان غير جاهز", "warning");
+    },
+    giga: {
+        limitKey: 'limitGiga',
+        countKey: 'adsGiga',
+        rewardKey: 'adRewardGiga',
+        isReady: () => typeof window.showGiga === 'function',
+        notReadyMessage: "جارٍ تحميل الإعلان...",
+        play: async () => {
+            await window.showGiga();
+        }
+    },
+    adsgram: {
+        limitKey: 'limitAdsgram',
+        countKey: 'adsAdsgram',
+        rewardKey: 'adRewardAdsgram',
+        isReady: () => !!AdController,
+        notReadyMessage: "لم يتم تهيئة الإعلانات",
+        play: async () => {
+            const result = await AdController.show();
+            if (!result || !result.done) {
+                throw new Error('Ad not completed');
+            }
+        }
     }
-}
+};
 
-// ✅ دالة تنفيذ إعلان Giga بعد التحقق
-async function executeGigaAd() {
-    if (typeof window.showGiga !== 'function') {
-        showNotification("جارٍ تحميل الإعلان...", "info");
+// ✅ دالة موحّدة واحدة لمشاهدة أي نوع إعلان — بتحل محل 3 نسخ مكررة من نفس
+// المنطق كانت بتتعارض مع بعضها (خصوصًا في إرسال/عدم إرسال توكن الكابتشا).
+// بتُستخدم من زراير الإعلانات مباشرة، وكمان تلقائيًا بعد نجاح الكابتشا.
+async function watchAd(adType) {
+    const provider = AD_PROVIDERS[adType];
+    if (!provider) return;
+    
+    // 1) بوابة الكابتشا الإجبارية - مصدرها السيرفر دايمًا
+    const canProceed = await checkCaptchaBeforeAd(adType);
+    if (!canProceed) return;
+    
+    // 2) تأخير بسيط بين كل ضغطة وتانية
+    if (!canClickAd()) {
+        showNotification("يرجى الانتظار 3 ثوانٍ قبل الضغط مرة أخرى.", "warning");
+        return;
+    }
+    
+    // 3) التحقق من الحظر
+    const isAllowed = await checkBeforeAction("watch ad");
+    if (!isAllowed) return;
+    
+    await getUpdatedSettings();
+    lastAdClickTime = Date.now();
+    
+    const limit = appSettings[provider.limitKey] || 50;
+    if ((appData[provider.countKey] || 0) >= limit) {
+        showNotification("لقد وصلت للحد اليومي لهذا النوع من الإعلانات.", "warning");
+        return;
+    }
+    
+    if (!provider.isReady()) {
+        showNotification(provider.notReadyMessage, "info");
         return;
     }
     
     try {
-        await window.showGiga();
+        await provider.play();
         
         const result = await callAPI('handleAdClick', {
-            adType: 'giga',
-            reward: appSettings.adRewardGiga || 500,
+            adType: adType,
+            reward: appSettings[provider.rewardKey] || 500,
             captchaToken: captchaToken
         });
         
         if (result.success) {
-            appData.adsGiga = result.data.adsGiga || appData.adsGiga;
-            appData.adsWatched = result.data.adsWatched || appData.adsWatched;
-            appData.dogsBalance = result.data.newBalance || appData.dogsBalance;
+            appData[provider.countKey] = result.data[provider.countKey] ?? appData[provider.countKey];
+            appData.adsWatched = result.data.adsWatched ?? appData.adsWatched;
+            appData.dogsBalance = result.data.newBalance ?? appData.dogsBalance;
             
-            // 🔹 إذا تم استخدام الكابتشا، إعادة تعيينها
+            // 🔹 استخدمنا الكابتشا خلاص - نصفّرها محليًا (السيرفر صفّرها بالفعل)
             if (isCaptchaVerified) {
                 isCaptchaVerified = false;
                 captchaToken = null;
             }
             
-            showNotification(`✅ تمت إضافة +${appSettings.adRewardGiga || 500} TSK!`, "success");
+            showNotification(`✅ تمت إضافة +${appSettings[provider.rewardKey] || 500} TSK!`, "success");
             renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
+        } else if (result.error === 'CAPTCHA_REQUIRED') {
+            // callAPI فتحت المودال بالفعل وحفظت pendingAdAction - مفيش داعي لأي حاجة هنا
+        } else if (result.error === 'ACCOUNT_BLOCKED') {
+            // callAPI عرضت التنبيه بالفعل
+        } else {
+            showNotification("تعذّر إتمام الإعلان: " + (result.error || "خطأ غير معروف"), "warning");
         }
     } catch (e) {
-        console.error(e);
+        console.error(`${adType} ad error:`, e);
         showNotification("فشل الإعلان أو تم إغلاقه.", "warning");
     }
 }
 
-// ✅ دالة تنفيذ إعلان Adsgram بعد التحقق
-async function executeAdsgramAd() {
-    if (!AdController) {
-        showNotification("لم يتم تهيئة الإعلانات", "warning");
-        return;
-    }
-    
-    try {
-        const result = await AdController.show();
-        if (result.done) {
-            const apiResult = await callAPI('handleAdClick', {
-                adType: 'adsgram',
-                reward: appSettings.adRewardAdsgram || 500,
-                captchaToken: captchaToken
-            });
-            
-            if (apiResult.success) {
-                appData.adsAdsgram = apiResult.data.adsAdsgram || appData.adsAdsgram;
-                appData.dogsBalance = apiResult.data.newBalance || appData.dogsBalance;
-                
-                // 🔹 إذا تم استخدام الكابتشا، إعادة تعيينها
-                if (isCaptchaVerified) {
-                    isCaptchaVerified = false;
-                    captchaToken = null;
-                }
-                
-                showNotification(`✅ تمت إضافة +${appSettings.adRewardAdsgram || 500} TSK!`, "success");
-                renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
-            }
-        }
-    } catch (error) {
-        console.error("AdsGram error:", error);
-        showNotification("خطأ في تشغيل الإعلان.", "error");
-    }
+// ✅ دالة معالجة الإعلان المنتظر بعد نجاح الكابتشا
+function handlePendingAdAction(adType) {
+    watchAd(adType);
 }
 
 // ✅ تعديل دالة callAPI لمعالجة أخطاء الكابتشا
@@ -3908,148 +3907,11 @@ function setupEventListeners(user) {
         });
     });
     
-    document.getElementById('monetag-ad-task').addEventListener('click', async () => {
-        // 🔹 التحقق من الكابتشا أولاً
-        const canProceed = await checkCaptchaBeforeAd('monetag');
-        if (!canProceed) {
-            return;
-        }
-        
-        if (!canClickAd()) {
-            showNotification("يرجى الانتظار 3 ثوانٍ قبل الضغط مرة أخرى.", "warning");
-            return;
-        }
-        
-        // ✅ التحقق من الحظر أولاً
-        const isAllowed = await checkBeforeAction("watch ad");
-        if (!isAllowed) return;
-        
-        await getUpdatedSettings();
-        lastAdClickTime = Date.now();
-        const limit = appSettings.limitMonetag || 50;
-        if ((appData.adsMonetag || 0) >= limit) return;
-        
-        if (!isAdScriptLoaded) {
-            showNotification("جارٍ تحميل الإعلان...", "info");
-            return;
-        }
-        
-        try {
-            await show_10058786({ ymid: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
-            
-            const result = await callAPI('handleAdClick', {
-                adType: 'monetag',
-                reward: appSettings.adRewardMonetag || 500 // تغيير من 1000 إلى 500
-            });
-            
-            if (result.success) {
-                appData.adsMonetag = result.data.adsMonetag || appData.adsMonetag;
-                appData.adsWatched = result.data.adsWatched || appData.adsWatched;
-                appData.dogsBalance = result.data.newBalance || appData.dogsBalance;
-                
-                showNotification(`✅ تمت إضافة +${appSettings.adRewardMonetag || 500} TSK!`, "success");
-                renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
-            }
-        } catch (e) {
-            showNotification("الإعلان غير جاهز", "warning");
-        }
-    });
+    document.getElementById('monetag-ad-task').addEventListener('click', () => watchAd('monetag'));
     
-    document.getElementById('gigapub-ad-task').addEventListener('click', async () => {
-        // 🔹 التحقق من الكابتشا أولاً
-        const canProceed = await checkCaptchaBeforeAd('giga');
-        if (!canProceed) {
-            return;
-        }
-        
-        if (!canClickAd()) {
-            showNotification("يرجى الانتظار 3 ثوانٍ قبل الضغط مرة أخرى.", "warning");
-            return;
-        }
-        
-        // ✅ التحقق من الحظر أولاً
-        const isAllowed = await checkBeforeAction("watch ad");
-        if (!isAllowed) return;
-        
-        await getUpdatedSettings();
-        lastAdClickTime = Date.now();
-        const limit = appSettings.limitGiga || 300;
-        if ((appData.adsGiga || 0) >= limit) return;
-        
-        if (typeof window.showGiga !== 'function') {
-            showNotification("جارٍ تحميل الإعلان...", "info");
-            return;
-        }
-        
-        try {
-            await window.showGiga();
-            
-            const result = await callAPI('handleAdClick', {
-                adType: 'giga',
-                reward: appSettings.adRewardGiga || 500 // تغيير من 2000 إلى 500
-            });
-            
-            if (result.success) {
-                appData.adsGiga = result.data.adsGiga || appData.adsGiga;
-                appData.adsWatched = result.data.adsWatched || appData.adsWatched;
-                appData.dogsBalance = result.data.newBalance || appData.dogsBalance;
-                
-                showNotification(`✅ تمت إضافة +${appSettings.adRewardGiga || 500} TSK!`, "success");
-                renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
-            }
-        } catch (e) {
-            console.error(e);
-            showNotification("فشل الإعلان أو تم إغلاقه.", "warning");
-        }
-    });
+    document.getElementById('gigapub-ad-task').addEventListener('click', () => watchAd('giga'));
     
-    document.getElementById('adsgram-ad-task').addEventListener('click', async () => {
-        // 🔹 التحقق من الكابتشا أولاً
-        const canProceed = await checkCaptchaBeforeAd('adsgram');
-        if (!canProceed) {
-            return;
-        }
-        
-        if (!canClickAd()) {
-            showNotification("يرجى الانتظار 3 ثوانٍ قبل الضغط مرة أخرى.", "warning");
-            return;
-        }
-        
-        // ✅ التحقق من الحظر أولاً
-        const isAllowed = await checkBeforeAction("watch ad");
-        if (!isAllowed) return;
-        
-        await getUpdatedSettings();
-        lastAdClickTime = Date.now();
-        const limit = appSettings.limitAdsgram || 300;
-        if ((appData.adsAdsgram || 0) >= limit) return;
-        
-        if (!AdController) {
-            showNotification("لم يتم تهيئة الإعلانات", "warning");
-            return;
-        }
-        
-        try {
-            const result = await AdController.show();
-            if (result.done) {
-                const apiResult = await callAPI('handleAdClick', {
-                    adType: 'adsgram',
-                    reward: appSettings.adRewardAdsgram || 500 // تغيير من 2000 إلى 500
-                });
-                
-                if (apiResult.success) {
-                    appData.adsAdsgram = apiResult.data.adsAdsgram || appData.adsAdsgram;
-                    appData.dogsBalance = apiResult.data.newBalance || appData.dogsBalance;
-                    
-                    showNotification(`✅ تمت إضافة +${appSettings.adRewardAdsgram || 500} TSK!`, "success");
-                    renderUI({ id: window.Telegram?.WebApp?.initDataUnsafe?.user?.id });
-                }
-            }
-        } catch (error) {
-            console.error("AdsGram error:", error);
-            showNotification("خطأ في تشغيل الإعلان.", "error");
-        }
-    });
+    document.getElementById('adsgram-ad-task').addEventListener('click', () => watchAd('adsgram'));
     
     document.getElementById('share-referral-btn').addEventListener('click', () => {
         const link = document.getElementById('referral-link-display').textContent;
