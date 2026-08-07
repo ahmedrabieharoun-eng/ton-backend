@@ -999,8 +999,8 @@
 <div id="tonwallet-form" class="card">
 <div class="input-wrap"><span class="input-label">عنوان محفظة TON</span><input type="text" id="ton-wallet-address" class="custom-input" placeholder="UQ... أو EQ... أو kQ..."><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">أدخل عنوان محفظة TON الخاصة بك (يبدأ بـ UQ أو EQ أو kQ)</div></div>
 <div class="input-wrap"><span class="input-label">ملاحظة (اختياري)</span><input type="text" id="ton-memo" class="custom-input" placeholder="لإيداعات المنصات فقط"><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">اختياري: مطلوب من بعض المنصات للإيداع</div></div>
-<div class="input-wrap withdraw-input-with-max"><span class="input-label">مبلغ السحب (TON)</span><div style="display:flex;align-items:center;gap:8px;"><input type="number" id="ton-withdraw-amount" class="custom-input" placeholder="0.05" step="0.01" min="0.05" value="0.05" style="flex:1;"><button class="max-btn" onclick="setMaxTonWallet()">الأقصى</button></div><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأدنى: 0.05 TON</div></div>
-<div class="info-box success"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="info-icon">✓</div><div style="font-size:11px;line-height:1.4;"><strong>تفاصيل السحب:</strong><br>• الحد الأدنى للسحب: 0.05 TON<br>• <span style="color:#27ae60;">✅ بدون رسوم</span> - نحن نتحمل جميع تكاليف المعاملة<br>• وقت المعالجة: 1-3 دقائق<br>• الملاحظة مطلوبة فقط لإيداعات المنصات<br>• تأكد من صحة العنوان - المعاملات لا يمكن التراجع عنها</div></div></div>
+<div class="input-wrap withdraw-input-with-max"><span class="input-label">مبلغ السحب (TON)</span><div style="display:flex;align-items:center;gap:8px;"><input type="number" id="ton-withdraw-amount" class="custom-input" placeholder="0.05" step="0.01" min="0.05" value="0.05" style="flex:1;"><button class="max-btn" onclick="setMaxTonWallet()">الأقصى</button></div><div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:5px;">الحد الأدنى: <span id="min-withdraw-label-1">0.05</span> TON</div></div>
+<div class="info-box success"><div style="display:flex;align-items:flex-start;gap:8px;"><div class="info-icon">✓</div><div style="font-size:11px;line-height:1.4;"><strong>تفاصيل السحب:</strong><br>• الحد الأدنى للسحب: <span id="min-withdraw-label-2">0.05</span> TON<br>• <span style="color:#27ae60;">✅ بدون رسوم</span> - نحن نتحمل جميع تكاليف المعاملة<br>• وقت المعالجة: 1-3 دقائق<br>• الملاحظة مطلوبة فقط لإيداعات المنصات<br>• تأكد من صحة العنوان - المعاملات لا يمكن التراجع عنها</div></div></div>
 <button class="btn btn-primary" id="withdraw-ton-now-btn" onclick="handleTonWalletWithdraw()"><i class="fa-solid fa-wallet"></i>السحب إلى محفظة TON</button>
 </div>
 </main>
@@ -2072,6 +2072,18 @@ function getTonToTskRate() { return appSettings.tonToTskRate || 10000000; }
 
 // ✅ بتحدّث النصوص اللي بتوضح السعر الحالي في شاشة التبديل بالسعر الحقيقي
 // الجاي من السيرفر بدل النص الثابت اللي كان مكتوب في الـ HTML
+function refreshWithdrawalLimitLabels() {
+    const minAmount = appSettings.minTonWithdrawal ?? 0.05;
+    const lbl1 = document.getElementById('min-withdraw-label-1');
+    const lbl2 = document.getElementById('min-withdraw-label-2');
+    if (lbl1) lbl1.textContent = minAmount;
+    if (lbl2) lbl2.textContent = minAmount;
+    const input = document.getElementById('ton-withdraw-amount');
+    if (input) {
+        input.min = minAmount;
+        input.placeholder = minAmount;
+    }
+}
 function refreshReferralRewardLabel() {
     const el = document.getElementById('referral-reward-label');
     if (!el) return;
@@ -2090,7 +2102,7 @@ function refreshSwapRateLabels() {
         tonLabel.textContent = `السعر: 0.01 TON = ${tskPerTon} TSK`;
     }
 }
-const TICKET_PRICE = 10000; // ✅ تغيير من 10000 إلى 10000 (10K TSK)
+function getTicketPrice() { return appSettings.ticketPrice || 10000; }
 const TICKET_TON_VALUE = 0.001; // ✅ تغيير من 0.001 إلى 0.0001 (0.0001 TON)
 const COMPETITION_DURATION = 24 * 60 * 60 * 1000;
 const BREAK_DURATION = 60 * 60 * 1000;
@@ -2294,6 +2306,7 @@ async function getUpdatedSettings() {
     appSettings = newSettings;
     refreshSwapRateLabels();
     refreshReferralRewardLabel();
+    refreshWithdrawalLimitLabels();
     return newSettings;
 }
 
@@ -2865,7 +2878,7 @@ function updateTicketCostDisplay() {
     if (!ticketInput) return;
     
     const tickets = parseInt(ticketInput.value) || 1;
-    const cost = tickets * TICKET_PRICE;
+    const cost = tickets * getTicketPrice();
     
     document.getElementById('tickets-count-display').textContent = tickets;
     document.getElementById('tickets-cost-display').textContent = cost.toLocaleString() + ' TSK';
@@ -2873,10 +2886,11 @@ function updateTicketCostDisplay() {
 
 window.setMaxTickets = function() {
     const currentBalance = appData.dogsBalance || 0;
-    const maxTickets = Math.floor(currentBalance / TICKET_PRICE);
+    const price = getTicketPrice();
+    const maxTickets = Math.floor(currentBalance / price);
     
     if (maxTickets < 1) {
-        showNotification("لا يوجد لديك TSK كافٍ لشراء تذكرة (مطلوب 10,000 TSK)", "warning");
+        showNotification(`لا يوجد لديك TSK كافٍ لشراء تذكرة (مطلوب ${price.toLocaleString()} TSK)`, "warning");
         return;
     }
     
@@ -2919,7 +2933,7 @@ window.buyTickets = async function() {
         return;
     }
     
-    const totalCost = tickets * TICKET_PRICE;
+    const totalCost = tickets * getTicketPrice();
     const currentBalance = appData.dogsBalance || 0;
     
     if (totalCost > currentBalance) {
@@ -2931,7 +2945,7 @@ window.buyTickets = async function() {
     if (isConfirming) return;
     isConfirming = true;
     
-    const userConfirmed = confirm(`شراء ${tickets} تذكرة مقابل ${totalCost.toLocaleString()} TSK؟\n\nكل تذكرة = 10,000 TSK = 0.001 TON\n\n🏆 تذكر: صاحب المركز الأول فقط يفوز، والباقي يخسر!`);
+    const userConfirmed = confirm(`شراء ${tickets} تذكرة مقابل ${totalCost.toLocaleString()} TSK؟\n\nكل تذكرة = ${getTicketPrice().toLocaleString()} TSK = ${TICKET_TON_VALUE} TON\n\n🏆 تذكر: صاحب المركز الأول فقط يفوز، والباقي يخسر!`);
     if (!userConfirmed) {
         isConfirming = false;
         return;
@@ -3066,7 +3080,7 @@ async function loadPreviousWinners() {
 
 window.setMaxTonWallet = function() {
     const currentBalance = appData.tonBalance || 0;
-    const minAmount = 0.05;
+    const minAmount = appSettings.minTonWithdrawal ?? 0.05;
     
     if (currentBalance < minAmount) {
         showNotification(`الحد الأدنى للسحب هو ${minAmount} TON`, "warning");
@@ -4321,6 +4335,7 @@ function switchTab(targetId) {
         // ✅ تحديث عداد السحب عند زيارة صفحة السحب
         updateWithdrawalsCounterUI();
         checkWithdrawalLimit();
+        refreshWithdrawalLimitLabels();
     }
     
     window.scrollTo(0, 0);
