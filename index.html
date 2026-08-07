@@ -926,17 +926,17 @@
 <div id="monetag-ad-task" class="list-card" style="background:rgba(255,255,255,0.08);border-color:var(--primary-green);margin-bottom:10px;">
 <div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="إعلان"></div>
 <div class="lc-content"><div class="lc-title">إعلان Monetag</div><div class="lc-sub"><span id="monetag-count">0</span>/<span id="monetag-limit">50</span></div></div>
-<div class="lc-end"><div class="lc-val">+500</div></div>
+<div class="lc-end"><div class="lc-val" id="monetag-reward-val">+500</div></div>
 </div>
 <div id="gigapub-ad-task" class="list-card" style="background:rgba(255,255,255,0.08);border-color:var(--primary-green);margin-bottom:10px;">
 <div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="إعلان"></div>
 <div class="lc-content"><div class="lc-title">إعلان GigaPub</div><div class="lc-sub"><span id="giga-count">0</span>/<span id="giga-limit">300</span></div></div>
-<div class="lc-end"><div class="lc-val">+500</div></div>
+<div class="lc-end"><div class="lc-val" id="giga-reward-val">+500</div></div>
 </div>
 <div id="adsgram-ad-task" class="list-card" style="background:rgba(255,255,255,0.08);border-color:var(--primary-green);">
 <div class="lc-icon"><img src="https://i.ibb.co/RVhNgFc/photo.jpg" alt="إعلان"></div>
 <div class="lc-content"><div class="lc-title">إعلان AdsGram</div><div class="lc-sub"><span id="adsgram-count">0</span>/<span id="adsgram-limit">300</span></div></div>
-<div class="lc-end"><div class="lc-val">+500</div></div>
+<div class="lc-end"><div class="lc-val" id="adsgram-reward-val">+500</div></div>
 </div>
 </div>
 
@@ -2102,6 +2102,14 @@ function refreshSwapRateLabels() {
         tonLabel.textContent = `السعر: 0.01 TON = ${tskPerTon} TSK`;
     }
 }
+function refreshAdRewardLabels() {
+    const monetagEl = document.getElementById('monetag-reward-val');
+    const gigaEl = document.getElementById('giga-reward-val');
+    const adsgramEl = document.getElementById('adsgram-reward-val');
+    if (monetagEl) monetagEl.textContent = `+${appSettings.adRewardMonetag || 500}`;
+    if (gigaEl) gigaEl.textContent = `+${appSettings.adRewardGiga || 500}`;
+    if (adsgramEl) adsgramEl.textContent = `+${appSettings.adRewardAdsgram || 500}`;
+}
 function getTicketPrice() { return appSettings.ticketPrice || 10000; }
 const TICKET_TON_VALUE = 0.001; // ✅ تغيير من 0.001 إلى 0.0001 (0.0001 TON)
 const COMPETITION_DURATION = 24 * 60 * 60 * 1000;
@@ -2307,6 +2315,7 @@ async function getUpdatedSettings() {
     refreshSwapRateLabels();
     refreshReferralRewardLabel();
     refreshWithdrawalLimitLabels();
+    refreshAdRewardLabels();
     return newSettings;
 }
 
