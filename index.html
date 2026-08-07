@@ -1204,7 +1204,7 @@ async function verifyCaptcha() {
             // 🔹 تحديث بيانات المستخدم بعد التحقق الناجح
             const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
             if (user) {
-                const statsResult = await callAPI('getUserAdStats', {
+                const statsResult = await callAPI('getAdStats', {
                     userId: user.id
                 });
                 
@@ -1256,7 +1256,7 @@ async function checkCaptchaBeforeAd(adType) {
         // 🔹 الحصول على عدد الإعلانات اليومية من السيرفر
         const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
         if (userId) {
-            const result = await callAPI('getUserAdStats', { userId: userId });
+            const result = await callAPI('getAdStats', { userId: userId });
             if (result.success) {
                 adClickCount = result.data.adsWatchedToday || 0;
                 
