@@ -1018,8 +1018,7 @@
 <img src="https://i.ibb.co/RVhNgFc/photo.jpg" style="width:80px;margin-bottom:15px;">
 <div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:12px;margin-bottom:20px;"><div style="font-size:12px;color:var(--text-muted);">إجمالي الإحالات</div><div style="font-size:24px;font-weight:800;color:#fff;" id="referral-count-display">0</div></div>
 
-<!-- 🔄 التعديل: تغيير النص من 10000 إلى 100K -->
-<p>اربح <strong>+100K TSK</strong> عن كل صديق.</p>
+<p>اربح <strong>+<span id="referral-reward-label">100K</span> TSK</strong> عن كل صديق.</p>
 
 <div id="referral-link-display" style="background:#000;padding:10px;border-radius:8px;font-family:monospace;font-size:10px;color:#aaa;margin:15px 0;word-break:break-all;">...</div>
 <button class="btn btn-primary" id="share-referral-btn">دعوة الأصدقاء</button>
@@ -2073,6 +2072,12 @@ function getTonToTskRate() { return appSettings.tonToTskRate || 10000000; }
 
 // ✅ بتحدّث النصوص اللي بتوضح السعر الحالي في شاشة التبديل بالسعر الحقيقي
 // الجاي من السيرفر بدل النص الثابت اللي كان مكتوب في الـ HTML
+function refreshReferralRewardLabel() {
+    const el = document.getElementById('referral-reward-label');
+    if (!el) return;
+    const reward = appSettings.referralReward ?? 100000;
+    el.textContent = reward >= 1000 ? Math.round(reward / 1000).toLocaleString() + 'K' : reward.toLocaleString();
+}
 function refreshSwapRateLabels() {
     const tskLabel = document.getElementById('swap-rate-label-tsk');
     const tonLabel = document.getElementById('swap-rate-label-ton');
@@ -2288,6 +2293,7 @@ async function getUpdatedSettings() {
     const newSettings = await fetchAppSettings();
     appSettings = newSettings;
     refreshSwapRateLabels();
+    refreshReferralRewardLabel();
     return newSettings;
 }
 
@@ -4304,7 +4310,7 @@ function switchTab(targetId) {
     }
     
     if (targetId === 'referrals') {
-        // Do nothing
+        refreshReferralRewardLabel();
     }
     
     if (targetId === 'taskora-log-page') {
