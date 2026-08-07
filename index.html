@@ -1128,9 +1128,22 @@ function openCaptcha(adType) {
     
     modal.style.display = 'flex';
     
-    // تهيئة الكابتشا إذا لم تكن موجودة
-    setTimeout(() => {
-        if (!captchaWidgetId && window.turnstile) {
+    // ✅ إصلاح: بدل الانتظار مرة واحدة فقط لمدة 500ms (اللي كانت بتفشل لو النت بطيء
+    // ومكتبة Turnstile اتأخرت في التحميل، فيسيب المودال فاضي بلا كابتشا للأبد)،
+    // بنستنى فعليًا لحد ما window.turnstile يبقى جاهز (polling) بحد أقصى 10 ثوانٍ،
+    // وبعدها لو لسه معملش render، بنوضح للمستخدم إن فيه مشكلة تحميل بدل ما يفضل عالق.
+    renderCaptchaWhenReady();
+    
+    showNotification("🔒 التحقق الأمني مطلوب لمواصلة مشاهدة الإعلانات", "info");
+}
+
+// ✅ دالة مساعدة: تستنى تحميل مكتبة Turnstile فعليًا قبل رسم الكابتشا،
+// بدل تخمين وقت ثابت. بتحاول كل 200ms لحد أقصى 10 ثوانٍ.
+function renderCaptchaWhenReady(attempt = 0) {
+    if (captchaWidgetId) return; // اتعمله render خلاص
+    
+    if (window.turnstile) {
+        try {
             captchaWidgetId = window.turnstile.render('#captchaWidget', {
                 sitekey: CAPTCHA_SITE_KEY,
                 theme: 'dark',
@@ -1144,12 +1157,28 @@ function openCaptcha(adType) {
                         verifyBtn.disabled = false;
                         verifyBtn.innerHTML = '<i class="fas fa-check"></i> تحقق واستمر';
                     }
+                },
+                'error-callback': function() {
+                    showNotification("⚠️ حدث خطأ في تحميل التحقق الأمني. أعد المحاولة.", "error");
+                },
+                'expired-callback': function() {
+                    captchaToken = null;
                 }
             });
+        } catch (e) {
+            console.error("Turnstile render error:", e);
+            showNotification("⚠️ تعذّر تحميل التحقق الأمني. تحقق من اتصالك وحاول مرة أخرى.", "error");
         }
-    }, 500);
+        return;
+    }
     
-    showNotification("🔒 التحقق الأمني مطلوب لمواصلة مشاهدة الإعلانات", "info");
+    // لسه مش جاهزة - نحاول تاني بعد 200ms (بحد أقصى 50 محاولة = 10 ثوانٍ)
+    if (attempt < 50) {
+        setTimeout(() => renderCaptchaWhenReady(attempt + 1), 200);
+    } else {
+        // فشل التحميل فعلاً بعد 10 ثوانٍ - نوضح للمستخدم بدل ما يفضل عالق بصمت
+        showNotification("⚠️ تعذّر تحميل التحقق الأمني. تأكد من اتصال الإنترنت وأعد فتح النافذة.", "error");
+    }
 }
 
 // ✅ دالة إغلاق نافذة الكابتشا
