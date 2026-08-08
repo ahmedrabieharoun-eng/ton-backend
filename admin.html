@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -205,6 +204,7 @@ tbody tr:last-child td{border-bottom:none;}
 .pill-red{background:rgba(255,84,112,.1);color:var(--red);border-color:rgba(255,84,112,.28);}
 .pill-gold{background:rgba(255,171,64,.1);color:var(--amber);border-color:rgba(255,171,64,.28);}
 .pill-blue{background:rgba(78,232,214,.1);color:var(--cyan);border-color:rgba(78,232,214,.28);}
+.pill-amber{background:rgba(255,171,64,.1);color:var(--amber);border-color:rgba(255,171,64,.28);}
 .row-actions{display:flex;gap:6px;flex-wrap:wrap;}
 .user-cell{display:flex;align-items:center;gap:9px;}
 .user-cell img{width:30px;height:30px;border-radius:4px;object-fit:cover;border:1px solid var(--border);}
@@ -348,15 +348,17 @@ tbody tr:last-child td{border-bottom:none;}
 
     <!-- WITHDRAWALS -->
     <div class="section" id="sec-withdrawals">
-      <div class="topbar"><div><h1>السحوبات</h1><div class="sub">إدارة طلبات سحب TON</div></div></div>
+      <div class="topbar"><div><h1>السحوبات</h1><div class="sub">إدارة طلبات سحب TON — متزامنة مباشرة مع بوت الدفع</div></div></div>
       <div class="card brk">
         <div class="tabs">
           <div class="tab-btn active" data-wtab="pending" onclick="switchWTab('pending')">قيد الانتظار</div>
-          <div class="tab-btn" data-wtab="completed" onclick="switchWTab('completed')">مكتملة</div>
-          <div class="tab-btn" data-wtab="rejected" onclick="switchWTab('rejected')">مرفوضة</div>
+          <div class="tab-btn" data-wtab="review" onclick="switchWTab('review')">تحتاج موافقة</div>
+          <div class="tab-btn" data-wtab="needs_review" onclick="switchWTab('needs_review')">تحتاج تحقق</div>
+          <div class="tab-btn" data-wtab="paid" onclick="switchWTab('paid')">مكتملة</div>
+          <div class="tab-btn" data-wtab="failed" onclick="switchWTab('failed')">ملغاة / فاشلة</div>
         </div>
         <div class="table-wrap"><table>
-          <thead><tr><th>المستخدم</th><th>المبلغ (TON)</th><th>الطريقة</th><th>الحساب</th><th>التاريخ</th><th>الإجراءات</th></tr></thead>
+          <thead><tr><th>المستخدم</th><th>المبلغ (TON)</th><th>العنوان</th><th>الحالة</th><th>التاريخ</th><th>الإجراءات</th></tr></thead>
           <tbody id="withdrawalsBody"><tr><td colspan="6" class="loading-row">جاري التحميل...</td></tr></tbody>
         </table></div>
       </div>
@@ -615,13 +617,14 @@ async function loadOverview(){
   try{
     const [usersSnap, pendingSnap, tasksSnap, promoSnap] = await Promise.all([
       db.ref('users').once('value'),
-      db.ref('withdrawals/pending').once('value'),
+      db.ref('withdrawQueue').once('value'),
       db.ref('tasks').once('value'),
       db.ref('promocodes').once('value')
     ]);
     const users = usersSnap.val() || {};
     cachedUsers = users;
-    const pending = pendingSnap.val() || {};
+    const withdrawQueueData = pendingSnap.val() || {};
+    const pending = Object.fromEntries(Object.entries(withdrawQueueData).filter(([,w])=>['pending','processing'].includes(w.status)));
     const tasks = tasksSnap.val() || {};
     const promos = promoSnap.val() || {};
 
@@ -758,7 +761,27 @@ async function deleteUser(uid){
 }
 
 /* ================= WITHDRAWALS ================= */
+/* متزامنة مع بوت الدفع (index.js) اللي بيراقب عقدة withdrawQueue فعليًا
+   ويستخدم الحالات: pending / processing / awaiting_approval / awaiting_manual
+   / needs_review / paid / cancelled / failed */
 let currentWTab = 'pending';
+const W_TAB_STATUSES = {
+  pending:      ['pending', 'processing'],
+  review:       ['awaiting_approval', 'awaiting_manual'],
+  needs_review: ['needs_review'],
+  paid:         ['paid'],
+  failed:       ['cancelled', 'failed'],
+};
+const W_STATUS_LABELS = {
+  pending:            { text: 'قيد الانتظار',      cls: 'pill-blue'  },
+  processing:         { text: 'جاري الدفع',         cls: 'pill-blue'  },
+  awaiting_approval:  { text: 'بانتظار موافقة',     cls: 'pill-amber' },
+  awaiting_manual:    { text: 'مراجعة يدوية',       cls: 'pill-amber' },
+  needs_review:       { text: 'تحتاج تحقق',         cls: 'pill-amber' },
+  paid:               { text: 'مكتمل',              cls: 'pill-green' },
+  cancelled:          { text: 'ملغى',                cls: 'pill-red'   },
+  failed:             { text: 'فشل',                 cls: 'pill-red'   },
+};
 function switchWTab(tab){
   currentWTab = tab;
   document.querySelectorAll('.tab-btn[data-wtab]').forEach(b=>b.classList.toggle('active', b.dataset.wtab===tab));
@@ -768,53 +791,90 @@ async function loadWithdrawals(){
   const body = document.getElementById('withdrawalsBody');
   body.innerHTML = `<tr><td colspan="6" class="loading-row">جاري التحميل...</td></tr>`;
   try{
-    const snap = await db.ref('withdrawals/'+currentWTab).once('value');
+    const snap = await db.ref('withdrawQueue').once('value');
     const data = snap.val() || {};
-    const entries = Object.entries(data).sort((a,b)=>(b[1].timestamp||0)-(a[1].timestamp||0));
+    const statuses = W_TAB_STATUSES[currentWTab] || [];
+    const entries = Object.entries(data)
+      .filter(([,w])=>statuses.includes(w.status))
+      .sort((a,b)=>(b[1].ts||b[1].timestamp||b[1].updatedAt||0)-(a[1].ts||a[1].timestamp||a[1].updatedAt||0));
     if(!entries.length){ body.innerHTML = `<tr><td colspan="6" class="empty-row">لا يوجد طلبات</td></tr>`; return; }
-    body.innerHTML = entries.map(([key,w])=>`
+    body.innerHTML = entries.map(([key,w])=>{
+      const amount = w.ton ?? w.amount ?? 0;
+      const address = w.address || w.account || '—';
+      const st = W_STATUS_LABELS[w.status] || { text: w.status||'—', cls: 'pill-blue' };
+      const reasonLine = w.holdReason ? `<br><span style="color:var(--muted);font-size:11px">${w.holdReason}</span>`
+                        : w.lastError ? `<br><span style="color:var(--muted);font-size:11px">${w.lastError}</span>` : '';
+      let actions = '';
+      if(currentWTab==='pending'){
+        actions = `<button class="btn btn-red btn-sm" onclick="cancelWithdrawal('${key}','${w.userId||''}',${amount})"><i class="fa-solid fa-xmark"></i> إلغاء</button>`;
+      } else if(currentWTab==='review'){
+        actions = `
+          <button class="btn btn-green btn-sm" onclick="approveWithdrawal('${key}')"><i class="fa-solid fa-check"></i> قبول</button>
+          <button class="btn btn-red btn-sm" onclick="cancelWithdrawal('${key}','${w.userId||''}',${amount})"><i class="fa-solid fa-xmark"></i> رفض</button>`;
+      } else if(currentWTab==='needs_review'){
+        actions = `
+          <button class="btn btn-green btn-sm" onclick="retryWithdrawal('${key}')"><i class="fa-solid fa-rotate-right"></i> إعادة معالجة</button>
+          <button class="btn btn-red btn-sm" onclick="cancelWithdrawal('${key}','${w.userId||''}',${amount})"><i class="fa-solid fa-xmark"></i> إلغاء</button>`;
+      } else if(currentWTab==='failed'){
+        actions = `<button class="btn btn-green btn-sm" onclick="retryWithdrawal('${key}')"><i class="fa-solid fa-rotate-right"></i> إعادة المحاولة</button>`;
+      } else if(currentWTab==='paid'){
+        actions = w.txHash ? `<a class="btn btn-blue btn-sm" href="https://tonviewer.com/transaction/${w.txHash}" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> المعاملة</a>` : '—';
+      }
+      return `
       <tr>
         <td>${(w.userData&&w.userData.name)||w.username||'Unknown'}<br><span style="color:var(--muted);font-size:11px">${w.userId||''}</span></td>
-        <td>${fmt(w.amount)}</td>
-        <td><span class="pill pill-blue">${(w.method||'').toUpperCase()}</span></td>
-        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${w.maskedAccount||w.account||'—'}</td>
-        <td>${timeAgo(w.timestamp)}</td>
-        <td><div class="row-actions">
-          ${currentWTab==='pending' ? `
-            <button class="btn btn-green btn-sm" onclick="approveWithdrawal('${key}')"><i class="fa-solid fa-check"></i> قبول</button>
-            <button class="btn btn-red btn-sm" onclick="rejectWithdrawal('${key}','${w.userId||''}',${w.amount||0})"><i class="fa-solid fa-xmark"></i> رفض</button>
-          ` : `<span class="pill ${currentWTab==='completed'?'pill-green':'pill-red'}">${currentWTab==='completed'?'مكتمل':'مرفوض'}</span>`}
-        </div></td>
-      </tr>`).join('');
+        <td>${fmt(amount)}</td>
+        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${address}</td>
+        <td><span class="pill ${st.cls}">${st.text}</span>${reasonLine}</td>
+        <td>${timeAgo(w.ts||w.timestamp)}</td>
+        <td><div class="row-actions">${actions}</div></td>
+      </tr>`;
+    }).join('');
   }catch(e){ toast('فشل تحميل السحوبات: '+friendlyErr(e),'error'); }
 }
+// قبول طلب معلّق للمراجعة — بيحوّل الحالة لـ pending عشان بوت الدفع يلتقطه ويدفعه فعليًا
 async function approveWithdrawal(key){
   try{
-    const snap = await db.ref('withdrawals/pending/'+key).once('value');
+    const snap = await db.ref('withdrawQueue/'+key).once('value');
     const w = snap.val();
     if(!w) return toast('الطلب غير موجود','error');
-    w.status='completed'; w.completedAt=Date.now(); w.processed=true;
-    await db.ref('withdrawals/completed/'+key).set(w);
-    await db.ref('withdrawals/pending/'+key).remove();
-    toast('تم قبول طلب السحب');
+    await db.ref('withdrawQueue/'+key).update({
+      status: 'pending', approvedByAdmin: true, updatedAt: Date.now(),
+      holdReason: null, unlockAt: null, lastError: null
+    });
+    toast('تمت الموافقة — سيدفعها البوت تلقائيًا الآن');
     loadWithdrawals();
   }catch(e){ toast('فشل: '+friendlyErr(e),'error'); }
 }
-async function rejectWithdrawal(key, userId, amount){
-  if(!confirm('رفض الطلب وإرجاع المبلغ للمستخدم؟')) return;
+// إلغاء طلب لم يُدفع بعد + إرجاع المبلغ لرصيد المستخدم
+async function cancelWithdrawal(key, userId, amount){
+  if(!confirm('إلغاء الطلب وإرجاع المبلغ للمستخدم؟')) return;
   try{
-    const snap = await db.ref('withdrawals/pending/'+key).once('value');
+    const snap = await db.ref('withdrawQueue/'+key).once('value');
     const w = snap.val();
     if(!w) return toast('الطلب غير موجود','error');
-    w.status='rejected'; w.rejectedAt=Date.now(); w.processed=true;
-    await db.ref('withdrawals/rejected/'+key).set(w);
-    await db.ref('withdrawals/pending/'+key).remove();
+    if(w.status==='paid') return toast('لا يمكن إلغاء طلب مدفوع بالفعل','error');
+    await db.ref('withdrawQueue/'+key).update({ status: 'cancelled', updatedAt: Date.now(), holdReason: 'رُفض من لوحة التحكم' });
+    if(w.userId && (w.wdId||key)){
+      await db.ref('users/'+w.userId+'/wdHistory/'+(w.wdId||key)).update({ status: 'cancelled', updatedAt: Date.now() }).catch(()=>{});
+    }
     if(userId){
       const uSnap = await db.ref('users/'+userId).once('value');
       const u = uSnap.val() || {};
       await db.ref('users/'+userId).update({ tonBalance: Number(u.tonBalance||0) + Number(amount||0), lastUpdated: Date.now() });
     }
-    toast('تم رفض الطلب وإرجاع الرصيد');
+    toast('تم إلغاء الطلب وإرجاع الرصيد');
+    loadWithdrawals();
+  }catch(e){ toast('فشل: '+friendlyErr(e),'error'); }
+}
+// إعادة طلب فاشل/محتاج تحقق للمعالجة التلقائية من جديد
+async function retryWithdrawal(key){
+  try{
+    const snap = await db.ref('withdrawQueue/'+key).once('value');
+    const w = snap.val();
+    if(!w) return toast('الطلب غير موجود','error');
+    await db.ref('withdrawQueue/'+key).update({ status: 'pending', updatedAt: Date.now(), lastError: null });
+    toast('تمت إعادة إضافة الطلب لقائمة المعالجة');
     loadWithdrawals();
   }catch(e){ toast('فشل: '+friendlyErr(e),'error'); }
 }
