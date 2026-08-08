@@ -1465,30 +1465,19 @@ async function checkDailyWithdrawalLimit(env, userId) {
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
         
-        // جلب جميع السحوبات اليومية
-        const withdrawalsResult = await handleDbGet(env, 'withdrawals/pending');
-        const completedResult = await handleDbGet(env, 'withdrawals/completed');
-        
-        const pendingData = withdrawalsResult.data || {};
-        const completedData = completedResult.data || {};
+        // جلب جميع السحوبات اليومية من withdrawQueue (عقدة البوت الفعلية)
+        const withdrawalsResult = await handleDbGet(env, 'withdrawQueue');
+        const queueData = withdrawalsResult.data || {};
         
         let todayWithdrawals = 0;
         
-        // حساب السحوبات المعلقة اليوم
-        for (const [key, withdrawal] of Object.entries(pendingData)) {
-            if (withdrawal.userId === userId && 
-                withdrawal.timestamp >= today.getTime() && 
-                withdrawal.timestamp < tomorrow.getTime()) {
-                todayWithdrawals++;
-            }
-        }
-        
-        // حساب السحوبات المكتملة اليوم
-        for (const [key, withdrawal] of Object.entries(completedData)) {
-            if (withdrawal.userId === userId && 
-                withdrawal.timestamp >= today.getTime() && 
-                withdrawal.timestamp < tomorrow.getTime() &&
-                withdrawal.status === 'completed') {
+        // حساب سحوبات المستخدم اليوم — كل الحالات ما عدا الملغية/الفاشلة
+        for (const [key, withdrawal] of Object.entries(queueData)) {
+            const ts = withdrawal.ts || withdrawal.timestamp || 0;
+            if (withdrawal.userId === userId &&
+                ts >= today.getTime() &&
+                ts < tomorrow.getTime() &&
+                !['cancelled', 'failed'].includes(withdrawal.status)) {
                 todayWithdrawals++;
             }
         }
@@ -2319,17 +2308,27 @@ async function handleSubmitWithdrawal(env, userId, data) {
         
         // إنشاء معرف فريد للسحب
         const withdrawalId = `withdrawal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const nowTs = Date.now();
         
         // إعداد بيانات السحب مع بيانات المستخدم الكاملة
+        // ⚠️ ملاحظة توافق: بوت السحب التلقائي (index.js) بيقرأ من عقدة withdrawQueue
+        // وبيحتاج الحقول address / ton / userId / wdId بالتحديد — فبنحطهم هنا
+        // بالإضافة لأسماء الحقول القديمة (account/amount) عشان أي كود تاني في
+        // السيرفر لسه بيعتمد عليها يفضل شغال زي ما هو.
         const withdrawalData = {
             userId: userId,
+            wdId: withdrawalId,
+            address: account,
+            ton: parseFloat(amount),
             account: account,
             maskedAccount: maskedAccount || account,
             amount: parseFloat(amount),
             method: method,
             memo: memo || '',
             status: 'pending',
-            timestamp: Date.now(),
+            timestamp: nowTs,
+            ts: nowTs,
+            updatedAt: nowTs,
             processed: false,
             // بيانات المستخدم الإضافية
             username: userData.username || userData.name || 'Unknown',
@@ -2345,8 +2344,17 @@ async function handleSubmitWithdrawal(env, userId, data) {
             }
         };
         
-        // حفظ السحب في مجلد pending
-        await handleDbSet(env, `withdrawals/pending/${withdrawalId}`, withdrawalData);
+        // حفظ السحب في withdrawQueue — العقدة اللي بوت السحب التلقائي بيراقبها فعليًا
+        await handleDbSet(env, `withdrawQueue/${withdrawalId}`, withdrawalData);
+        
+        // مرجع مبدئي في سجل المستخدم — البوت بيحدّثه لـ "paid" بعد الدفع الفعلي
+        await handleDbSet(env, `users/${userId}/wdHistory/${withdrawalId}`, {
+            status: 'pending',
+            amount: parseFloat(amount),
+            address: account,
+            method: method,
+            createdAt: nowTs
+        });
         
         // تسجيل العملية في سجل المستخدم
         await handleDbPush(env, `users/${userId}/history`, {
@@ -5069,7 +5077,7 @@ async function handleGetUserWithdrawals(env, userId) {
             };
         }
         
-        const withdrawalsResult = await handleDbGet(env, 'withdrawals/pending');
+        const withdrawalsResult = await handleDbGet(env, 'withdrawQueue');
         const withdrawalsData = withdrawalsResult.data || {};
         
         const userWithdrawals = [];
@@ -5083,7 +5091,7 @@ async function handleGetUserWithdrawals(env, userId) {
             }
         }
         
-        userWithdrawals.sort((a, b) => b.timestamp - a.timestamp);
+        userWithdrawals.sort((a, b) => (b.ts || b.timestamp || 0) - (a.ts || a.timestamp || 0));
         
         return {
             success: true,
@@ -5102,15 +5110,15 @@ async function handleGetUserWithdrawals(env, userId) {
 
 async function handleGetWithdrawalHistory(env) {
     try {
-        // قراءة السحوبات المكتملة فقط
-        const completedResult = await handleDbGet(env, 'withdrawals/completed');
+        // قراءة السحوبات المكتملة فقط — البوت بيحط الحالة "paid" بعد الدفع الفعلي
+        const completedResult = await handleDbGet(env, 'withdrawQueue');
         const completedData = completedResult.data || {};
         
         const withdrawals = [];
         
         for (const [key, withdrawal] of Object.entries(completedData)) {
-            // التحقق من أن السحب مكتمل بالفعل
-            if (withdrawal.status === 'completed') {
+            // التحقق من أن السحب مكتمل بالفعل (تم دفعه فعليًا من البوت)
+            if (withdrawal.status === 'paid') {
                 const userResult = await handleDbGet(env, `users/${withdrawal.userId}`);
                 if (userResult.success && userResult.data) {
                     // تخطي المستخدمين المحظورين
@@ -5126,7 +5134,7 @@ async function handleGetWithdrawalHistory(env) {
             }
         }
         
-        withdrawals.sort((a, b) => b.timestamp - a.timestamp);
+        withdrawals.sort((a, b) => (b.completedAt || b.updatedAt || b.timestamp || 0) - (a.completedAt || a.updatedAt || a.timestamp || 0));
         
         return {
             success: true,
@@ -5148,27 +5156,19 @@ async function handleGetWithdrawalHistory(env) {
 
 async function handleGetWithdrawalStats(env) {
     try {
-        const completedResult = await handleDbGet(env, 'withdrawals/completed');
-        const pendingResult = await handleDbGet(env, 'withdrawals/pending');
-        
-        const completedData = completedResult.data || {};
-        const pendingData = pendingResult.data || {};
+        const queueResult = await handleDbGet(env, 'withdrawQueue');
+        const queueData = queueResult.data || {};
         
         let completedCount = 0;
         let totalPaid = 0;
         let pendingCount = 0;
         
-        // حساب السحوبات المكتملة
-        for (const [key, withdrawal] of Object.entries(completedData)) {
-            if (withdrawal.status === 'completed') {
+        for (const [key, withdrawal] of Object.entries(queueData)) {
+            // البوت بيحط "paid" لما يخلص الدفع الفعلي على الشبكة
+            if (withdrawal.status === 'paid') {
                 completedCount++;
-                totalPaid += parseFloat(withdrawal.amount || 0);
-            }
-        }
-        
-        // حساب السحوبات المعلقة
-        for (const [key, withdrawal] of Object.entries(pendingData)) {
-            if (withdrawal.status === 'pending') {
+                totalPaid += parseFloat(withdrawal.sentAmount ?? withdrawal.ton ?? withdrawal.amount ?? 0);
+            } else if (withdrawal.status === 'pending') {
                 pendingCount++;
             }
         }
